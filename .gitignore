@@ -1,0 +1,28 @@
+# Local secrets and contact data
+.env
+.env.*
+!.env.example
+!**/.env.example
+!**/config.env.example
+**/wp-config.php
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+**/leads/
+**/private/
+**/storage/
+**/uploads/
+**/logs/
+**/*.log
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+.cache/
+.DS_Store
+Thumbs.db
+# Local editor and backup files
+.vscode/
+.idea/
+*.bak
+*.tmp
