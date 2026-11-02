@@ -35,7 +35,7 @@ if "and starting." in home or "Explore real ranking snapshots and starting." in 
 if not (SITE/"robots.txt").read_text(encoding="utf-8").find("Disallow: /")>=0:
     errors.append("Staging robots must block crawling")
 pages=list(SITE.rglob("index.html"))
-if len(pages)!=60: errors.append("Expected 60 pages; got "+str(len(pages)))
+if len(pages)!=66: errors.append("Expected 66 pages; got "+str(len(pages)))
 for file in pages:
     if 'content="noindex,follow,max-image-preview:large" name="robots"' not in file.read_text(encoding="utf-8"):
         errors.append(str(file.relative_to(SITE))+": unapproved page lost noindex")
