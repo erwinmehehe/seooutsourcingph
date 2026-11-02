@@ -15,6 +15,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check website files, titles, H1s, canonicals, and draft import
         run: python3 scripts/check_site.py
+      - name: Verify Australian programmatic SEO generator output and anti-thin-content gates
+        run: node scripts/generate_au_pseo.cjs --check
       - name: Check editorial originality and conversion source safeguards
         run: python3 scripts/content_gate.py
       - name: Verify production is blocked until signed off
