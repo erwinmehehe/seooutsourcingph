@@ -1,54 +1,30 @@
-# SEO Outsourcing Philippines — Website
+# SEO Outsourcing Philippines
 
-Repository for the planned **SEOOutsourcingPhilippines.com** website.
+Website source for [seooutsourcingphilippines.com](https://seooutsourcingphilippines.com/).
 
-**Status: staging / launch review. Not deployed to the live domain.**
+**GitHub workflow: push directly to `main`. No staging branch is required.**
 
-## Website package
+The prepared website archive contains 60 pages, ten new Australian industry pages plus an Australia industry hub, a WordPress theme and form plugin, optional standalone Python backend, and editorial QA files.
 
-The current project is a 60-page draft website, including:
+## Get the website into this repository
 
-- Homepage and company pages
-- Commercial SEO outsourcing service pages
-- Seven existing industry pages plus an Australia industry hub and ten Australian sector pages
-- Blog/resources library
-- WordPress theme, proposal-form plugin and draft-content import
-- Standalone static site with a Python form backend, intended as an **alternative** deployment path
+Download **SEO_Outsourcing_Philippines_Direct_Main_GitHub_60_Pages.zip** from the current ChatGPT conversation, extract it fully, then run the platform-specific uploader at the root of the extracted files:
 
-**Do not deploy both WordPress and the standalone server to the same public URL.** Select a single production platform first.
+- Windows: `UPLOAD_TO_GITHUB_MAIN_WINDOWS.ps1`
+- macOS/Linux: `bash UPLOAD_TO_GITHUB_MAIN_MAC_LINUX.sh`
 
-## Recommended repository structure
+The uploader checks site structure, clones this repository, copies the source and pushes it directly to `origin/main`. See [IMPORT_TO_GITHUB.md](IMPORT_TO_GITHUB.md) for commands.
 
-```
-wordpress/
-  sop-premium-agency/    # companion WordPress theme
-  sop-proposal-form/     # proposal form plugin
-  wordpress-full-layout-DRAFT.xml
-standalone/
-  site/                  # static pages and assets
-  backend/               # optional Python service, not for WordPress
-  deploy/
-quality/
-previews/
-README.md
-```
+Expected folders after upload:
 
-## Launch restrictions
+- `standalone/site/`: website HTML, CSS and assets
+- `standalone/backend/`: standalone form API (optional deployment path)
+- `wordpress/sop-premium-agency/`: WordPress theme
+- `wordpress/sop-proposal-form/`: WordPress contact plugin
+- `wordpress/wordpress-full-layout-DRAFT.xml`: WordPress draft content
+- `quality/`: editorial gates, keyword maps and QA reports
+- `scripts/check_site.py`: structural website tests
 
-1. **Preserve existing indexed URLs.** Audit current redirects and canonical URLs before any migration.
-2. Staging documents contain `noindex`. Do not blindly remove it for unapproved pages.
-3. Validate all legal policies against actual hosting, analytics and form data flows.
-4. Do not publish illustrative team photographs, unauthorized client results, testimonials, or unsupported claims as fact.
-5. Configure production proposal-form destination, sender reputation, consent, anti-spam, rate limiting and monitoring.
-6. Test WordPress theme and plugin in a staging clone before production.
-7. Run desktop, mobile, accessibility, performance, analytics and conversion tests before public launch.
+**GitHub is source control, not hosting.** Committing the files does not replace or deploy the live site unless a deployment workflow is separately configured.
 
-## Adding the current website source
-
-The initial 60-page build was prepared as a separate release archive in this ChatGPT conversation. Import its files into this repository, excluding runtime secrets, databases and staging logs. See the companion Git-ready package for a prearranged folder structure and import instructions.
-
-Keep changes in a feature branch and review them before merging to `main`.
-
-## Security
-
-Never commit `.env` files, WordPress configuration, API keys, SMTP credentials, lead databases, user exports or client-confidential documents.
+**Content launch restrictions:** Website files intentionally include restrictive indexing settings and WordPress drafts. Publishing requires real business and client-evidence approvals, legal/privacy review, production form validation, and migration checks. Do not commit .env files, lead databases, WordPress secrets or private client content; this repository is public.
