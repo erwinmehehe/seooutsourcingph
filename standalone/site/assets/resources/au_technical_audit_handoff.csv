@@ -1,0 +1,3 @@
+Issue ID,Affected template,Observed behaviour,Impact,Approved action,Owner,Retest evidence,Status
+TECH-001,Location page,Canonical resolves to national service,Review per URL,Confirm template rule before modifying,Unassigned,Rendered canonical + recrawl,Illustrative
+TECH-002,Navigation,Redirect link in header,Multiple page types,Link direct to approved live URL,Unassigned,Response-chain check,Illustrative
