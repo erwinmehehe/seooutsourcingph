@@ -15,6 +15,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check website files, titles, H1s, canonicals, and draft import
         run: python3 scripts/check_site.py
+      - name: Check editorial originality and conversion source safeguards
+        run: python3 scripts/content_gate.py
+      - name: Verify production is blocked until signed off
+        run: python3 scripts/build_release.py --audit
+      - name: Check JavaScript syntax
+        run: |
+          node --check standalone/site/assets/site.js
+          node --check wordpress/sop-premium-agency/assets/site.js
+      - name: Compile Python services and release scripts
+        run: |
+          python3 -m py_compile standalone/backend/server.py scripts/build_release.py scripts/content_gate.py
       - name: Check PHP syntax
         shell: bash
         run: |
