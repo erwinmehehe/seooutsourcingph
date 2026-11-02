@@ -40,12 +40,16 @@
     const audience = params.get('audience');
     const plan = params.get('plan');
     const service = params.get('service');
+    const requestedIndustry = params.get('industry');
+    const knownIndustries = [...contact.elements.industry.options].map(o => o.value);
+    const industry = requestedIndustry || (service && knownIndustries.includes(service) ? service : null);
     if (audience && ['agency','business'].includes(audience)) contact.elements.audience.value = audience;
     if (plan) {
       const opt = [...contact.elements.plan.options].find(o => o.value.toLowerCase() === plan.toLowerCase());
       if (opt) contact.elements.plan.value = opt.value;
     }
-    if (service) contact.elements.service.value = service.slice(0, 140);
+    if (service && [...contact.elements.service.options].some(o => o.value === service)) contact.elements.service.value = service;
+    if (industry && knownIndustries.includes(industry)) contact.elements.industry.value = industry;
     let token = '';
     const session = async () => {
       const response = await fetch('/api/session', { credentials:'same-origin', cache:'no-store' });
@@ -68,7 +72,10 @@
       if (!contact.reportValidity()) return;
       if (!token) { show('Form submission is not enabled in this static preview. Run the included server or connect your form provider.', false); return; }
       const fields = Object.fromEntries(new FormData(contact).entries());
-      const context = fields.service ? `Service interest: ${fields.service}\n\n` : '';
+      const context = [
+        fields.service ? `Service interest: ${fields.service}` : '',
+        fields.industry && fields.industry !== 'not-specified' ? `Client industry: ${fields.industry}` : ''
+      ].filter(Boolean).join('\n') + '\n\n';
       const payload = {
         csrf_token: token,
         audience: fields.audience,
