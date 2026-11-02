@@ -1,0 +1,3 @@
+URL or template,Collection / product role,Observed issue,Merchant approval,Change owner,Retest,Status
+/collections/example,Discovery,Duplicate collection intent,Required,SEO+Merchandising,Search intent review,Illustrative
+/products/example,Purchase,Variant schema mismatch,Required,Developer,Rendered data matches product,Illustrative
