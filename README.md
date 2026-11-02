@@ -28,3 +28,15 @@ The `wordpress/` and `standalone/` folders are **alternatives**, not two sites t
 **Not yet a cleared public launch:** The package intentionally includes `noindex`/restrictive robots settings and draft WordPress content. Verify the legal operator, real team and client proof rights, form delivery, privacy policies, indexed URL migration and Australian industry copy before publication. These do **not** prevent putting the source on GitHub.
 
 **Security:** This is a public repository. Do not commit contact leads, WordPress credentials, `.env`, private client reports or production secrets.
+
+## Australian programmatic SEO pilot
+
+The `/australia/` hub and its five specialist workstream pages are built from `pseo/australia/pages.json`. They are substantive, original agency-procurement pages, **not automatic state/suburb permutations**.
+
+- Generator: `node scripts/generate_au_pseo.cjs --check`
+- Editorial/duplicate guard: `python3 scripts/au_pseo_quality.py`
+- WordPress mirror: `wordpress/wordpress-full-layout-DRAFT.xml` (66 drafts total)
+- Keyword and release register: `quality/AU_PSEO_KEYWORD_OPPORTUNITIES.csv`
+- Review policy: `quality/AU_PSEO_EDITORIAL_AND_KEYWORD_GATE.md`
+
+**Do not index these pages until Australian query demand and competition are validated, an accountable editor approves the specialist content, and the actual production form and legal/data handling are tested.** The present build keeps every new page `noindex`.
