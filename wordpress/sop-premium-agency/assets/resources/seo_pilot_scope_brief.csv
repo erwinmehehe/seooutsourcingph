@@ -1,0 +1,8 @@
+Field,Example input (illustrative),Buyer entry,Approval/owner
+Website and market,example.com; Australia,,Account owner
+Priority workstream,Technical audit of one service template,,SEO lead
+Access scope,"Read-only GSC, staging CMS",,Business owner
+Requested output,Two reproducible tickets with affected URLs and next action,,Project reviewer
+Acceptance evidence,"Source export, live/staging URLs, retest screenshot",,QA reviewer
+Out of scope,"Publishing, new location creation, backlink outreach",,Account owner
+Decision to expand,First deliverable accepted without unclear assumptions,,Account owner

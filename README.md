@@ -1,30 +1,30 @@
 # SEO Outsourcing Philippines
 
-Website source for [seooutsourcingphilippines.com](https://seooutsourcingphilippines.com/).
+Source code for [SEOOutsourcingPhilippines.com](https://seooutsourcingphilippines.com/).
 
-**GitHub workflow: push directly to `main`. No staging branch is required.**
+**60-page website source, prepared for direct commits to `main`.** No staging branch is required.
 
-The prepared website archive contains 60 pages, ten new Australian industry pages plus an Australia industry hub, a WordPress theme and form plugin, optional standalone Python backend, and editorial QA files.
+> GitHub is source control, not hosting. Pushing to `main` does not change the live website unless a deployment integration is separately configured.
 
-## Get the website into this repository
+## Project structure
 
-Download **SEO_Outsourcing_Philippines_Direct_Main_GitHub_60_Pages.zip** from the current ChatGPT conversation, extract it fully, then run the platform-specific uploader at the root of the extracted files:
-
-- Windows: `UPLOAD_TO_GITHUB_MAIN_WINDOWS.ps1`
-- macOS/Linux: `bash UPLOAD_TO_GITHUB_MAIN_MAC_LINUX.sh`
-
-The uploader checks site structure, clones this repository, copies the source and pushes it directly to `origin/main`. See [IMPORT_TO_GITHUB.md](IMPORT_TO_GITHUB.md) for commands.
-
-Expected folders after upload:
-
-- `standalone/site/`: website HTML, CSS and assets
-- `standalone/backend/`: standalone form API (optional deployment path)
+- `standalone/site/`: 60-page static frontend and its assets
+- `standalone/backend/`: optional Python form processing API
+- `standalone/deploy/`: example Docker/Caddy deployment configuration
 - `wordpress/sop-premium-agency/`: WordPress theme
-- `wordpress/sop-proposal-form/`: WordPress contact plugin
-- `wordpress/wordpress-full-layout-DRAFT.xml`: WordPress draft content
-- `quality/`: editorial gates, keyword maps and QA reports
-- `scripts/check_site.py`: structural website tests
+- `wordpress/sop-proposal-form/`: WordPress enquiry plugin
+- `wordpress/wordpress-full-layout-DRAFT.xml`: 60 WordPress draft records
+- `quality/`: page and Australia-sector editorial sign-offs
+- `scripts/check_site.py`: automated content/SEO and internal-link QA
 
-**GitHub is source control, not hosting.** Committing the files does not replace or deploy the live site unless a deployment workflow is separately configured.
+### Upload directly to GitHub main
 
-**Content launch restrictions:** Website files intentionally include restrictive indexing settings and WordPress drafts. Publishing requires real business and client-evidence approvals, legal/privacy review, production form validation, and migration checks. Do not commit .env files, lead databases, WordPress secrets or private client content; this repository is public.
+Extract the whole ZIP and run **`UPLOAD_TO_GITHUB_MAIN_WINDOWS.ps1`** in PowerShell, or **`bash UPLOAD_TO_GITHUB_MAIN_MAC_LINUX.sh`** on macOS/Linux. See [`IMPORT_TO_GITHUB.md`](IMPORT_TO_GITHUB.md) for exact instructions.
+
+### Choose one publishing platform
+
+The `wordpress/` and `standalone/` folders are **alternatives**, not two sites to deploy simultaneously. See [`DEPLOYMENT.md`](DEPLOYMENT.md) before going live.
+
+**Not yet a cleared public launch:** The package intentionally includes `noindex`/restrictive robots settings and draft WordPress content. Verify the legal operator, real team and client proof rights, form delivery, privacy policies, indexed URL migration and Australian industry copy before publication. These do **not** prevent putting the source on GitHub.
+
+**Security:** This is a public repository. Do not commit contact leads, WordPress credentials, `.env`, private client reports or production secrets.

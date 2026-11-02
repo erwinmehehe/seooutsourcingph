@@ -1,0 +1,9 @@
+Check,Evidence to provide,Pass/Revise/Block,Reviewer
+Primary page purpose,Query intent and target visitor,,
+Factual claims,Approved source and date for each significant assertion,,
+Duplicate intent,Other URLs checked for overlap,,
+Metadata,"Unique title, useful description, accurate H1",,
+Internal links,"Related pages, relevant anchors, destination tested",,
+Conversion,Primary CTA and working destination,,
+Mobile QA,"Readable content, forms, headings, no overflow",,
+Release and retest,"Preview/live link, approver, change log",,

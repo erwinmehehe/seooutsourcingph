@@ -3,11 +3,6 @@ name: Website source QA
 on:
   push:
     branches: [main]
-    paths:
-      - "standalone/**"
-      - "wordpress/**"
-      - "scripts/**"
-      - ".github/workflows/site-structure-check.yml"
   workflow_dispatch:
 
 permissions:
@@ -17,11 +12,11 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Validate 60-page website and internal links
+      - uses: actions/checkout@v4
+      - name: Check website files, titles, H1s, canonicals, and draft import
         run: python3 scripts/check_site.py
-      - name: Validate WordPress PHP syntax
+      - name: Check PHP syntax
+        shell: bash
         run: |
           for file in wordpress/sop-premium-agency/*.php wordpress/sop-proposal-form/*.php; do
             php -l "$file" || exit 1

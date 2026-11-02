@@ -1,0 +1,7 @@
+Cost component,Example monthly amount USD,Replace with actual
+Client revenue,2000,
+Outsourced delivery,850,
+Account management,250,
+Tools and QA,100,
+Contribution (before shared overhead),=B2-SUM(B3:B5),
+Contribution margin percent,=IFERROR(B6/B2,0),

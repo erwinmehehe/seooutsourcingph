@@ -1,0 +1,201 @@
+{
+  "checked_pages": 60,
+  "broken_links": [],
+  "missing_meta": [],
+  "duplicate_titles": [],
+  "word_counts": {
+    "/": 1141,
+    "/terms-of-service/": 309,
+    "/pricing/": 808,
+    "/blog/": 640,
+    "/privacy-policy/": 431,
+    "/about/": 627,
+    "/results/": 674,
+    "/contact/": 369,
+    "/industries/": 369,
+    "/how-it-works/": 600,
+    "/for-agencies/": 616,
+    "/services/": 487,
+    "/samples/": 654,
+    "/for-businesses/": 608,
+    "/cookie-policy/": 210,
+    "/services/local-seo/": 869,
+    "/services/white-label-seo/": 974,
+    "/services/seo-reporting/": 821,
+    "/services/multi-location-seo/": 837,
+    "/services/seo-content/": 842,
+    "/services/technical-seo/": 903,
+    "/services/seo-audits/": 824,
+    "/services/seo-strategy/": 832,
+    "/services/on-page-seo/": 904,
+    "/services/link-building/": 853,
+    "/industries/saas/": 772,
+    "/industries/dental/": 843,
+    "/industries/multi-location/": 763,
+    "/industries/healthcare/": 742,
+    "/industries/australia/": 679,
+    "/industries/ecommerce/": 772,
+    "/industries/hospitality/": 730,
+    "/industries/home-services/": 814,
+    "/industries/australia/electricians/": 709,
+    "/industries/australia/solar-installers/": 688,
+    "/industries/australia/real-estate/": 728,
+    "/industries/australia/ndis-providers/": 717,
+    "/industries/australia/accountants/": 718,
+    "/industries/australia/builders-roofing/": 695,
+    "/industries/australia/law-firms/": 839,
+    "/industries/australia/pest-control/": 720,
+    "/industries/australia/hvac/": 699,
+    "/industries/australia/plumbers/": 757,
+    "/blog/seo-outsourcing-pros-and-cons/": 747,
+    "/blog/seo-agency-profit-margin/": 943,
+    "/blog/how-many-seo-keywords-to-track/": 836,
+    "/blog/first-month-seo-agency/": 890,
+    "/blog/seo-outsourcing-philippines-guide/": 1086,
+    "/blog/seo-pricing-philippines-guide/": 939,
+    "/blog/local-seo-vs-organic-seo/": 912,
+    "/blog/seo-guarantees-refunds/": 724,
+    "/blog/service-area-pages-seo/": 746,
+    "/blog/white-label-seo-reporting-metrics/": 931,
+    "/blog/local-seo-dentists-australia/": 885,
+    "/blog/google-business-profile-checklist/": 926,
+    "/blog/choose-white-label-seo-partner/": 1032,
+    "/blog/technical-seo-audit-checklist/": 804,
+    "/blog/outsourcing-seo-content-briefs/": 820,
+    "/blog/on-page-seo-checklist/": 745,
+    "/blog/multi-location-seo-strategy/": 803
+  },
+  "wp_items": 60,
+  "wp_drafts": true,
+  "wp_hierarchy": [],
+  "visual_tests": [
+    {
+      "path": "/industries/australia/",
+      "width": 390,
+      "stats": {
+        "scroll": 390,
+        "inner": 390,
+        "height": 7066
+      },
+      "errors": [],
+      "file": "au_industries_australia_390.png"
+    },
+    {
+      "path": "/industries/australia/",
+      "width": 1440,
+      "stats": {
+        "scroll": 1440,
+        "inner": 1440,
+        "height": 3865
+      },
+      "errors": [],
+      "file": "au_industries_australia_1440.png"
+    },
+    {
+      "path": "/industries/australia/plumbers/",
+      "width": 390,
+      "stats": {
+        "scroll": 390,
+        "inner": 390,
+        "height": 7268,
+        "mobile_menu_expanded": "true"
+      },
+      "errors": [],
+      "file": "au_industries_australia_plumbers_390.png"
+    },
+    {
+      "path": "/industries/australia/plumbers/",
+      "width": 1440,
+      "stats": {
+        "scroll": 1440,
+        "inner": 1440,
+        "height": 4716
+      },
+      "errors": [],
+      "file": "au_industries_australia_plumbers_1440.png"
+    },
+    {
+      "path": "/industries/australia/law-firms/",
+      "width": 390,
+      "stats": {
+        "scroll": 390,
+        "inner": 390,
+        "height": 7709
+      },
+      "errors": [],
+      "file": "au_industries_australia_law-firms_390.png"
+    },
+    {
+      "path": "/industries/australia/law-firms/",
+      "width": 1440,
+      "stats": {
+        "scroll": 1440,
+        "inner": 1440,
+        "height": 4895
+      },
+      "errors": [],
+      "file": "au_industries_australia_law-firms_1440.png"
+    },
+    {
+      "path": "/industries/australia/ndis-providers/",
+      "width": 390,
+      "stats": {
+        "scroll": 390,
+        "inner": 390,
+        "height": 7292
+      },
+      "errors": [],
+      "file": "au_industries_australia_ndis-providers_390.png"
+    },
+    {
+      "path": "/industries/australia/ndis-providers/",
+      "width": 1440,
+      "stats": {
+        "scroll": 1440,
+        "inner": 1440,
+        "height": 4738
+      },
+      "errors": [],
+      "file": "au_industries_australia_ndis-providers_1440.png"
+    },
+    {
+      "path": "/industries/dental/",
+      "width": 390,
+      "stats": {
+        "scroll": 390,
+        "inner": 390,
+        "height": 8104
+      },
+      "errors": [],
+      "file": "au_industries_dental_390.png"
+    },
+    {
+      "path": "/industries/dental/",
+      "width": 1440,
+      "stats": {
+        "scroll": 1440,
+        "inner": 1440,
+        "height": 5406
+      },
+      "errors": [],
+      "file": "au_industries_dental_1440.png"
+    }
+  ],
+  "js_errors": [],
+  "horizontal_overflow": [],
+  "schema_errors": [],
+  "new_page_counts": {
+    "/industries/australia/": 556,
+    "/industries/australia/electricians/": 707,
+    "/industries/australia/solar-installers/": 684,
+    "/industries/australia/real-estate/": 724,
+    "/industries/australia/ndis-providers/": 713,
+    "/industries/australia/accountants/": 712,
+    "/industries/australia/builders-roofing/": 697,
+    "/industries/australia/law-firms/": 841,
+    "/industries/australia/pest-control/": 715,
+    "/industries/australia/hvac/": 697,
+    "/industries/australia/plumbers/": 756
+  },
+  "render_method": "Browser loaded exact site HTML with packaged CSS/JS inlined; localhost HTTP navigation disallowed by environment. Production visual QA still required."
+}

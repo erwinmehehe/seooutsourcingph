@@ -1,0 +1,50 @@
+services:
+  website:
+    build: ..
+    env_file:
+      - ../.env
+    environment:
+      SEO_LEADS_DATA_DIR: /var/lib/sop
+      SEO_TRUSTED_PROXY_IPS: 172.28.5.2
+      SEO_PUBLIC_HOST: seooutsourcingphilippines.com
+      SEO_COOKIE_SECURE: "1"
+    volumes:
+      - sop_private_leads:/var/lib/sop
+    restart: unless-stopped
+    expose:
+      - "8080"
+    networks:
+      sop_net:
+        ipv4_address: 172.28.5.3
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=64m
+  proxy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    networks:
+      sop_net:
+        ipv4_address: 172.28.5.2
+    depends_on:
+      - website
+volumes:
+  sop_private_leads:
+  caddy_data:
+  caddy_config:
+networks:
+  sop_net:
+    ipam:
+      config:
+        - subnet: 172.28.5.0/24

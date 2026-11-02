@@ -1,23 +1,26 @@
-# Never commit secrets or private runtime data
+# Credentials and real private data
 .env
 .env.*
 !.env.example
 !**/.env.example
 !**/config.env.example
 **/wp-config.php
-**/*.sqlite
-**/*.sqlite3
-**/*.db
 **/private/
 **/leads/
 **/storage/
 **/data/
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+**/*.log
 **/logs/
-*.log
+**/cache/
+**/uploads/
 *.pem
 *.key
-*.pfx
 *.p12
+*.pfx
+# Build/editor noise
 node_modules/
 __pycache__/
 *.py[cod]

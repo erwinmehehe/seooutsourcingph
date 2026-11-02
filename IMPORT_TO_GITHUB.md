@@ -1,26 +1,35 @@
-# Direct upload to GitHub main
+# Upload the website directly to GitHub main
 
 Repository: https://github.com/erwinmehehe/seooutsourcingph
 
-**No staging branch.** Everything is imported directly to `main`.
+Branch: **`main`**. No staging branch, no pull request required.
 
-1. Download the updated `SEO_Outsourcing_Philippines_Direct_Main_GitHub_60_Pages.zip` in this conversation.
-2. Extract the archive completely. Do not upload the ZIP file to GitHub expecting it to unpack itself.
-3. Install Git, and authenticate to GitHub using Git Credential Manager / GitHub CLI.
-4. Run one of the following commands from the extracted archive root:
+**Extract the ZIP completely before running the uploader.** GitHub does not unpack ZIPs merely because they are committed as files.
 
-**Windows PowerShell:**
+## Windows
+
+1. Download and extract this archive to a folder, preserving its files and folders.
+2. Ensure Git is installed and authenticated for GitHub. You must have write access to the repository.
+3. Right-click `UPLOAD_TO_GITHUB_MAIN_WINDOWS.ps1` and run with PowerShell, or open PowerShell in the extracted folder and run:
+
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\UPLOAD_TO_GITHUB_MAIN_WINDOWS.ps1
 ```
 
-**macOS/Linux:**
+The script checks the site, clones the repository, copies the source files, shows what will be committed and pushes to `origin/main`. It does not change your website DNS or hosting.
+
+## macOS/Linux
+
 ```bash
 bash ./UPLOAD_TO_GITHUB_MAIN_MAC_LINUX.sh
 ```
 
-The script validates 60 pages and WordPress drafts, clones the repo, copies files, runs a staged diff check, commits and **pushes to main**. No forced push, no automatic production deployment.
+The script creates a temporary local clone and pushes to `main`.
 
-5. Verify `standalone/`, `wordpress/`, `quality/`, and `scripts/` appear in the repo. Check the GitHub Action titled **Website source QA**.
+## Verify your GitHub upload
 
-Do not commit private secrets, contact leads, private reports or production .env files. Live domain and indexing decisions are separate from GitHub upload.
+- Open the repository and confirm that `standalone/`, `wordpress/`, `quality/` and `scripts/` are present.
+- Check GitHub Actions: `Website source QA` should pass for the new commit.
+- Confirm no `.env`, database, leads, or confidential records were committed.
+
+This is a source-code import, **not a live production deployment**. The site intentionally retains publication approvals and `noindex` until signed off.

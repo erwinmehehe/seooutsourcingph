@@ -1,0 +1,113 @@
+[
+  {
+    "path": "/industries/australia/",
+    "width": 390,
+    "stats": {
+      "scroll": 390,
+      "inner": 390,
+      "height": 7066
+    },
+    "errors": [],
+    "file": "au_industries_australia_390.png"
+  },
+  {
+    "path": "/industries/australia/",
+    "width": 1440,
+    "stats": {
+      "scroll": 1440,
+      "inner": 1440,
+      "height": 3865
+    },
+    "errors": [],
+    "file": "au_industries_australia_1440.png"
+  },
+  {
+    "path": "/industries/australia/plumbers/",
+    "width": 390,
+    "stats": {
+      "scroll": 390,
+      "inner": 390,
+      "height": 7268,
+      "mobile_menu_expanded": "true"
+    },
+    "errors": [],
+    "file": "au_industries_australia_plumbers_390.png"
+  },
+  {
+    "path": "/industries/australia/plumbers/",
+    "width": 1440,
+    "stats": {
+      "scroll": 1440,
+      "inner": 1440,
+      "height": 4716
+    },
+    "errors": [],
+    "file": "au_industries_australia_plumbers_1440.png"
+  },
+  {
+    "path": "/industries/australia/law-firms/",
+    "width": 390,
+    "stats": {
+      "scroll": 390,
+      "inner": 390,
+      "height": 7709
+    },
+    "errors": [],
+    "file": "au_industries_australia_law-firms_390.png"
+  },
+  {
+    "path": "/industries/australia/law-firms/",
+    "width": 1440,
+    "stats": {
+      "scroll": 1440,
+      "inner": 1440,
+      "height": 4895
+    },
+    "errors": [],
+    "file": "au_industries_australia_law-firms_1440.png"
+  },
+  {
+    "path": "/industries/australia/ndis-providers/",
+    "width": 390,
+    "stats": {
+      "scroll": 390,
+      "inner": 390,
+      "height": 7292
+    },
+    "errors": [],
+    "file": "au_industries_australia_ndis-providers_390.png"
+  },
+  {
+    "path": "/industries/australia/ndis-providers/",
+    "width": 1440,
+    "stats": {
+      "scroll": 1440,
+      "inner": 1440,
+      "height": 4738
+    },
+    "errors": [],
+    "file": "au_industries_australia_ndis-providers_1440.png"
+  },
+  {
+    "path": "/industries/dental/",
+    "width": 390,
+    "stats": {
+      "scroll": 390,
+      "inner": 390,
+      "height": 8104
+    },
+    "errors": [],
+    "file": "au_industries_dental_390.png"
+  },
+  {
+    "path": "/industries/dental/",
+    "width": 1440,
+    "stats": {
+      "scroll": 1440,
+      "inner": 1440,
+      "height": 5406
+    },
+    "errors": [],
+    "file": "au_industries_dental_1440.png"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "repo": "erwinmehehe/seooutsourcingph",
+  "branch": "main",
+  "mode": "direct-main",
+  "staging_branch_required": false,
+  "live_deployment_automatic": false,
+  "pages": 60,
+  "source_zip": "SEO_Outsourcing_Philippines_GitHub_Ready.zip",
+  "website_status": "source ready, production approvals and deployment pending"
+}

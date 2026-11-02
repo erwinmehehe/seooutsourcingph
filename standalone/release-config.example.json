@@ -1,0 +1,35 @@
+{
+  "reviewed_by": "",
+  "reviewed_at": "",
+  "signoffs": {
+    "contracting_entity_verified": false,
+    "contact_email_inbox_tested": false,
+    "privacy_policy_legally_approved": false,
+    "cookie_policy_legally_approved": false,
+    "terms_of_service_legally_approved": false,
+    "hero_image_rights_approved": false,
+    "client_results_sharing_permissions_verified": false,
+    "published_pricing_approved": false,
+    "approved_copy_and_sources": false,
+    "live_url_migration_and_redirects_reviewed": false,
+    "production_email_and_form_delivery_tested": false,
+    "backups_and_rollback_tested": false
+  },
+  "approved_urls": [
+    "/",
+    "/about/",
+    "/contact/",
+    "/privacy-policy/",
+    "/cookie-policy/",
+    "/terms-of-service/",
+    "/services/",
+    "/services/white-label-seo/",
+    "/services/technical-seo/",
+    "/services/on-page-seo/",
+    "/services/local-seo/",
+    "/pricing/",
+    "/results/",
+    "/samples/",
+    "/how-it-works/"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "checks": 44,
+  "horizontal_overflow": [],
+  "interactions": [
+    {
+      "mobile_nav_escape_close": true
+    },
+    {
+      "margin_calculator_correct": true
+    }
+  ]
+}

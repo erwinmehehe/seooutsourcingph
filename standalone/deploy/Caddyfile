@@ -1,0 +1,10 @@
+seooutsourcingphilippines.com {
+  encode zstd gzip
+  reverse_proxy website:8080
+  header {
+    Strict-Transport-Security "max-age=31536000"
+  }
+}
+www.seooutsourcingphilippines.com {
+  redir https://seooutsourcingphilippines.com{uri} permanent
+}
