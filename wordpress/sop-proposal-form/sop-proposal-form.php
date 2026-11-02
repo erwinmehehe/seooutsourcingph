@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SOP Proposal Form
  * Description: Secure, consent-based proposal submissions for SEO Outsourcing Philippines. Configure WordPress mail before publishing.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Requires PHP: 8.1
  * Text Domain: sop-proposal-form
  */
@@ -30,6 +30,9 @@ function sop_pf_form() {
         'seo-audits'=>'SEO audit','seo-strategy'=>'SEO strategy',
         'link-building'=>'Link building','multi-location-seo'=>'Multi-location SEO');
     $service = sop_pf_pick('service',array_keys($services),'not-sure');
+    $industries = array('not-specified'=>'Not specified','dental'=>'Dental practices','healthcare'=>'Healthcare clinics','ecommerce'=>'E-commerce','saas'=>'SaaS / B2B software','home-services'=>'Home services','hospitality'=>'Hospitality','multi-location'=>'Multi-location operations','law-firms'=>'Australian law firms','plumbers'=>'Australian plumbing','electricians'=>'Australian electrical','hvac'=>'Australian HVAC','pest-control'=>'Australian pest control','builders-roofing'=>'Australian building / roofing','real-estate'=>'Australian real estate','accountants'=>'Australian accounting','ndis-providers'=>'Australian NDIS','solar-installers'=>'Australian solar');
+    $legacy_industry = isset($_GET['service']) ? sanitize_key(wp_unslash($_GET['service'])) : '';
+    $industry = sop_pf_pick('industry',array_keys($industries),in_array($legacy_industry,array_keys($industries),true) ? $legacy_industry : 'not-specified');
     $audiences = array('agency'=>'Agency / client accounts','business'=>'My own business');
     $plan = sop_pf_pick('plan',array_keys($plans),'Not sure - recommend a scope');
     $audience = sop_pf_pick('audience',array_keys($audiences),'agency');
@@ -46,7 +49,12 @@ function sop_pf_form() {
         }
     }
     ob_start();
-    if ($status === 'sent') echo '<div class="alert visible success" role="status">Your inquiry was received by the configured mail service. The team will review the details you supplied.</div>';
+    if (!sop_pf_recipient()) {
+        if (current_user_can('manage_options')) echo '<div class="alert visible error" role="alert">Form is disabled. Configure SOP_LEADS_EMAIL and verify delivery before launch.</div>';
+        echo '<p>The online proposal form is temporarily unavailable. Please email <a href="mailto:info@seooutsourcingphilippines.com">info@seooutsourcingphilippines.com</a> with your website and SEO request. Do not send passwords or sensitive records.</p>';
+        return ob_get_clean();
+    }
+    if ($status === 'sent') echo '<div class="alert visible success" role="status">Your inquiry was received by the configured mail service. Keep the submitted details for your records. You can follow up by email if needed.</div>';
     if ($status === 'error') echo '<div class="alert visible error" role="alert">The request could not be delivered. Please try again or email the company directly.</div>';
     if ($status === 'invalid') echo '<div class="alert visible error" role="alert">Please check all required fields, the privacy consent, and try again.</div>';
     ?>
@@ -64,7 +72,10 @@ function sop_pf_form() {
         <div class="field"><label for="sop-service">Primary SEO need</label><select id="sop-service" name="service">
         <?php foreach($services as $key=>$label) echo '<option value="'.esc_attr($key).'" '.selected($key,$service,false).'>'.esc_html($label).'</option>'; ?>
         </select></div>
-        <div class="field"><label for="sop-plan">Support level *</label><select id="sop-plan" name="plan" required>
+        <div class="field"><label for="sop-industry">Client industry (optional)</label><select id="sop-industry" name="industry">
+        <?php foreach($industries as $key=>$label) echo '<option value="'.esc_attr($key).'" '.selected($key,$industry,false).'>'.esc_html($label).'</option>'; ?>
+      </select></div>
+      <div class="field"><label for="sop-plan">Support level *</label><select id="sop-plan" name="plan" required>
         <?php foreach($plans as $key=>$label) echo '<option value="'.esc_attr($key).'" '.selected($key,$plan,false).'>'.esc_html($label).'</option>'; ?>
         </select></div>
       </div>
@@ -85,7 +96,7 @@ function sop_pf_submit() {
         wp_safe_redirect(add_query_arg('sop_status','invalid',$redirect),303); exit;
     }
     $data = array();
-    foreach(array('name','email','company','website','details','audience','plan','service','phone_confirm') as $key) {
+    foreach(array('name','email','company','website','details','audience','plan','service','industry','phone_confirm') as $key) {
         $data[$key] = isset($_POST[$key]) && is_string($_POST[$key]) ? wp_unslash($_POST[$key]) : '';
     }
     if ($data['phone_confirm'] !== '') { wp_safe_redirect($redirect,303); exit; }
@@ -97,12 +108,14 @@ function sop_pf_submit() {
     $data['audience'] = sanitize_key($data['audience']);
     $data['plan'] = sanitize_text_field($data['plan']);
     $data['service'] = sanitize_key($data['service']);
+    $data['industry'] = sanitize_key($data['industry']);
     $valid_services = array('not-sure','white-label-seo','technical-seo','on-page-seo','local-seo','seo-content','seo-reporting','seo-audits','seo-strategy','link-building','multi-location-seo');
+    $valid_industries = array('not-specified','dental','healthcare','ecommerce','saas','home-services','hospitality','multi-location','law-firms','plumbers','electricians','hvac','pest-control','builders-roofing','real-estate','accountants','ndis-providers','solar-installers');
     $valid_plans = array('Not sure - recommend a scope','SEO Essential','SEO Growth','SEO Scale','Custom project / dedicated team');
     $consent = isset($_POST['consent']) && $_POST['consent'] === '1';
     $valid = $consent && strlen($data['name'])>=2 && strlen($data['name'])<=120 && is_email($data['email'])
        && strlen($data['details']) >= 20 && strlen($data['details']) <= 5000
-       && in_array($data['audience'], array('agency','business'),true) && in_array($data['plan'], $valid_plans,true) && in_array($data['service'], $valid_services,true)
+       && in_array($data['audience'], array('agency','business'),true) && in_array($data['plan'], $valid_plans,true) && in_array($data['service'], $valid_services,true) && in_array($data['industry'], $valid_industries,true)
        && strlen($data['company'])<=160 && (empty($data['website']) || filter_var($data['website'],FILTER_VALIDATE_URL));
     if (!$valid) { wp_safe_redirect(add_query_arg('sop_status','invalid',$redirect),303); exit; }
     if (!sop_pf_recipient()) { wp_safe_redirect(add_query_arg('sop_status','error',$redirect),303); exit; }
@@ -114,7 +127,7 @@ function sop_pf_submit() {
     set_transient($key,$count+1,30*MINUTE_IN_SECONDS);
     $subject = '[SEO outsourcing inquiry] ' . $data['plan'];
     $body = "Inquiry received at " . gmdate('c') . "\n\n";
-    foreach(array('name','email','company','website','audience','plan','service','details') as $k) $body .= ucfirst($k).": ".$data[$k]."\n";
+    foreach(array('name','email','company','website','audience','plan','service','industry','details') as $k) $body .= ucfirst($k).": ".$data[$k]."\n";
     $headers = array('Content-Type: text/plain; charset=UTF-8', 'Reply-To: '.$data['email']);
     $ok = wp_mail(sop_pf_recipient(),$subject,$body,$headers);
     $receipt = wp_generate_password(24,false,false);
