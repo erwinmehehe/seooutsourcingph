@@ -1,0 +1,869 @@
+{
+  "version": 1,
+  "geo": "Australia",
+  "intent": "Specialist SEO outsourcing for Australian agencies, not geo-swapped doorway pages",
+  "status": "DRAFT_NO_INDEX",
+  "knownKD": "UNVERIFIED_SEMRUSH_API_UNITS_UNAVAILABLE",
+  "editorSignoff": false,
+  "format": "curated-template-system",
+  "publicationRule": "No release without verified query demand and editorial distinctness review; no automatic city or state permutations.",
+  "pages": [
+    {
+      "slug": "seo-launch-qa-for-web-design-agencies",
+      "title": "SEO Launch QA for Australian Web Design Agencies | Outsourcing",
+      "meta": "A practical white-label SEO launch QA service for Australian web design agencies: URL mapping, redirects, technical checks, handoff evidence and sign-off.",
+      "h1": "SEO Launch QA for Australian Web Design Agencies",
+      "eyebrow": "For Australian web designers and developers",
+      "lead": "Your new website can look finished while the search handoff is still incomplete. This page shows how to separate visual sign-off from redirects, crawlability, tracking and the checks an SEO reviewer actually needs.",
+      "targetKeyword": "white label SEO QA for Australian web design agencies",
+      "service": "technical-seo",
+      "audience": "Web design agency handing a new WordPress, Elementor or custom website to a client",
+      "intro": [
+        "Design teams often own typography, layouts, forms and client approval. SEO problems appear in the gaps: retired URLs disappear without redirects, a development noindex setting travels into production, internal links still point at preview domains, or a contact conversion is never recorded. The SEO handoff should happen before launch, not after a drop in organic traffic.",
+        "This is not an offer to create another generic audit PDF. The useful work is a route-by-route launch checklist with a clear developer owner, acceptance test and evidence. If the client has an established site, preserve existing high-value URLs whenever possible. A beautiful redesign is not a reason to change every path."
+      ],
+      "sections": [
+        {
+          "title": "Which launches need an SEO handoff?",
+          "paras": [
+            "A new business site needs crawlability, clear site architecture and working lead capture. A redesign or CMS migration needs a baseline of the live URLs, their replacement pages, and decisions on every meaningful redirect. A site consolidating services needs checks that the new service architecture still answers the old search intent.",
+            "Start by classifying the project: fresh build, same-URL redesign, path-changing migration or domain migration. Those are different risk levels. The higher-risk projects also need a rollback plan, owners for redirect rules and a post-launch crawl scheduled before the development warranty expires."
+          ],
+          "bullets": [
+            "Fresh build: verify approved service URLs, canonical paths, sitemap, schema and enquiries.",
+            "Same-URL redesign: check accidental content loss, heading hierarchy, core internal links and templates.",
+            "Path-changing migration: document every important old-to-new URL relationship and test redirects.",
+            "Domain migration: confirm Search Console properties, canonical destinations and tracking continuity."
+          ]
+        },
+        {
+          "title": "A launch checklist your developer can actually close",
+          "paras": [
+            "Assign each check to a route, template or service. For example, testing only the homepage will not reveal that a deeper suburb page redirects through three hops. The SEO reviewer should be able to point to the exact URL, reproduce the problem and identify the final acceptance condition."
+          ],
+          "table": {
+            "headers": [
+              "Check",
+              "Evidence to capture",
+              "Accept when"
+            ],
+            "rows": [
+              [
+                "Indexing controls",
+                "Robots header and meta directive on live templates",
+                "Approved pages are indexable; preview pages stay protected"
+              ],
+              [
+                "Redirect map",
+                "Old URL, new URL, actual response chain",
+                "Permanent redirects reach the relevant final URL without loops"
+              ],
+              [
+                "Forms and events",
+                "Test lead ID, source page and GA4 event",
+                "Inbox or CRM receives the lead and the event fires once"
+              ],
+              [
+                "Mobile templates",
+                "Representative 390 px and desktop pages",
+                "No clipped CTA, hidden fields, or unusable navigation"
+              ],
+              [
+                "Sitemap and canonicals",
+                "Submitted sitemap and rendered canonical tags",
+                "Approved URL versions match navigation and response status"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Worked handoff: service URLs changed during an Elementor rebuild",
+          "paras": [
+            "Illustrative scenario, not a claim about a completed client project. An Australian trades website previously used /services/hot-water/ and the redesign team has replaced it with /plumbing/hot-water-systems/. The old page has local search history. The client approves the new menu but nobody has signed off the URL change.",
+            "Capture the old URL and its existing inbound and internal links. Confirm the new page serves the same service intent, update the internal navigation, and set a direct permanent redirect from the old page to the chosen new destination. Then crawl both versions after publication. A redirect to the homepage is not an equivalent replacement for a specific service.",
+            "Close the ticket only when the old URL reaches the intended final destination, the new page returns 200, its canonical points to itself, the sitemap includes the new path, and the enquiry CTA remains functional. Attach the response chain and a dated retest record."
+          ]
+        },
+        {
+          "title": "What stays with the web design agency",
+          "paras": [
+            "The agency owns the final customer sign-off, hosting plan, approved design, access management and DNS decisions. The SEO specialist can write technical tickets, advise on metadata, verify template output and retest changes. Neither party should quietly modify production without the agreed owner approving it.",
+            "If the client uses a page builder, define who fixes what before launch: text and internal links may be editable by the content team; redirects, caching rules and structured data may sit with developers or hosting. A checklist with no assigned implementer is not a delivery plan."
+          ],
+          "bullets": [
+            "Agency: client relationship, CMS access, design acceptance, scheduled launch.",
+            "SEO reviewer: source URL inventory, audit tickets, evidence and post-launch checks.",
+            "Developer: approved code/configuration fixes, redirects, forms and backups.",
+            "Client representative: service facts, priority pages, regulatory claims and publication approval."
+          ]
+        },
+        {
+          "title": "When not to outsource more work",
+          "paras": [
+            "If the agency has no working backup, no current list of indexed URLs, or no person who can change redirect rules, an expansive SEO retainer will not fix the launch bottleneck. Get those controls in place first. Likewise, do not commission dozens of new suburb pages to replace an established service page just to create more indexed URLs.",
+            "A bounded pilot can cover one core service template, one group of redirected URLs and an end-to-end enquiry test. That reveals both implementation quality and whether the delivery handoff fits your agency."
+          ]
+        },
+        {
+          "title": "How to measure a successful handoff",
+          "paras": [
+            "Use route-level acceptance, not a promised ranking increase. Record the number of important URLs mapped, redirect exceptions resolved, canonical/indexing errors left open, test conversions received, and post-launch defects reopened. Check Search Console over time for unexpected changes; launch-day positions alone cannot diagnose migration quality.",
+            "Request a client-ready evidence pack with the original issue list, approved exceptions, implementation references, final URLs and the person who signed off. This is useful even if a different provider manages ongoing SEO later."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Can an SEO reviewer work alongside our developer without contacting the client?",
+          "a": "Yes, when the engagement specifies a white-label workflow. Your agency owns client communication; the reviewer works against assigned tickets and returns unbranded evidence and recommended changes."
+        },
+        {
+          "q": "Do we need to redirect every old page?",
+          "a": "No. Map useful old URLs to relevant new content. Some obsolete pages may properly return 404 or 410; the decision should depend on intent and evidence rather than a blanket homepage redirect."
+        },
+        {
+          "q": "Can this guarantee rankings after a site rebuild?",
+          "a": "No. Launch QA reduces avoidable technical mistakes. Rankings still depend on many factors and can fluctuate during recrawling. The deliverable is verified implementation and a documented monitoring plan."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Google Search Central: site moves with URL changes",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes"
+        }
+      ],
+      "related": [
+        {
+          "label": "Technical SEO delivery",
+          "href": "/services/technical-seo/"
+        },
+        {
+          "label": "Sample audit ticket",
+          "href": "/samples/"
+        },
+        {
+          "label": "Agency handoff process",
+          "href": "/how-it-works/"
+        }
+      ],
+      "resource": "au_web_design_launch_qa.csv",
+      "resourceTitle": "Download the website launch QA worksheet",
+      "csv": [
+        [
+          "Page or URL",
+          "Risk",
+          "Evidence",
+          "Developer owner",
+          "Acceptance check",
+          "Status"
+        ],
+        [
+          "/services/example/",
+          "Old service path removed",
+          "Current crawl + old URL inventory",
+          "Assign owner",
+          "301 to relevant live service URL",
+          "Illustrative - not tested"
+        ],
+        [
+          "/contact/",
+          "Form event missing",
+          "GA4 DebugView and test lead",
+          "Assign owner",
+          "Lead received and event fires once",
+          "Illustrative - not tested"
+        ]
+      ],
+      "bodyWords": 981
+    },
+    {
+      "slug": "white-label-technical-audit-handoffs",
+      "title": "White-Label Technical SEO Audit Handoffs for Australian Agencies",
+      "meta": "White-label technical SEO audit handoffs for Australian agencies. Turn crawl findings into prioritised developer tickets, evidence, acceptance tests and client-ready reports.",
+      "h1": "White-Label Technical SEO Audit Handoffs for Australian Agencies",
+      "eyebrow": "For agencies that need implementation-ready audits",
+      "lead": "A crawl export is not a developer brief. This workflow turns technical SEO findings into decisions, assigns owners and defines how the receiving agency will verify each fix.",
+      "targetKeyword": "white label technical SEO audit handoff Australia",
+      "service": "seo-audits",
+      "audience": "SEO or digital agency responsible for turning audit findings into developer tickets",
+      "intro": [
+        "An agency can find hundreds of crawl issues and still have nothing a developer can close. Broken links, duplicate canonicals and JavaScript rendering warnings are observations. The work is to decide which affected URLs matter, what should happen, who can make the change and how the result will be retested.",
+        "Use an audit handoff when your strategist already owns the client account but lacks capacity to triage and write implementation tickets. The output should fit an existing Jira, ClickUp, Zoho Projects or spreadsheet workflow. No client-facing brand transfer is required."
+      ],
+      "sections": [
+        {
+          "title": "Start with impact, not the audit tool's severity label",
+          "paras": [
+            "A crawler may report 400 redirects, but only a subset may touch priority landing pages or persistent navigation. Conversely, one wrong canonical on a key service page can be more urgent than dozens of isolated image notices. Prioritisation needs impact, reach, reversibility and implementation cost, not simply the number of warnings.",
+            "First, define the pages that matter: conversion pages, active products, supported locations and pages with meaningful search exposure. Then group duplicate symptoms by root cause. If a template generates incorrect canonical links across 90 pages, create one template-level decision with a list of affected URLs rather than 90 almost identical tickets."
+          ]
+        },
+        {
+          "title": "The evidence contract for each technical ticket",
+          "paras": [
+            "Each issue needs an observed behaviour, a reproduction method and a proposed outcome. Avoid directions such as 'fix technical SEO' or 'improve crawl budget' without a concrete implementation decision. Developers need to know whether the change is in an application template, CMS configuration, JavaScript component or web server.",
+            "Retest instructions should be written before the change is assigned. If there is no objective way to say the issue is resolved, the recommendation is probably too vague."
+          ],
+          "table": {
+            "headers": [
+              "Required field",
+              "Why it matters",
+              "Example"
+            ],
+            "rows": [
+              [
+                "Affected URLs",
+                "Prevents a vague sitewide ticket",
+                "/locations/example/ and two linked templates"
+              ],
+              [
+                "Observed state",
+                "Makes the finding repeatable",
+                "Canonical points at a retired URL"
+              ],
+              [
+                "Approved target",
+                "Stops accidental redirect or canonical choices",
+                "Final live URL agreed by account owner"
+              ],
+              [
+                "Change owner",
+                "Locates the actual implementer",
+                "Developer for template; editor for links"
+              ],
+              [
+                "Retest and evidence",
+                "Defines completion",
+                "Rendered canonical plus recrawl record"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Worked example: canonical conflict on a location template",
+          "paras": [
+            "Illustrative scenario only. A multi-location business has a template for regional service pages. A global component inserts a canonical pointing to the national service page on every local landing page. Some pages have distinct local content and should remain separately indexable, while other pages are duplicative.",
+            "Before proposing a blanket fix, compare the actual rendered content and intended search need of the affected pages. Decide which versions deserve canonical self-reference and which should consolidate. Document the location pages, the current canonical, the proposed destination and the decision owner. The developer updates the common template only after the account owner approves the set of URLs.",
+            "The completed handoff includes rendered source examples before and after, the ticket or commit reference, a crawl confirming expected canonicals, and a separate exception list for pages intentionally consolidated. Simply removing every canonical tag is not an acceptable retest."
+          ]
+        },
+        {
+          "title": "Protect the agency's workflow and confidentiality",
+          "paras": [
+            "An outsourced audit team should not assume it can message clients, log into billing systems or publish to production. Agree a read-only evidence collection boundary first. Where authenticated crawling is essential, use named and expiring accounts, documented access and a clear deletion process for exported data.",
+            "Deliver findings in the agency's preferred format with neutral wording. If your client has a developer, distinguish recommendations from implemented fixes. Never mark an issue 'fixed' because someone opened a ticket; the status changes after the actual output is checked."
+          ],
+          "bullets": [
+            "Strategist approves business priority and canonical intent.",
+            "Auditor records evidence, affected URLs, recommendation and reproduction steps.",
+            "Developer or CMS owner implements only approved changes.",
+            "Reviewer repeats the test and records any exceptions."
+          ]
+        },
+        {
+          "title": "Choose an audit size the team can absorb",
+          "paras": [
+            "Audits often fail because a thick document arrives with no implementation capacity. A better first scope might be the 10 highest-value issues across five page templates, with duplicates consolidated. Once the team has closed those, expand to lower-priority sitewide work.",
+            "Separate discovery, technical recommendation, implementation assistance and verification into different work products. This prevents procurement confusion when a quote is for an audit only and the client assumes development is included."
+          ]
+        },
+        {
+          "title": "Reporting that explains a decision",
+          "paras": [
+            "The agency account manager should be able to state: the problem, the affected user or search journey, the chosen fix, who approved it and the remaining risk. Track accepted tickets, implemented tickets, retested tickets and unresolved blockers. Search impressions and conversions are useful context, but they do not prove a specific code fix caused a ranking change.",
+            "Before sending a white-label report, remove internal tool credentials, private user data and unnecessary screenshots. Keep the evidence needed to verify the fix."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is a technical audit the same as implementing the fixes?",
+          "a": "No. The scope should state separately whether it includes discovery, developer-ready tickets, implementation, and post-change verification. An audit checklist alone is not a deployment."
+        },
+        {
+          "q": "Can you use our task tracker?",
+          "a": "A well-scoped white-label handoff can be prepared for a shared ticketing workflow, subject to agreed access and permissions. Provide required fields and statuses in the first brief."
+        },
+        {
+          "q": "Should every crawler warning be fixed?",
+          "a": "No. Prioritise according to affected pages, actual behaviour, search intent and developer effort. Record deliberate exceptions instead of inflating task counts."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Google Search Central: crawling and indexing",
+          "url": "https://developers.google.com/search/docs/crawling-indexing"
+        }
+      ],
+      "related": [
+        {
+          "label": "SEO audit services",
+          "href": "/services/seo-audits/"
+        },
+        {
+          "label": "Technical SEO",
+          "href": "/services/technical-seo/"
+        },
+        {
+          "label": "Audit issue demonstration",
+          "href": "/samples/"
+        }
+      ],
+      "resource": "au_technical_audit_handoff.csv",
+      "resourceTitle": "Download the technical audit handoff worksheet",
+      "csv": [
+        [
+          "Issue ID",
+          "Affected template",
+          "Observed behaviour",
+          "Impact",
+          "Approved action",
+          "Owner",
+          "Retest evidence",
+          "Status"
+        ],
+        [
+          "TECH-001",
+          "Location page",
+          "Canonical resolves to national service",
+          "Review per URL",
+          "Confirm template rule before modifying",
+          "Unassigned",
+          "Rendered canonical + recrawl",
+          "Illustrative"
+        ],
+        [
+          "TECH-002",
+          "Navigation",
+          "Redirect link in header",
+          "Multiple page types",
+          "Link direct to approved live URL",
+          "Unassigned",
+          "Response-chain check",
+          "Illustrative"
+        ]
+      ],
+      "bodyWords": 863
+    },
+    {
+      "slug": "google-business-profile-qa-for-agencies",
+      "title": "White-Label Google Business Profile QA for Australian Agencies",
+      "meta": "White-label Google Business Profile QA for Australian agencies: real locations, service areas, categories, review integrity, change logs and monthly acceptance checks.",
+      "h1": "Google Business Profile QA for Australian Agencies",
+      "eyebrow": "For Australian local SEO and digital agencies",
+      "lead": "Maps work goes wrong when business facts are guessed, branch locations are invented or review handling is treated as a volume target. This is a verification-led handoff for real Australian locations and service areas.",
+      "targetKeyword": "white label Google Business Profile QA Australia",
+      "service": "local-seo",
+      "audience": "Local SEO agency managing real Australian storefronts or service-area clients",
+      "intro": [
+        "A Google Business Profile is tied to a real business, not a page a marketer wants to rank. The first job in a white-label local SEO engagement is to establish what the business actually operates: staffed premises, customer-facing hours, service-area boundaries, phone ownership and the account with authority to approve edits.",
+        "For agencies managing plumbers, dentists or multi-location brands, the risky mistakes differ. A plumber may need a hidden residential address and accurate dispatch area; a clinic needs practitioner and location review; a merged brand may have historical listings that should not be deleted without a proper transition plan."
+      ],
+      "sections": [
+        {
+          "title": "Verify the business facts before editing",
+          "paras": [
+            "Request a source-of-truth sheet signed off by the client. It should record the trading name, staffed location or service-area basis, operating hours, actual phone number, website, primary category and person authorised to approve changes. When details vary across directories, do not pick the most common version. Ask the operator which one is current.",
+            "Use the public profile and business website as evidence, not a license to create fictional branches. Google's guidelines distinguish genuine staffed offices from virtual offices and mailbox addresses. A marketing agency should not promise extra profiles for suburbs that have no independent eligible location."
+          ],
+          "bullets": [
+            "Physical address and service area match the operating model.",
+            "Phone and website lead to the business, not a third-party lead-generation destination.",
+            "Category and services reflect services actually offered.",
+            "Ownership and manager access are controlled by the business and its authorised representative."
+          ]
+        },
+        {
+          "title": "A monthly GBP QA sheet should reveal real changes",
+          "paras": [
+            "An unbranded report should not substitute posting frequency for quality. Each month, log the field checked, observed state, decision, edit approval and follow-up verification. If nothing important changed, report that accurately. A profile with correct hours and a working booking path may need less activity than a profile undergoing a business merger."
+          ],
+          "table": {
+            "headers": [
+              "Control",
+              "Failure example",
+              "Acceptance evidence"
+            ],
+            "rows": [
+              [
+                "Opening hours",
+                "Holiday hours copied from an old location",
+                "Owner-confirmed hours and live profile capture"
+              ],
+              [
+                "Service area",
+                "Twelve suburbs claimed without actual coverage",
+                "Dispatch-approved service list and profile settings"
+              ],
+              [
+                "Business name",
+                "Keyword added to the trading name",
+                "Trading name supported by real-world use"
+              ],
+              [
+                "Reviews",
+                "Auto-generated endorsements or selectively hidden feedback",
+                "Genuine review policy; no manipulated ratings"
+              ],
+              [
+                "Website link",
+                "Profile links to an obsolete or tracking-broken URL",
+                "Working destination, attributable enquiry path"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Worked example: a plumber serves three suburbs from one depot",
+          "paras": [
+            "Illustrative operating case, not a real client case study. A plumbing company has one staffed depot and serves three nearby suburbs. A marketer proposes three extra Business Profiles and three almost identical suburb landing pages to 'cover the map'.",
+            "The safer decision is to confirm that the company has one eligible operating location and accurately defined service areas. Use one genuine Business Profile unless independent, eligible operations support more. On the website, explain the actual services, response hours and dispatch coverage; do not make a fake office page for each suburb.",
+            "The acceptance check is a verified profile, current location facts, working phone and service landing pages with substantively different value where appropriate. A ranking-grid screenshot does not override Google's eligibility rules."
+          ]
+        },
+        {
+          "title": "Reviews require a separate integrity check",
+          "paras": [
+            "A request for reviews should be directed to genuine customers without offering something in exchange for a positive rating. The ACCC warns against fake or misleading testimonials and selective treatment of reviews. For regulated health services, additional restrictions apply to testimonial use in advertising under Ahpra guidance.",
+            "The agency should never fabricate patient stories or repost clinical outcome testimonials onto the practice's own advertising simply because a third-party site displays them. Record when specialist review is required; do not treat a generic reply template as legal clearance."
+          ]
+        },
+        {
+          "title": "White-label roles and monthly deliverables",
+          "paras": [
+            "Your account manager stays the client contact. The local SEO delivery team can prepare an issue log, category and service review, verified field suggestions, evidence-backed updates and an unbranded change summary. The business owner should approve sensitive changes, especially name, address, hours and service availability.",
+            "A useful pilot is one real profile and one corresponding service page, with a baseline capture and signed-off fact sheet. The quality signal is fewer unresolved factual errors and a reliable enquiry path, not an arbitrary count of posts or citations."
+          ],
+          "bullets": [
+            "Client: confirms legal and operational business details.",
+            "Agency: approves changes, controls account access and reviews compliance.",
+            "Delivery reviewer: prepares evidence, change requests and retests.",
+            "Monthly handoff: completed changes, outstanding disputes, owner approvals and source screenshots."
+          ]
+        },
+        {
+          "title": "Which profiles should be excluded from the scope?",
+          "paras": [
+            "Do not build a GBP for an online-only SEO agency with no eligible in-person operating location. Do not create listings for rented mailboxes or unsupported virtual offices. If a client has moved, merged or closed, investigate the appropriate profile treatment rather than erasing historic signals by assumption.",
+            "These rules are practical reasons to start with one legitimate profile. They also protect the agency from selling changes it cannot responsibly deliver."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Can we create a Google Business Profile for every suburb?",
+          "a": "Not merely because the business serves those suburbs. Eligibility depends on genuine in-person operations and Google’s rules. Service-area configuration is not permission to invent branch offices."
+        },
+        {
+          "q": "Can we guarantee three-pack rankings with weekly updates?",
+          "a": "No. Updates and profile accuracy do not guarantee local ranking positions. Report changes and visibility as separate observations with dates and locations."
+        },
+        {
+          "q": "What should a white-label GBP report include?",
+          "a": "Actual field edits, approved service facts, review-management actions, verification screenshots, problems awaiting owner input and a source-linked view of search visibility."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Google Business Profile: representing your business",
+          "url": "https://support.google.com/business/answer/3038177"
+        },
+        {
+          "label": "ACCC: online reviews and testimonials",
+          "url": "https://www.accc.gov.au/consumers/advertising-and-promotions/online-reviews-for-product-and-services"
+        },
+        {
+          "label": "Ahpra: health advertising requirements",
+          "url": "https://ahpra.gov.au/Publications/Advertising-resources/Legislation-guidelines/Summary-of-advertising-obligations.aspx"
+        }
+      ],
+      "related": [
+        {
+          "label": "Local SEO outsourcing",
+          "href": "/services/local-seo/"
+        },
+        {
+          "label": "Australia plumbing SEO",
+          "href": "/industries/australia/plumbers/"
+        },
+        {
+          "label": "Multi-location SEO support",
+          "href": "/services/multi-location-seo/"
+        }
+      ],
+      "resource": "au_gbp_qa_log.csv",
+      "resourceTitle": "Download the Australian GBP verification worksheet",
+      "csv": [
+        [
+          "Profile or location",
+          "Fact to verify",
+          "Source of truth",
+          "Approved editor",
+          "Change",
+          "Retest",
+          "Status"
+        ],
+        [
+          "Illustrative single-location plumber",
+          "Service area",
+          "Owner dispatch list",
+          "Unassigned",
+          "Confirm real coverage",
+          "Profile settings capture",
+          "Illustrative"
+        ],
+        [
+          "Illustrative clinic",
+          "Public reviews",
+          "Ahpra/clinic reviewer",
+          "Unassigned",
+          "Check advertisement use",
+          "Reviewer decision",
+          "Illustrative"
+        ]
+      ],
+      "bodyWords": 888
+    },
+    {
+      "slug": "seo-content-briefs-for-agencies",
+      "title": "White-Label SEO Content Briefs for Australian Agencies",
+      "meta": "White-label SEO content briefs for Australian agencies: search intent, first-hand evidence, Australian English, legal review and page-level acceptance criteria.",
+      "h1": "SEO Content Briefs for Australian Agencies",
+      "eyebrow": "For agency content leads and SEO teams",
+      "lead": "A keyword list is not a content brief. A strong Australian SEO brief explains who needs the page, which facts the business can substantiate, what the reader must decide and who should review sensitive claims.",
+      "targetKeyword": "white label SEO content briefs for Australian agencies",
+      "service": "seo-content",
+      "audience": "Digital agency outsourcing evidence-led briefs, not anonymous blog generation",
+      "intro": [
+        "An Australian trades service page, a dental treatment page and a B2B software comparison should not come from one article template. Their readers have different concerns, the claims require different evidence and the approval process can vary from a branch manager to a registered practitioner or product owner.",
+        "Outsourced content work is most useful when the agency retains voice, source accuracy and publishing approval. The delivery output is a brief that saves the writer research time and saves the reviewer from rebuilding the argument from scratch."
+      ],
+      "sections": [
+        {
+          "title": "First decide the page's job",
+          "paras": [
+            "A brief should state the search situation in a sentence: a homeowner checking emergency response and fees, a clinic patient asking about treatment suitability, a finance manager comparing software integrations. Group queries by the decision, not by superficial keyword variations. If two proposed pages answer the same decision with nearly identical proof, consolidate them.",
+            "Map the reader's next action before choosing an H1. Some pages need a booking CTA, others a quote form, a comparison table or simply a clear explanation. A content calendar that ignores the conversion path tends to generate traffic without useful enquiries."
+          ]
+        },
+        {
+          "title": "Evidence that belongs in an Australian brief",
+          "paras": [
+            "For a plumbing company, gather actual service boundaries, licence details when relevant, call hours and what is included in a quote. For an Australian SaaS company, gather product documentation, integration limits, commercial-plan distinctions and tested screenshots. For a health provider, clinician approval and advertising-rule review are part of the work, not an optional editorial polish.",
+            "Australian English should be natural and consistent, but swapping 'optimization' for 'optimisation' does not make a page locally relevant. It needs accurate local terms, current rules where applicable, genuine operating details and sources the business can defend."
+          ],
+          "table": {
+            "headers": [
+              "Brief field",
+              "Practical instruction",
+              "Reviewer"
+            ],
+            "rows": [
+              [
+                "Primary decision",
+                "What will a visitor know or do after reading?",
+                "SEO strategist"
+              ],
+              [
+                "First-hand facts",
+                "Business-provided scope, fees, processes or product records",
+                "Business owner"
+              ],
+              [
+                "Required proof",
+                "Screenshots, citations, quotes or documents authorised for use",
+                "Content lead"
+              ],
+              [
+                "Risky claims",
+                "Health outcomes, prices, rebates, testimonials and guarantees",
+                "Qualified reviewer"
+              ],
+              [
+                "Acceptance test",
+                "Factual accuracy, useful uniqueness, link targets, CTA",
+                "Agency editor"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Worked example: a dental clinic's teeth whitening page",
+          "paras": [
+            "Illustrative example, not clinical advice. The keyword set includes teeth whitening by suburb, whitening price and suitability questions. A thin content brief might ask for 900 words with three headings and a stock smile photo.",
+            "A useful brief instead requests practitioner-approved treatment descriptions, who provides the service, how suitability is assessed, aftercare topics the clinic is authorised to explain, actual pricing presentation and what the initial consultation includes. The writer must not promise a specific colour change or insert patient praise about treatment outcomes as advertising.",
+            "The acceptance check is whether the practitioner has signed off the treatment and outcome wording, the booking path works, and the page answers the intended patient questions without relying on unsupported superlatives. The Ahpra rules are a review gate, not a marketing talking point."
+          ]
+        },
+        {
+          "title": "How a brief prevents scaled-content problems",
+          "paras": [
+            "Do not generate 'dentist in Suburb A' and 'dentist in Suburb B' as separate pages if the only change is the suburb name. Document what is genuinely different about the clinic's service, location, staff, access or patient journey. When the proposed pages do not have distinct value, update one useful service page and improve navigation instead.",
+            "The brief should include a 'do not write' field for unsupported claims and a source list. A reviewer should be able to reject a page that is smooth but empty. Search keywords are inputs to the editorial decision, not permission to create unlimited URLs."
+          ]
+        },
+        {
+          "title": "What a complete content handoff contains",
+          "paras": [
+            "Return a title direction, intent and audience, recommended outline, unique evidence requirements, internal links, CTA, prohibited or unverified claims, and acceptance criteria. If a writer has already drafted the page, include specific revision notes instead of a generic 'make it SEO friendly' comment.",
+            "For recurring engagements, track percentage of briefs approved first pass, research questions returned to the client, revisions caused by incorrect business facts and pages actually published. A brief is complete when the designated editor can commission or approve the page without reconstructing the research."
+          ],
+          "bullets": [
+            "A concise reader decision and intent map.",
+            "Evidence requests separated from verified facts.",
+            "Page-level outline and non-negotiable answers.",
+            "A claim review table where Australian rules may apply.",
+            "Internal linking and primary action tested in the draft."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Does an SEO brief include the finished article?",
+          "a": "Not automatically. The proposal should distinguish keyword research, brief production, drafting, editing, subject-matter review and publishing."
+        },
+        {
+          "q": "Can one brief be reused for multiple Australian cities?",
+          "a": "Only when those pages genuinely have different user needs and facts. A different suburb name alone does not justify a separate page."
+        },
+        {
+          "q": "Who approves regulated content?",
+          "a": "The client’s designated qualified reviewer. Outsourcing content production does not transfer responsibility for health, legal, financial or other regulated claims."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Google: helpful people-first content",
+          "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+        },
+        {
+          "label": "ACCC: false or misleading claims",
+          "url": "https://www.accc.gov.au/consumers/advertising-and-promotions/false-or-misleading-claims"
+        },
+        {
+          "label": "Ahpra: advertising obligations",
+          "url": "https://ahpra.gov.au/Publications/Advertising-resources/Legislation-guidelines/Summary-of-advertising-obligations.aspx"
+        }
+      ],
+      "related": [
+        {
+          "label": "SEO content outsourcing",
+          "href": "/services/seo-content/"
+        },
+        {
+          "label": "Australian dental SEO",
+          "href": "/industries/dental/"
+        },
+        {
+          "label": "Content briefing guide",
+          "href": "/blog/outsourcing-seo-content-briefs/"
+        }
+      ],
+      "resource": "au_seo_content_brief.csv",
+      "resourceTitle": "Download the Australian SEO content brief worksheet",
+      "csv": [
+        [
+          "Page intent",
+          "Reader decision",
+          "Verified facts",
+          "Evidence needed",
+          "Risky claims",
+          "Internal links",
+          "CTA",
+          "Approver"
+        ],
+        [
+          "Illustrative dental treatment page",
+          "Suitability and booking",
+          "Clinic to confirm",
+          "Practitioner-approved information",
+          "Outcomes/testimonials",
+          "Service and contact pages",
+          "Book consultation",
+          "Clinical reviewer"
+        ],
+        [
+          "Illustrative plumber emergency page",
+          "Call now or request quote",
+          "Dispatch to confirm",
+          "Hours/service area/fees",
+          "24-hour availability",
+          "Service and coverage pages",
+          "Call verified number",
+          "Operations owner"
+        ]
+      ],
+      "bodyWords": 799
+    },
+    {
+      "slug": "shopify-seo-handoffs-for-ecommerce-agencies",
+      "title": "Shopify SEO Handoffs for Australian E-commerce Agencies",
+      "meta": "Shopify SEO outsourcing for Australian e-commerce agencies: collections, duplicate paths, Shopify Markets, canonicals, product evidence and implementation QA.",
+      "h1": "Shopify SEO Handoffs for Australian E-commerce Agencies",
+      "eyebrow": "For Shopify designers and e-commerce marketers",
+      "lead": "A Shopify SEO handoff should preserve the store's product information, collection intent and checkout journey. The technical work is different from generic WordPress SEO, especially when one store sells into several markets.",
+      "targetKeyword": "Shopify technical SEO outsourcing Australian agencies",
+      "service": "technical-seo",
+      "audience": "Australian Shopify developer, e-commerce agency or merchant marketing team",
+      "intro": [
+        "A Shopify store can generate multiple paths to products through collections. It can also serve different prices, languages and catalogues in different markets. A checklist that only changes meta titles misses the architecture, market configuration and product information behind the store's search experience.",
+        "An agency may own theme development, paid acquisition and merchandising while outsourcing technical SEO checks. That boundary works when the scope names which changes require merchant approval and distinguishes search output from stock, product claims and checkout behaviour."
+      ],
+      "sections": [
+        {
+          "title": "Start with how shoppers actually browse",
+          "paras": [
+            "Collection pages often serve discovery searches such as product type, material, use case or compatible device. Product pages serve a narrower decision about fit, features, delivery, returns and availability. The keyword map should follow those decisions. Two collections with almost identical products and copy may not need separate indexable pages.",
+            "Before proposing new filters or collections, look at the existing navigation, internal search terms, sales categories and the filters customers already use. Merchandising has consequences for crawlable URLs; a technical SEO recommendation should not quietly reorganise the catalogue without the merchant's sign-off."
+          ]
+        },
+        {
+          "title": "Shopify-specific checks a handoff must cover",
+          "paras": [
+            "Shopify manages many technical elements automatically, including canonicals and market-specific signals, but theme customisation and third-party apps can change rendered output. Test actual URLs and structured data rather than assume the platform's default behaviour survived every installation.",
+            "A good handoff includes both the affected collection or product URLs and the level of change: theme code, content, Markets settings or an app. It should also show whether the change affects pricing, tracking or variant selection."
+          ],
+          "table": {
+            "headers": [
+              "Shopify concern",
+              "What to inspect",
+              "Acceptance evidence"
+            ],
+            "rows": [
+              [
+                "Collection-product paths",
+                "Canonical on products reachable from multiple collections",
+                "Rendered canonical matches the intended product URL"
+              ],
+              [
+                "Faceted navigation",
+                "Whether filtered URLs become useful landing pages or crawl clutter",
+                "Approved indexation rules and working product discovery"
+              ],
+              [
+                "Markets",
+                "Target region, URL structure, language and currency context",
+                "Market URL and hreflang/canonical settings reviewed"
+              ],
+              [
+                "Product schema",
+                "Price, availability, variants and review data",
+                "Visible product data agrees with validated markup"
+              ],
+              [
+                "Out-of-stock products",
+                "Whether the product returns, is discontinued or has an alternative",
+                "Merchant-approved page handling and retained user journey"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Worked example: one Australian store opens a New Zealand market",
+          "paras": [
+            "Illustrative case, not a client achievement. An Australian homewares store adds a New Zealand market. A marketer suggests copying every product into a separate NZ collection and writing a second description with country names replaced. The underlying offer is largely the same, but availability, delivery and currency details may differ.",
+            "Start by checking the Shopify Markets configuration and the URLs it actually generates. Verify the relevant market-specific page, local price and delivery disclosures. Shopify's documentation describes automatic canonicals and hreflang for market variants, but the site's live theme should still be inspected. Do not build another set of duplicate product pages merely to include 'New Zealand' in headings.",
+            "Accept the work when the market pages are discoverable as intended, the correct product and price context appears to the visitor, the canonical and hreflang settings are consistent and test checkouts route to the right market. Document any exception caused by an app or custom theme."
+          ]
+        },
+        {
+          "title": "Merchandising and consumer claims are not optional SEO details",
+          "paras": [
+            "Australian product pages may include delivery estimates, savings claims, availability, reviews and warranty statements. The ACCC expects statements to be accurate and supported. An SEO editor should not invent a previous price, stock status, five-star endorsement or delivery window to fill a content gap.",
+            "The merchant is the source of truth for product facts. The agency can improve structure, comparison clarity and internal navigation while leaving commercial assertions to the people who can verify them."
+          ]
+        },
+        {
+          "title": "A practical pilot scope for Shopify agencies",
+          "paras": [
+            "Choose one high-value collection, five representative product URLs and a single cross-market route if Markets is enabled. Run a crawl and rendered-page inspection, identify duplicated or misleading signals, then prepare only the changes that a developer or merchant can reasonably approve in that work cycle.",
+            "A white-label handoff should include the affected pages, tickets by ownership, source screenshots, approvals, deploy references, and a retest. If conversion tracking is in scope, test add-to-cart and purchase events in the proper environment rather than claim a technical page change improved revenue."
+          ],
+          "bullets": [
+            "Agency controls merchant communication and brand promises.",
+            "SEO reviewer supplies priority decisions, page mapping and verification.",
+            "Developer manages theme, app and data changes with rollback.",
+            "Merchant confirms product data, market availability, returns and claims."
+          ]
+        },
+        {
+          "title": "Decide when the existing ecommerce page is enough",
+          "paras": [
+            "A small store with one market and one simple collection structure may need a few technical tickets rather than a separate ongoing Shopify programme. Conversely, a large catalogue with complex filters and Markets rules warrants specialised QA. Scope should follow the site, not a preset quota of new collection pages.",
+            "Keep an explicit exclusion list: inventory synchronisation, theme redevelopment, feed management and paid-shopping configuration are separate responsibilities unless written into the agreement."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Does Shopify automatically handle canonical URLs?",
+          "a": "Shopify provides canonical and international SEO features, but rendered output can still be affected by themes and apps. Test the store's actual pages."
+        },
+        {
+          "q": "Should every filter create an indexed collection URL?",
+          "a": "No. Keep indexable paths only when they serve a useful, distinct shopper need and can be maintained with accurate inventory and content."
+        },
+        {
+          "q": "Does this include revenue or conversion guarantees?",
+          "a": "No. The SEO handoff includes technical checks and documented implementation acceptance. Commercial performance depends on product, pricing, merchandising, traffic and many other factors."
+        }
+      ],
+      "sources": [
+        {
+          "label": "Shopify: international SEO for Markets",
+          "url": "https://help.shopify.com/en/manual/markets/seo"
+        },
+        {
+          "label": "ACCC: false or misleading claims",
+          "url": "https://www.accc.gov.au/consumers/advertising-and-promotions/false-or-misleading-claims"
+        }
+      ],
+      "related": [
+        {
+          "label": "E-commerce industry SEO",
+          "href": "/industries/ecommerce/"
+        },
+        {
+          "label": "Technical SEO services",
+          "href": "/services/technical-seo/"
+        },
+        {
+          "label": "White-label delivery",
+          "href": "/services/white-label-seo/"
+        }
+      ],
+      "resource": "au_shopify_seo_handoff.csv",
+      "resourceTitle": "Download the Shopify SEO handoff worksheet",
+      "csv": [
+        [
+          "URL or template",
+          "Collection / product role",
+          "Observed issue",
+          "Merchant approval",
+          "Change owner",
+          "Retest",
+          "Status"
+        ],
+        [
+          "/collections/example",
+          "Discovery",
+          "Duplicate collection intent",
+          "Required",
+          "SEO+Merchandising",
+          "Search intent review",
+          "Illustrative"
+        ],
+        [
+          "/products/example",
+          "Purchase",
+          "Variant schema mismatch",
+          "Required",
+          "Developer",
+          "Rendered data matches product",
+          "Illustrative"
+        ]
+      ],
+      "bodyWords": 875
+    }
+  ]
+}
