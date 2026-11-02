@@ -48,3 +48,33 @@ add_action('wp_head', static function () {
   $desc = get_post_meta(get_queried_object_id(), '_yoast_wpseo_metadesc', true);
   if ($desc) echo '<meta name="description" content="'.esc_attr($desc).'">' . "\n";
 }, 5);
+
+
+/**
+ * Publication guard for imported full-layout content only. It does not affect
+ * pre-existing WordPress pages. Accidentally publishing a draft will not expose
+ * unapproved client examples, legal drafts or regulated-sector copy.
+ */
+add_action('template_redirect', static function () {
+  if (!is_singular()) return;
+  $id = get_queried_object_id();
+  if (get_post_meta($id, '_sop_full_layout', true) !== '1') return;
+  if (get_post_meta($id, 'sop_release_status', true) === 'APPROVED') return;
+  if (current_user_can('edit_post', $id)) return; // Authenticated editor review remains possible.
+  status_header(404);
+  nocache_headers();
+  wp_die('This page is not available.', 'Page unavailable', array('response' => 404));
+});
+/* Exclude held imported pages from WordPress core XML post/page sitemaps. */
+add_filter('wp_sitemaps_posts_query_args', static function ($args, $post_type) {
+  if (!in_array($post_type, array('page','post'), true)) return $args;
+  $args['meta_query'] = array(
+    'relation' => 'OR',
+    array('key' => '_sop_full_layout', 'compare' => 'NOT EXISTS'),
+    array('relation' => 'AND',
+      array('key' => '_sop_full_layout', 'value' => '1', 'compare' => '='),
+      array('key' => 'sop_release_status', 'value' => 'APPROVED', 'compare' => '=')
+    )
+  );
+  return $args;
+}, 20, 2);
