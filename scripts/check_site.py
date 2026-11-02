@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only 60-page SEO Outsourcing Philippines source checks."""
+"""Read-only SEO Outsourcing Philippines source checks."""
 from pathlib import Path
 from html.parser import HTMLParser
 from collections import Counter
@@ -23,7 +23,7 @@ class AuditParser(HTMLParser):
 
 errors=[]
 pages=sorted(SITE.rglob('index.html')) if SITE.is_dir() else []
-if len(pages)!=60: errors.append(f'Expected exactly 60 HTML index pages, found {len(pages)}')
+if len(pages)!=66: errors.append(f'Expected exactly 66 HTML index pages, found {len(pages)}')
 canons=[]
 for f in pages:
  p=AuditParser()
@@ -55,7 +55,7 @@ else:
   tree=ET.parse(XML)
   ns={'wp':'http://wordpress.org/export/1.2/'}
   items=tree.findall('.//item')
-  if len(items)!=60:errors.append(f'Expected 60 WordPress draft records, found {len(items)}')
+  if len(items)!=66:errors.append(f'Expected 66 WordPress draft records, found {len(items)}')
   for item in items:
    if item.findtext('wp:status',namespaces=ns)!='draft':
     errors.append('A WordPress import record is not draft')
