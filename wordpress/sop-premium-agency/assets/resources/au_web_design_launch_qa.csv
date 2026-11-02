@@ -1,0 +1,3 @@
+Page or URL,Risk,Evidence,Developer owner,Acceptance check,Status
+/services/example/,Old service path removed,Current crawl + old URL inventory,Assign owner,301 to relevant live service URL,Illustrative - not tested
+/contact/,Form event missing,GA4 DebugView and test lead,Assign owner,Lead received and event fires once,Illustrative - not tested
