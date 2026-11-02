@@ -2,8 +2,14 @@ name: Site structure checks
 
 on:
   pull_request:
+    paths:
+      - "standalone/**"
+      - "wordpress/**"
   push:
     branches: [main, "staging/**"]
+    paths:
+      - "standalone/**"
+      - "wordpress/**"
 
 jobs:
   website-check:
