@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: website-qa-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -17,6 +21,8 @@ jobs:
         run: python3 scripts/check_site.py
       - name: Verify Australian programmatic SEO generator output and anti-thin-content gates
         run: node scripts/generate_au_pseo.cjs --check
+      - name: Check curated Australian page originality and evidence gates
+        run: python3 scripts/au_pseo_quality.py
       - name: Check editorial originality and conversion source safeguards
         run: python3 scripts/content_gate.py
       - name: Verify production is blocked until signed off
