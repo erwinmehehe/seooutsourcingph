@@ -1,0 +1,19 @@
+{
+  "release_status": "HOLD",
+  "production_platform": "UNSELECTED",
+  "approved_urls": [],
+  "signoffs": {
+    "legal_operator_verified": false,
+    "named_delivery_owner_confirmed": false,
+    "ranking_and_image_permissions_verified": false,
+    "pricing_and_scope_approved": false,
+    "privacy_and_terms_approved": false,
+    "live_form_inbox_test_passed": false,
+    "security_and_backup_review_passed": false,
+    "analytics_and_consent_test_passed": false,
+    "accessibility_mobile_review_passed": false,
+    "existing_url_redirects_reviewed": false,
+    "australian_regulated_content_reviewed": false
+  },
+  "signoff_notes": "HOLD until each gate is verified by its responsible reviewer. No approvals are inferred from automated checks."
+}
