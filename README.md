@@ -2,13 +2,13 @@
 
 Source code for [SEOOutsourcingPhilippines.com](https://seooutsourcingphilippines.com/).
 
-**60-page website source, prepared for direct commits to `main`.** No staging branch is required.
+**66-page website source, prepared for direct commits to `main`.** No staging branch is required.
 
 > GitHub is source control, not hosting. Pushing to `main` does not change the live website unless a deployment integration is separately configured.
 
 ## Project structure
 
-- `standalone/site/`: 60-page static frontend and its assets
+- `standalone/site/`: 66-page static frontend and its assets
 - `standalone/backend/`: optional Python form processing API
 - `standalone/deploy/`: example Docker/Caddy deployment configuration
 - `wordpress/sop-premium-agency/`: WordPress theme
