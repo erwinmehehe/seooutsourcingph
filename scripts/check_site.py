@@ -23,7 +23,11 @@ class AuditParser(HTMLParser):
 
 errors=[]
 pages=sorted(SITE.rglob('index.html')) if SITE.is_dir() else []
-if len(pages)!=66: errors.append(f'Expected exactly 66 HTML index pages, found {len(pages)}')
+# 66 source pages also exist as WordPress drafts. The discovery-call page is
+# standalone-only until a calendar service and WordPress equivalent are approved.
+if len(pages)!=67: errors.append(f'Expected 67 HTML index pages (66 mirrored + discovery call), found {len(pages)}')
+if not (SITE/'book-discovery-call'/'index.html').exists():
+ errors.append('Missing standalone discovery call page')
 canons=[]
 for f in pages:
  p=AuditParser()
