@@ -25,7 +25,9 @@ Extract the whole ZIP and run **`UPLOAD_TO_GITHUB_MAIN_WINDOWS.ps1`** in PowerSh
 
 The `wordpress/` and `standalone/` folders are **alternatives**, not two sites to deploy simultaneously. See [`DEPLOYMENT.md`](DEPLOYMENT.md) before going live.
 
-**Discovery calls:** The `/book-discovery-call/` page provides an email request only, not live appointment booking. Connect a verified scheduling URL before presenting it as an instant calendar reservation. The WordPress theme does not yet include this standalone-only page.\n\n**Not yet a cleared public launch:** The package intentionally includes `noindex`/restrictive robots settings and draft WordPress content. Verify the legal operator, real team and client proof rights, form delivery, privacy policies, indexed URL migration and Australian industry copy before publication. These do **not** prevent putting the source on GitHub.
+**Discovery calls:** The `/book-discovery-call/` page provides an email request only, not live appointment booking. Connect a verified scheduling URL before presenting it as an instant calendar reservation. The WordPress theme does not yet include this standalone-only page.
+
+**Not yet a cleared public launch:** The package intentionally includes `noindex`/restrictive robots settings and draft WordPress content. Verify the legal operator, real team and client proof rights, form delivery, privacy policies, indexed URL migration and Australian industry copy before publication. These do **not** prevent putting the source on GitHub.
 
 **Security:** This is a public repository. Do not commit contact leads, WordPress credentials, `.env`, private client reports or production secrets.
 
