@@ -1,0 +1,46 @@
+name: Temporary GitHub Pages preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "standalone/site/**"
+      - "scripts/build_pages_preview.py"
+      - ".github/workflows/pages-preview.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: github-pages-preview
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site source
+        uses: actions/checkout@v4
+      - name: Generate non-indexable preview with project-relative links
+        run: python3 scripts/build_pages_preview.py --out "$RUNNER_TEMP/seoout-pages"
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload preview files
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/seoout-pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish preview
+        id: deployment
+        uses: actions/deploy-pages@v4
