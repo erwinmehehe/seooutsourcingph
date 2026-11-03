@@ -35,7 +35,10 @@ if "and starting." in home or "Explore real ranking snapshots and starting." in 
 if not (SITE/"robots.txt").read_text(encoding="utf-8").find("Disallow: /")>=0:
     errors.append("Staging robots must block crawling")
 pages=list(SITE.rglob("index.html"))
-if len(pages)!=66: errors.append("Expected 66 pages; got "+str(len(pages)))
+if len(pages)!=67: errors.append("Expected 67 standalone pages (including the unapproved booking draft); got "+str(len(pages)))
+booking=(SITE/"book-discovery-call/index.html").read_text(encoding="utf-8")
+if 'Online calendar booking is not connected yet.' not in booking or 'Booking status:' not in booking:
+    errors.append("Discovery call page must not imply confirmed scheduling without a real calendar")
 for file in pages:
     if 'content="noindex,follow,max-image-preview:large" name="robots"' not in file.read_text(encoding="utf-8"):
         errors.append(str(file.relative_to(SITE))+": unapproved page lost noindex")
