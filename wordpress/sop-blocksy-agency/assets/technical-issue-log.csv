@@ -1,0 +1,2 @@
+Affected URL,Issue,Evidence URL / capture,Priority,Owner,Fix,Re-test criteria,QA status
+https://example.com/old-service/,Redirect chain,Example only - not a client finding,High,To assign,Update internal link,200 on final URL,Pending
