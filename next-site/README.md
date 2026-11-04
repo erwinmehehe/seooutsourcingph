@@ -2,7 +2,7 @@
 
 A complete, responsive Next.js App Router frontend for **SEO Outsourcing Philippines**, aligned to the existing [erwinmehehe/seooutsourcingph](https://github.com/erwinmehehe/seooutsourcingph) repository.
 
-The **homepage H1 is exactly `SEO Outsourcing Philippines`**. The hero contains a working validation and submission flow, and mobile has both a sticky header CTA and a fixed bottom CTA. The November 4 refinement makes the homepage agency-specific and replaces decorative dashboards with an existing audit-ticket template. See `REFINEMENT_NOTES.md`.
+The **homepage H1 is exactly `SEO Outsourcing Philippines`**. The hero contains a working validation and submission flow, and mobile has both a sticky header CTA and a fixed bottom CTA. The principal design pass replaces the generic agency/SaaS look with a distinct **sop.** brand identity, an editorial homepage, a real-formatted sample work ticket, and agency-first copy across shared templates. See [`PRINCIPAL_REDESIGN.md`](PRINCIPAL_REDESIGN.md).
 
 ## 1. Install in the actual repository
 
@@ -72,7 +72,7 @@ The scheduling iframe renders **only** if `NEXT_PUBLIC_SCHEDULING_URL` is a veri
 - Server-rendered Next.js pages, canonical URLs, Open Graph images, breadcrumbs, Organization, Service and BlogPosting structured data
 - Generated sitemap and robots configuration, semantic headings, internal links, accessible navigation
 - Imported existing blog article bodies and industry URLs for organic-search continuity
-- SVG-only brand mark, native UI charts, no unnecessary stock image dependencies
+- Original agency `sop.` wordmark and favicon, Next.js optimized Geist fonts, genuine work sample format, native UI charts, and no stock-image dependencies
 - Accessible focus rings, form labels, keyboard navigation and reduced-motion preference
 - Light canvas / deep-charcoal typography and restrained emerald accents
 
@@ -103,9 +103,9 @@ If using Vercel/Node:
 
 ## 6. Visual / accessibility notes
 
-- Deep charcoal `#17201C` on canvas `#F6F8F5` has approx. 15.6:1 contrast.
-- Primary emerald `#075A43` on white has approx. 8.2:1 contrast.
-- Muted text `#42514A` on canvas has approx. 7.8:1 contrast.
+- Editorial ink `#17271F` on warm canvas `#F5F4EC` has approx. 14.1:1 contrast.
+- Primary evergreen `#175844` on warm canvas has approx. 7.6:1 contrast.
+- Muted text `#43554B` on warm canvas has approx. 7.2:1 contrast.
 - Interactive controls get visible focus outlines, accessible labels and state updates.
 - Validate the live site with axe, Lighthouse, keyboard/screen-reader testing and actual mobile devices before claiming WCAG AAA conformance. Static palette contrast alone does not certify AAA.
 

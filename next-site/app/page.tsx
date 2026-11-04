@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
-import { HomePage } from '@/components/pages';
-import { buildMetadata, defaultDescription } from '@/lib/seo';
-export const metadata:Metadata=buildMetadata({title:'SEO Outsourcing Philippines | White-Label & Technical SEO',description:defaultDescription,pathname:'/',keywords:['white label SEO Philippines','outsource SEO to the Philippines','dedicated SEO team Philippines','SEO outsourcing services Philippines']});
-export default function Page(){return <HomePage/>;}
+import AgencyHome from '@/components/agency-home';
+import { buildMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = buildMetadata({
+  title:'SEO Outsourcing Philippines | White-Label SEO Delivery for Agencies',
+  description:'SEO Outsourcing Philippines provides white-label technical SEO, keyword mapping, content and local search support. Inspect sample handoffs and request a defined SEO scope.',
+  pathname:'/',
+  keywords:['SEO outsourcing Philippines','white label SEO Philippines','SEO outsourcing services Philippines','Philippines SEO specialists','technical SEO outsourcing']
+});
+export default function Page(){return <AgencyHome/>;}

@@ -157,6 +157,6 @@ export const pricing = [
   {name:'Scale', price:'$1,500', subtitle:'Coordinated multi-workstream support', lines:['Multi-page or multi-market queue','White-label handoffs if scoped','Review and escalation planning','Reporting cadence by agreement']}
 ];
 export const navLinks = [
-  {label:'Services',href:'/services/'},{label:'Case studies',href:'/case-studies/'},{label:'Pricing',href:'/pricing/'},
-  {label:'Insights',href:'/blog/'},{label:'About',href:'/about/'}
+  {label:'Services',href:'/services/'},{label:'Work & evidence',href:'/case-studies/'},{label:'Pricing',href:'/pricing/'},
+  {label:'Journal',href:'/blog/'},{label:'About',href:'/about/'}
 ];
