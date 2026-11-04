@@ -72,9 +72,9 @@ The scheduling iframe renders **only** if `NEXT_PUBLIC_SCHEDULING_URL` is a veri
 - Server-rendered Next.js pages, canonical URLs, Open Graph images, breadcrumbs, Organization, Service and BlogPosting structured data
 - Generated sitemap and robots configuration, semantic headings, internal links, accessible navigation
 - Imported existing blog article bodies and industry URLs for organic-search continuity
-- Original agency `sop.` wordmark and favicon, Next.js optimized Geist fonts, genuine work sample format, native UI charts, and no stock-image dependencies
+- Plain SEO Outsourcing Philippines wordmark and favicon, optimized Geist fonts, clearly labelled sample work files, and no generic stock imagery
 - Accessible focus rings, form labels, keyboard navigation and reduced-motion preference
-- Light canvas / deep-charcoal typography and restrained emerald accents
+- Editorial off-white / deep-charcoal typography, thin structured borders, and restrained burnt-red accents
 
 **Critical:** Existing `quality/PRODUCTION_RELEASE_GATES.md` identifies unresolved approval requirements. This new app therefore defaults to `noindex,follow`, restrictive `robots.txt`, and an empty sitemap. Indexing becomes available **only when BOTH** these server variables are set:
 
@@ -112,3 +112,7 @@ If using Vercel/Node:
 ## What is not automatically finished
 
 A redesign implementation does not independently verify client ROI, staffing claims, production rate cards or legal documents. An authorized CRM recipient, real calendar provider, deployment target and formal release approvals are still required. The ZIP is source code for development and review, **not a live deployment**.
+
+## 2026-11-04 editorial design revision
+
+Read [`EDITORIAL_REDESIGN_V4.md`](./EDITORIAL_REDESIGN_V4.md) for the updated agency positioning, visual rules, responsive checks, and the required production approvals.

@@ -1,80 +1,86 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Check, Download, FileCheck2, MoveUpRight } from 'lucide-react';
-import { evidence, services, workflow } from '@/lib/content';
-import { LeadForm, ServiceTabs, ButtonLink } from './ui';
+import { ArrowUpRight, ArrowRight, Download } from 'lucide-react';
+import { services, evidence } from '@/lib/content';
+import { LeadForm } from './ui';
 
-const handoffStages = [
-  {n:'01',label:'DIAGNOSE',title:'Find the issue',text:'Record the affected URL and a reproducible finding.'},
-  {n:'02',label:'IMPLEMENT',title:'Make the change',text:'Assign a clear owner and agree the fix before publishing.'},
-  {n:'03',label:'VERIFY',title:'Prove it works',text:'Re-test the page and attach the result for review.'}
+/*
+ * This is an intentionally editorial agency homepage, not a software product UI.
+ * Claims here are limited to documented processes and clearly marked sample assets.
+ */
+const work = [
+  {no:'01', title:'Technical SEO & audits', note:'Crawls, indexation checks, redirects, migrations and clear issue tickets.', url:'/services/technical-seo/', output:'Issue register / QA notes'},
+  {no:'02', title:'Keyword & content planning', note:'Intent maps, content briefs, internal-link plans and editorial review.', url:'/services/semantic-keyword-mapping/', output:'Keyword map / content brief'},
+  {no:'03', title:'Local SEO support', note:'Google Business Profile review, location pages and business data checks.', url:'/services/local-seo/', output:'GBP checklist / local page QA'},
+  {no:'04', title:'Schema & answer search', note:'Structured data tied to real page facts and useful answer-focused content.', url:'/services/schema-entity-seo/', output:'JSON-LD plan / validation log'},
+  {no:'05', title:'White-label production', note:'An extra pair of hands within your agency’s process, tools and approval chain.', url:'/services/white-label-seo/', output:'Task queue / review handoff'},
 ];
+const observations=evidence.filter(x=>x.kind==='snapshot');
 
-const sourceSnapshots = evidence.filter(item => item.kind === 'snapshot');
-
-const deliveryModels = [
-  {n:'01',name:'A defined SEO project',fit:'A crawl, migration, site section, or research task',output:'A scoped output with milestones, review notes and an acceptance check',href:'/contact/?plan=Custom%20project%20%2F%20dedicated%20team#lead-form'},
-  {n:'02',name:'A recurring delivery lane',fit:'Technical, content or local SEO work that needs a steady queue',output:'Priorities, completed work, blockers and an agreed review cadence',href:'/pricing/'},
-  {n:'03',name:'White-label support',fit:'Agency clients whose brand, strategy and approvals stay with their team',output:'Work files and handoffs aligned to the agency’s existing process',href:'/for-agencies/'}
-];
-
-function IssueSheet() {
-  return <div className="a-issue" aria-label="Illustrative technical SEO ticket format, not client work">
-    <div className="a-issue-top"><span className="a-issue-brand">SOP<span className="a-period">.</span> / DELIVERY NOTES</span><span>FILE 001 — SAMPLE</span></div>
-    <div className="a-issue-head"><div><span className="a-mono">TECHNICAL SEO / REPRODUCIBLE FINDING</span><h3>Redirect chain<br/>on a service URL.</h3></div><div className="a-issue-stamp">EXAMPLE<br/>ONLY</div></div>
-    <div className="a-issue-target"><span>PAGE UNDER REVIEW</span><code>example.com/old-service/</code><span className="a-issue-priority">HIGH PRIORITY</span></div>
-    <dl className="a-issue-detail"><div><dt>01 / ISSUE</dt><dd>An internal link passes through unnecessary redirects before reaching its final destination.</dd></div><div><dt>02 / RECOMMENDED FIX</dt><dd>Update the internal link to the approved destination. Keep external redirects where they are still needed.</dd></div><div><dt>03 / ACCEPTANCE CHECK</dt><dd>Re-crawl the source page. Verify a direct HTTP 200 response and record the result.</dd></div><div><dt>04 / APPROVAL</dt><dd>Implementation owner and reviewer are assigned in the actual work order.</dd></div></dl>
-    <div className="a-issue-bottom"><div><FileCheck2 size={18} aria-hidden="true"/><span>Documented evidence. An explicit handoff.</span></div><a download href="/assets/resources/technical_audit_issue_log.csv">DOWNLOAD SAMPLE CSV <Download size={15} aria-hidden="true"/></a></div>
-    <div className="a-issue-fineprint">Illustrative issue-ticket structure adapted from the repository’s sample audit log. No client performance is represented.</div>
-  </div>;
+function SectionIntro({index,kicker,title,aside}:{index:string;kicker:string;title:string;aside?:string}){
+  return <div className="studio-section-intro"><div className="studio-section-index"><span>{index}</span><span>{kicker}</span></div><h2>{title}</h2>{aside&&<p>{aside}</p>}</div>;
 }
 
-function EditorialHeading({number,eyebrow,title,description}:{number:string;eyebrow:string;title:string;description?:string}){
-  return <div className="a-section-head"><div className="a-index"><span>{number}</span><span className="a-mono">{eyebrow}</span></div><h2>{title}</h2>{description&&<p>{description}</p>}</div>;
-}
+function WorkSheet(){return <div className="studio-sheet" aria-label="Illustrative technical SEO work log based on the site's downloadable example">
+  <div className="studio-sheet-bar"><strong>WORK FILE / 001</strong><span>TECHNICAL SEO</span><span>EXAMPLE ONLY</span></div>
+  <div className="studio-sheet-title"><div><span>Issue register · sample format</span><h3>One finding. One clear action.</h3></div><span className="studio-sheet-page">01 / 01</span></div>
+  <div className="studio-sheet-field"><span>URL BEING REVIEWED</span><code>example.com/old-service/</code></div>
+  <div className="studio-sheet-table" role="table" aria-label="Example SEO issue acceptance criteria">
+    <div role="row"><span role="columnheader">THE ISSUE</span><p role="cell">An internal link points through a redirect chain.</p></div>
+    <div role="row"><span role="columnheader">WHY IT MATTERS</span><p role="cell">Extra requests and an indirect route to the intended page.</p></div>
+    <div role="row"><span role="columnheader">RECOMMENDED ACTION</span><p role="cell">Update the internal link to the approved final destination.</p></div>
+    <div role="row"><span role="columnheader">HOW TO VERIFY</span><p role="cell">Re-crawl the source URL and confirm the target returns HTTP 200 directly.</p></div>
+  </div>
+  <div className="studio-sheet-foot"><span>Finding → action → retest → approval</span><a href="/assets/resources/technical_audit_issue_log.csv" download>Download sample CSV <Download size={15} aria-hidden="true"/></a></div>
+</div>;}
 
-export default function AgencyHome(){
-  return <main id="main" className="agency-page">
-    <section className="a-hero" aria-labelledby="a-hero-title">
-      <div className="container a-hero-inner">
-        <div className="a-hero-copy">
-          <div className="a-hero-kicker"><span className="a-cross">✳</span><span>THE SEO DELIVERY PARTNER</span><span className="a-hero-kicker-divider"/><span>BASED IN THE PHILIPPINES</span></div>
-          <h1 id="a-hero-title">SEO Outsourcing <span>Philippines</span></h1>
-          <p className="a-hero-lede">Your agency out front.<br/><strong>Our specialists on the work.</strong></p>
-          <p className="a-hero-support">White-label technical SEO, content operations, keyword mapping and local search support for agencies and in-house teams. Defined tasks. Reviewable files. Your approval before publishing.</p>
-          <div className="a-hero-actions"><Link className="a-hero-link" href="/samples/">See how a real handoff is structured <ArrowUpRight size={19}/></Link><Link className="a-hero-secondary" href="/for-agencies/">For agency partners <ArrowRight size={17}/></Link></div>
-          <div className="a-hero-proof" aria-label="Delivery standards"><span><Check size={15}/> Scope in writing</span><span><Check size={15}/> QA checkpoints</span><span><Check size={15}/> Clear review ownership</span></div>
-        </div>
-        <div className="a-hero-form" id="hero-audit-form"><div className="a-form-ribbon"><span>THE WORK STARTS WITH A BRIEF</span><span>01 / REQUEST</span></div><LeadForm mode="hero" source="principal-agency-homepage"/><div className="a-form-bottom"><span className="a-mono">NO GUESSWORK ABOUT THE SCOPE</span><span className="a-form-bottom-mark">↗</span></div></div>
+export default function AgencyHome(){return <main id="main" className="studio-home">
+  <section className="studio-hero" aria-labelledby="studio-title">
+    <div className="container studio-hero-top"><span className="studio-overline">PHILIPPINES-BASED SEO PRODUCTION</span><span className="studio-edition">FOR AGENCIES & IN-HOUSE TEAMS / 2026</span></div>
+    <div className="container studio-hero-grid">
+      <div className="studio-hero-copy">
+        <h1 id="studio-title">SEO Outsourcing<br/> Philippines</h1>
+        <div className="studio-hero-deck"><span className="studio-short-rule" aria-hidden="true"/><p>Good SEO strategy needs people who can <em>get the work done.</em></p></div>
+        <p className="studio-hero-desc">Technical SEO, keyword research, content and local search support for agencies and in-house teams. Scoped tasks. Reviewable files. Your approval before publishing.</p>
+        <div className="studio-hero-links"><Link href="/samples/">See a work sample <ArrowUpRight size={17}/></Link><Link href="/how-it-works/">How we work <ArrowRight size={17}/></Link></div>
+        <div className="studio-hero-meta"><span>White-label or direct</span><span>Project or ongoing support</span><span>Review before publishing</span></div>
       </div>
-      <div className="container a-hero-bottom"><span>YOUR STRATEGY</span><span>OUR DELIVERY CAPACITY</span><span>AGREED REVIEW & SIGN-OFF</span><span>PHILIPPINES → INTERNATIONAL TEAMS</span></div>
-    </section>
+      <aside className="studio-enquiry" id="hero-audit-form" aria-label="Request an SEO project scope">
+        <div className="studio-enquiry-eyebrow"><span>START A CONVERSATION</span><span>01 / ENQUIRY</span></div>
+        <LeadForm mode="hero" source="studio-home-brief"/>
+      </aside>
+    </div>
+    <div className="container studio-hero-caption"><span>We work behind your deliverables, not in front of your clients.</span><span>SCROLL TO SEE THE WORK ↓</span></div>
+  </section>
 
-    <section className="a-manifesto" aria-labelledby="a-manifesto-title">
-      <div className="container a-manifesto-inner"><div className="a-manifesto-label"><span className="a-mono">AN SEO PRODUCTION PARTNER</span><span>NOT ANOTHER<br/>ACTIVITY REPORT.</span></div><h2 id="a-manifesto-title">We make the <em>work behind</em> the SEO strategy easier to delegate, review and ship.</h2><div className="a-manifesto-aside"><p>Most agencies don’t need another promise about rankings. They need technical fixes documented, content briefs prepared, local pages checked, and a reliable handoff their strategist can approve.</p><Link href="/how-it-works/">Our delivery approach <ArrowUpRight size={17}/></Link></div></div>
-    </section>
+  <section className="studio-approach" aria-labelledby="studio-approach-title"><div className="container studio-approach-grid">
+    <div className="studio-side-label">WHAT YOU ARE HIRING / NOT A PLATFORM</div>
+    <div><h2 id="studio-approach-title">We are here for the <em>work between the strategy and the results.</em></h2><p>A crawl that turns into fixable tickets. A content plan your writers can use. Location pages checked before launch. Work that your SEO lead can understand, approve and report on.</p></div>
+  </div></section>
 
-    <section className="a-workbench" id="work-sample" aria-labelledby="a-workbench-title"><div className="container">
-      <div className="a-workbench-heading"><div><span className="a-mono a-kicker">01 / THE WORK, NOT THE PITCH</span><h2 id="a-workbench-title">The difference is<br/><em>in the handoff.</em></h2></div><div><p>An SEO recommendation should be useful to the person implementing it and the person signing it off. Here is a sample of the ticket structure we use to explain that standard.</p><Link className="a-underline" href="/samples/">Inspect our sample deliverables <ArrowUpRight size={16}/></Link></div></div>
-      <div className="a-workbench-grid"><div className="a-workbench-side"><div className="a-side-label"><span className="a-mono">THE ACCEPTANCE STANDARD</span><span>001 / 003</span></div>{handoffStages.map(step=><div className="a-work-stage" key={step.n}><span className="a-stage-number">{step.n}</span><div><span className="a-mono">{step.label}</span><h3>{step.title}</h3><p>{step.text}</p></div></div>)}<div className="a-sample-caveat"><span className="a-mono">ON PROOF</span><p>This sample demonstrates a workflow, not a client result. We do not invent traffic growth, conversion lifts or testimonials.</p></div></div><IssueSheet/></div>
-    </div></section>
+  <section className="studio-work" id="work-sample" aria-labelledby="studio-work-title"><div className="container">
+    <SectionIntro index="01" kicker="INSIDE AN SEO HANDOFF" title="See the standard, not another sales promise." aside="A finished task should leave a trail: what we found, what changed, who checks it, and how we know it is complete."/>
+    <div className="studio-work-grid"><div className="studio-work-story"><span className="studio-orange-label">EXAMPLE DELIVERABLE</span><h3 id="studio-work-title">Useful to your strategist. Clear to your developer.</h3><p>This sample shows the structure of a technical SEO issue log. It is deliberately a sample, not a claimed client win.</p><ol><li><span>01</span>Reproduce the issue.</li><li><span>02</span>Assign a fix and owner.</li><li><span>03</span>Retest before sign-off.</li></ol><Link href="/samples/">Explore sample work <ArrowUpRight size={17}/></Link></div><WorkSheet/></div>
+  </div></section>
 
-    <section className="a-capabilities" id="services" aria-labelledby="a-capabilities-title"><div className="container"><EditorialHeading number="02" eyebrow="OUR PRODUCTION CAPABILITIES" title="A specialist bench for the parts of SEO that take real time." description="Start with one workstream. Add capacity when your process and quality bar are established."/><ServiceTabs featured={[services[0],services[2],services[3],services[4],services[5],services[6]]}/><div className="a-service-link-row"><span className="a-mono">ALSO AVAILABLE / AUDITS · ON-PAGE · REPORTING · WHITE-LABEL</span><Link href="/services/">Explore all SEO services <ArrowUpRight size={16}/></Link></div></div></section>
+  <section className="studio-services" aria-labelledby="studio-services-title"><div className="container">
+    <SectionIntro index="02" kicker="WHAT WE HANDLE" title="The work your team needs finished." aside="Start with a technical task, a content queue or a local SEO backlog. Expand only when the workflow is working."/>
+    <div className="studio-service-list">{work.map(item=><Link href={item.url} key={item.no} className="studio-service-row"><span className="studio-row-no">{item.no}</span><div className="studio-row-title"><h3>{item.title}</h3><p>{item.note}</p></div><span className="studio-row-output">{item.output}</span><ArrowUpRight size={22} aria-hidden="true"/></Link>)}</div>
+    <div className="studio-service-end"><span>Prefer a full service list?</span><Link href="/services/">View every SEO service <ArrowUpRight size={16}/></Link></div>
+  </div></section>
 
-    <section className="a-partners" id="who-we-help" aria-labelledby="a-partners-title"><div className="container"><div className="a-partners-intro"><span className="a-mono">03 / THE RIGHT WORKING RELATIONSHIP</span><h2 id="a-partners-title">A partner behind your agency. <em>Or beside your internal team.</em></h2></div><div className="a-partner-layout">
-      <Link href="/for-agencies/" className="a-partner-panel a-partner-agency"><div className="a-partner-top"><span>01 / FOR AGENCIES</span><ArrowUpRight size={23}/></div><span className="a-partner-glyph" aria-hidden="true">A<span>↗</span></span><h3>Your brand.<br/>Our production.</h3><p>Technical SEO, content and local search delivery aligned to your SOPs, client boundaries and approvals.</p><div className="a-partner-bottom"><span>WHITE-LABEL DELIVERY</span><span>EXPLORE THE MODEL →</span></div></Link>
-      <Link href="/for-businesses/" className="a-partner-panel a-partner-business"><div className="a-partner-top"><span>02 / FOR IN-HOUSE TEAMS</span><ArrowUpRight size={23}/></div><span className="a-partner-glyph" aria-hidden="true">B<span>↗</span></span><h3>Your priorities.<br/>More hands on deck.</h3><p>Practical execution support for site owners and marketing teams with an existing growth roadmap and a defined backlog.</p><div className="a-partner-bottom"><span>DEDICATED SEO SUPPORT</span><span>EXPLORE THE MODEL →</span></div></Link>
-    </div></div></section>
+  <section className="studio-audience" aria-labelledby="studio-audience-title"><div className="container">
+    <div className="studio-audience-intro"><span className="studio-section-index">03 / WHO WE SUPPORT</span><h2 id="studio-audience-title">An extension of your team. <em>Not a replacement for your judgement.</em></h2></div>
+    <div className="studio-audience-grid"><div><span>FOR SEO & MARKETING AGENCIES</span><h3>More delivery capacity.<br/>Your name on the work.</h3><p>We work to the brief, tools and standards you set. You retain your client relationship, strategy and final sign-off.</p><Link href="/for-agencies/">Explore white-label support <ArrowUpRight size={17}/></Link></div><div><span>FOR IN-HOUSE MARKETING TEAMS</span><h3>Your roadmap.<br/>An extra set of hands.</h3><p>Get technical, content and local search tasks moving without building a separate department for every specialty.</p><Link href="/for-businesses/">Explore direct SEO support <ArrowUpRight size={17}/></Link></div></div>
+  </div></section>
 
-    <section className="a-method" aria-labelledby="a-method-title"><div className="container a-method-grid"><div className="a-method-intro"><span className="a-mono">04 / THE OPERATING RHYTHM</span><h2 id="a-method-title">Make the SEO queue <em>visible.</em> Keep decisions with the right people.</h2><p>Clear responsibilities reduce rework. Every workstream starts with scope, continues through documented execution and ends with a reviewer who can say what passed.</p><ButtonLink href="/how-it-works/" variant="light">View the delivery process</ButtonLink></div><div className="a-method-steps">{workflow.map(step=><div className="a-method-step" key={step.n}><span>{step.n}</span><div><h3>{step.title}</h3><p>{step.text}</p></div><span className="a-method-tick" aria-hidden="true">↗</span></div>)}</div></div></section>
+  <section className="studio-evidence" aria-labelledby="studio-evidence-title"><div className="container">
+    <SectionIntro index="04" kicker="WHAT THE NUMBERS ACTUALLY SAY" title="Evidence needs context." aside="These are dated ranking observations linked from the existing site, not before-and-after case studies. We do not claim they prove traffic, revenue or our attribution."/>
+    <div className="studio-observation-list"><div className="studio-observation-head"><span>OBSERVED SEARCH MARKET</span><span>TOP 5 TERMS</span><span>TOP 10 TERMS</span><span>ORIGINAL SOURCE</span></div>{observations.map(item=><div className="studio-observation" key={item.slug}><div><strong>{item.title}</strong><small>{item.location} · 3 October 2026</small></div><span>{item.top5}</span><span>{item.top10}</span><a href={item.source} rel="noopener noreferrer" target="_blank">SE Ranking <ArrowUpRight size={16}/></a></div>)}</div>
+    <p className="studio-evidence-disclaimer">Search positions depend on time, location and device. These figures have not been independently verified as SEO Outsourcing Philippines client outcomes. No lead or revenue impact is claimed.</p>
+    <Link className="studio-evidence-link" href="/case-studies/">Review the evidence library <ArrowUpRight size={17}/></Link>
+  </div></section>
 
-    <section className="a-evidence" id="evidence" aria-labelledby="a-evidence-title"><div className="container"><EditorialHeading number="05" eyebrow="EVIDENCE, NOT STORYTELLING" title="Numbers deserve a source, a date and an explanation." description="These published Australian dental ranking records are observations. Their relationship to the agency’s work, revenue or traffic growth has not been independently established."/>
-      <div className="a-evidence-head"><span>OBSERVATION / LOCATION</span><span>TRACKED TOP 5</span><span>TRACKED TOP 10</span><span>SOURCE</span></div>
-      <div className="a-evidence-list">{sourceSnapshots.map((item,i)=><div className="a-evidence-row" key={item.slug}><div className="a-evidence-name"><span className="a-mono">0{i+1} / 03 OCT 2026</span><h3>{item.title}</h3><p>{item.location}</p></div><div className="a-evidence-stat"><strong>{item.top5}</strong><small>tracked terms</small></div><div className="a-evidence-stat"><strong>{item.top10}</strong><small>tracked terms</small></div><div className="a-evidence-source"><a href={item.source} target="_blank" rel="noopener noreferrer">View source <ArrowUpRight size={16}/></a></div></div>)}</div>
-      <div className="a-evidence-note"><span>PLEASE READ THE FOOTNOTE</span><p>Rankings reflect a recorded search setting at a point in time. They do not prove who produced the work or demonstrate increased traffic, leads or revenue. We keep those claims separate until attribution and permissions are verified.</p><Link href="/case-studies/">Explore the evidence library <ArrowUpRight size={17}/></Link></div>
-    </div></section>
+  <section className="studio-process" aria-labelledby="studio-process-title"><div className="container studio-process-grid"><div><span className="studio-section-index">05 / HOW ENGAGEMENTS START</span><h2 id="studio-process-title">Start small.<br/><em>See how we work.</em></h2><p>A practical first task will tell you more than a large retainer proposal. Define a job, agree the review standard, then decide whether to build a recurring workstream.</p><Link href="/pricing/">Engagement models & pricing <ArrowUpRight size={16}/></Link></div><ol><li><span>01</span><div><strong>Show us the site and backlog</strong><p>Share the work you cannot get to, your market and current constraints.</p></div></li><li><span>02</span><div><strong>Agree on a first deliverable</strong><p>Confirm output, access, responsibilities, deadline and acceptance criteria.</p></div></li><li><span>03</span><div><strong>Review the finished work</strong><p>Get the files and evidence your team needs to approve or revise.</p></div></li></ol></div></section>
 
-    <section className="a-engagement" aria-labelledby="a-engagement-title"><div className="container"><div className="a-engagement-head"><div><span className="a-mono">06 / HOW TO ENGAGE</span><h2 id="a-engagement-title">Buy a deliverable.<br/>Build a delivery lane.</h2></div><p>Different workloads call for different contracts. We quote the actual scope, capacity, review requirements and dependencies. Published starting prices are subject to confirmation.</p></div><div className="a-engagement-list">{deliveryModels.map(item=><Link key={item.n} href={item.href} className="a-engagement-row"><span className="a-engagement-n">{item.n}</span><div><h3>{item.name}</h3><p>{item.fit}</p></div><div className="a-engagement-output"><span>WHAT GETS DEFINED</span><p>{item.output}</p></div><ArrowUpRight className="a-engagement-arrow" size={23}/></Link>)}</div></div></section>
-
-    <section className="a-outro"><div className="container a-outro-inner"><span className="a-mono">THE NEXT MOVE / AN AGREED FIRST WORKSTREAM</span><h2>Bring us the SEO backlog.<br/><em>We’ll talk about the work.</em></h2><p>Tell us the website, market and bottleneck. We can discuss a sensible pilot, required access and what the first accepted deliverable should look like.</p><div><ButtonLink href="/#hero-audit-form" variant="light">Request an SEO scope</ButtonLink><Link href="/samples/" className="a-outro-secondary">Review a work sample <ArrowUpRight size={17}/></Link></div></div><div className="container a-outro-bottom"><span>SEO OUTSOURCING PHILIPPINES</span><span>YOUR BRAND OUT FRONT. OUR SPECIALISTS ON THE WORK.</span><MoveUpRight size={22} aria-hidden="true"/></div></section>
-  </main>;
-}
+  <section className="studio-outro"><div className="container studio-outro-inner"><span>HAVE A PROJECT IN MIND?</span><h2>Tell us what needs doing.</h2><p>A useful first conversation starts with one site, one bottleneck and a clear outcome for the work itself.</p><div><Link href="/#hero-audit-form">Send a project brief <ArrowUpRight size={18}/></Link><Link href="/contact/">Other ways to reach us <ArrowRight size={18}/></Link></div></div></section>
+</main>;}

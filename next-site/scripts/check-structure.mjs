@@ -18,13 +18,13 @@ const css = readFileSync(resolve(base,'app/agency.css'),'utf8');
 const layout = readFileSync(resolve(base,'app/layout.tsx'),'utf8');
 for (const [label,ok] of [
   ['New agency homepage is served', homepage.includes('AgencyHome')],
-  ['Exact target H1', home.includes('SEO Outsourcing <span>Philippines</span></h1>')],
+  ['Exact target H1', home.includes('SEO Outsourcing<br/> Philippines')],
   ['Hero form', home.includes('<LeadForm mode="hero"')],
-  ['Evidence attribution disclosure', home.includes('do not prove who produced the work')],
+  ['Evidence attribution disclosure', home.includes('No lead or revenue impact is claimed')],
   ['Real sample downloadable', home.includes('technical_audit_issue_log.csv')],
   ['Mobile fixed CTA', shell.includes('mobile-bottom-cta') && css.includes('.mobile-bottom-cta')],
-  ['Visible mobile header CTA', shell.includes('header-button')],
-  ['New brand identity', shell.includes('sop.')],
+  ['Visible mobile header CTA', shell.includes('studio-header-cta')],
+  ['New brand identity', shell.includes('studio-brand-name')],
   ['Global agency CSS included', layout.includes("import './agency.css'" )],
   ['Webhook gating', api.includes('LEADS_WEBHOOK_URL')],
   ['SEO safety gate', readFileSync(resolve(base,'app/robots.ts'),'utf8').includes('SITE_RELEASE_APPROVED')]
