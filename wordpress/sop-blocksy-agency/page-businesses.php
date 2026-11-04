@@ -1,0 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; get_header(); ?>
+<main class="sop-main" id="main"><?php sop_agency_heading('SEO support for businesses','Specialist execution for your marketing backlog.','Keep oversight in-house and outsource the technical audits, content optimizations and local SEO tasks your team does not have capacity to finish.'); ?>
+<section class="sop-section"><div class="sop-wrap sop-section-columns"><div class="sop-section-rail"><p class="sop-eyebrow">Focused support</p><h2>Start with the problem, not a package name.</h2><p>Tell us which pages, locations or site sections matter. We will recommend work that your team can evaluate.</p></div><div><?php sop_agency_service_rows(['technical-seo','local-seo','on-page-seo','seo-strategy','seo-content']); ?></div></div></section>
+<?php sop_agency_section_cta('Talk through your SEO priorities.'); ?></main><?php get_footer(); ?>

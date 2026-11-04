@@ -1,0 +1,5 @@
+<?php if (!defined('ABSPATH')) exit; get_header(); ?>
+<main class="sop-main" id="main"><?php sop_agency_heading('Our process','An SEO workflow your team can inspect.','A simple cycle of scoping, prioritization, production and review. Every step has a responsible owner and a documented output.'); ?>
+<section class="sop-section"><div class="sop-wrap sop-section-columns"><div class="sop-section-rail"><p class="sop-eyebrow">Production framework</p><h2>From first brief to accepted work.</h2></div><div class="sop-steps-list"><?php foreach(sop_agency_steps() as $step): ?><div><span><?php echo esc_html($step[0]); ?></span><strong><?php echo esc_html($step[1]); ?></strong><p><?php echo esc_html($step[2]); ?></p></div><?php endforeach; ?></div></div></section>
+<section class="sop-section sop-section--paper"><div class="sop-wrap sop-section-columns"><div class="sop-section-rail"><p class="sop-eyebrow">Output example</p><h2>Every ticket needs a check.</h2></div><div><?php sop_agency_work_sample(); ?></div></div></section>
+<?php sop_agency_section_cta('Give us one clear SEO task to start.'); ?></main><?php get_footer(); ?>
