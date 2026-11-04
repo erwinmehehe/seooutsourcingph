@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { BRAND, SITE_URL, indexingApproved } from './content';
 
 type SeoArgs = { title:string; description:string; pathname:string; type?:'website'|'article'; keywords?:string[] };
-export const defaultDescription='Philippines-based SEO outsourcing for agencies and businesses. Technical SEO, local SEO, AEO, content and white-label execution with clear scopes and reviewable work.';
+export const defaultDescription='SEO Outsourcing Philippines for agencies and in-house teams. Technical SEO, local SEO, content and white-label delivery with clear scopes and reviewable QA.';
 export function urlFor(pathname:string){return new URL(pathname.startsWith('/')?pathname:'/'+pathname,SITE_URL).toString();}
 export function buildMetadata({title,description,pathname,type='website',keywords=[]}:SeoArgs):Metadata{
   const fullTitle=title.includes(BRAND)?title:title+' | '+BRAND;

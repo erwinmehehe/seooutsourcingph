@@ -2,7 +2,7 @@
 
 A complete, responsive Next.js App Router frontend for **SEO Outsourcing Philippines**, aligned to the existing [erwinmehehe/seooutsourcingph](https://github.com/erwinmehehe/seooutsourcingph) repository.
 
-The **homepage H1 is exactly `SEO Outsourcing Philippines`**. The hero contains a working validation and submission flow, and mobile has both a sticky header CTA and a fixed bottom CTA.
+The **homepage H1 is exactly `SEO Outsourcing Philippines`**. The hero contains a working validation and submission flow, and mobile has both a sticky header CTA and a fixed bottom CTA. The November 4 refinement makes the homepage agency-specific and replaces decorative dashboards with an existing audit-ticket template. See `REFINEMENT_NOTES.md`.
 
 ## 1. Install in the actual repository
 
@@ -36,7 +36,7 @@ Open http://localhost:3000. For a production build run `npm run build && npm sta
 
 | Layout | Route |
 |---|---|
-| Conversion homepage with hero form, QA dashboard, service tabs, proof interpretation, plan comparison | `/` |
+| Conversion homepage with hero form, sample SEO audit ticket, two buyer pathways, service tabs, sourced ranking observations and pricing comparison | `/` |
 | Full service hub | `/services/` |
 | Service details: deliverables, roadmap, tools and FAQ | `/services/[slug]/` |
 | Evidence / case studies with niche and outcome filters | `/case-studies/` |
