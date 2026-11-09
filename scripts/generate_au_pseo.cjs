@@ -6,7 +6,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const data=JSON.parse(fs.readFileSync(path.join(root,'pseo/australia/pages.json'),'utf8'));
-const template=fs.readFileSync(path.join(root,'standalone/site/services/white-label-seo/index.html'),'utf8');
+const template=fs.readFileSync(path.join(root,'standalone/site/services/white-label-seo/index.html'),'utf8').replace(/\r\n/g,'\n');
 function renderPage(base, p, isHub=false, all=[]){
   const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const para=s=>`<p>${esc(s)}</p>`;
@@ -92,7 +92,7 @@ let failed=0;
 for(const item of items){
   const filename=path.join(root,item.path);
   if(check){
-    if(!fs.existsSync(filename)||fs.readFileSync(filename,'utf8')!==item.content){console.error('Out of sync: '+item.path);failed++;}
+    if(!fs.existsSync(filename)||fs.readFileSync(filename,'utf8').replace(/\r\n/g,'\n')!==item.content.replace(/\r\n/g,'\n')){console.error('Out of sync: '+item.path);failed++;}
   }else{
     fs.mkdirSync(path.dirname(filename),{recursive:true});
     fs.writeFileSync(filename,item.content,'utf8');

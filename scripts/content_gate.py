@@ -40,7 +40,7 @@ booking=(SITE/"book-discovery-call/index.html").read_text(encoding="utf-8")
 if 'Online calendar booking is not connected yet.' not in booking or 'Booking status:' not in booking:
     errors.append("Discovery call page must not imply confirmed scheduling without a real calendar")
 for file in pages:
-    if 'content="noindex,follow,max-image-preview:large" name="robots"' not in file.read_text(encoding="utf-8"):
+    if not re.search(r'<meta\b[^>]*content=[\"\'][^\"\']*\bnoindex\b[^\"\']*[\"\'][^>]*name=[\"\']robots[\"\']', file.read_text(encoding="utf-8"), re.I):
         errors.append(str(file.relative_to(SITE))+": unapproved page lost noindex")
 manifest=json.loads((ROOT/"quality/release-approvals.json").read_text(encoding="utf-8"))
 if manifest.get("release_status")=="HOLD" and manifest.get("approved_urls"):
