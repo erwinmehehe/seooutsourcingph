@@ -15,7 +15,7 @@ import brand2 from "./assets/ivleague.svg";
 import brand3 from "./assets/smile.png";
 import brand4 from "./assets/katehill.png";
 import brand5 from "./assets/lifestyle.png";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type CSSProperties } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -46,6 +46,15 @@ const NAV = [
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
+
+/* ---------- hero chart (illustrative) ---------- */
+type RangeKey = "3" | "6" | "12";
+const RANGES: Record<RangeKey, { label: string; months: string[]; points: number[] }> = {
+  "3": { label: "3 months", months: ["Oct", "Nov", "Dec"], points: [64, 70, 67, 76, 84, 81, 92, 103, 115] },
+  "6": { label: "6 months", months: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], points: [22, 31, 40, 37, 47, 52, 70, 67, 86, 96, 115] },
+  "12": { label: "12 months", months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], points: [9, 11, 14, 13, 17, 20, 19, 24, 27, 26, 31, 36, 34, 41, 47, 52, 58, 66, 64, 78, 88, 97, 115] },
+};
+const BARS = [18, 26, 32, 40, 50, 60, 72, 86, 100];
 
 /* ---------- services ---------- */
 const SERVICES = [
@@ -117,6 +126,20 @@ const FAQS: [string,string][] = [
  ["What if an agreed deliverable is missed?", "If we miss a contracted deliverable within the agreed scope and timetable, we complete the outstanding work without additional SEO management fees."],
 ];
 
+type Pt = { x: number; y: number };
+function smoothPath(pts: Pt[]) {
+  if (pts.length < 2) return "";
+  let d = `M${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] ?? p2;
+    d += ` C${(p1.x + (p2.x - p0.x) / 6).toFixed(1)},${(p1.y + (p2.y - p0.y) / 6).toFixed(1)} ${(p2.x - (p3.x - p1.x) / 6).toFixed(1)},${(p2.y - (p3.y - p1.y) / 6).toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+  }
+  return d;
+}
+function barColor(t: number) {
+  return `rgb(${Math.round(176 * t)},${Math.round(242 - 166 * t)},${Math.round(254 + t)})`;
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
@@ -143,10 +166,44 @@ function Logo() {
   );
 }
 
-function HeroEvidence(){
- const [selected,setSelected]=useState(0);
- const projects=WORK.slice(0,3),project=projects[selected];
- return <div className="hero-evidence glass"><div className="hero-evidence-head"><BrandAsset asset={project.asset} name={project.name}/><span>{project.place}</span></div><div className="hero-ranking"><strong>#{project.position}</strong><div><h2>{project.query}</h2><p>Organic search position</p></div></div><div className="hero-rank-list">{project.keywords.map(([query,position])=><div key={query}><span>{query}</span><b>#{position}</b></div>)}</div><div className="hero-project-tabs" role="group" aria-label="View ranking examples">{projects.map((w,i)=><button key={w.name} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{w.name}</button>)}</div><p className="hero-evidence-note">Google Australia · Recorded 9 November 2026<br/>Positions are a dated snapshot and may change.</p><a className="link-arrow" href="#portfolio">View project details <ArrowUpRight size={16}/></a></div>;
+/* ---------- dashboard ---------- */
+function RangeSelect({value,onChange}:{value:RangeKey;onChange:(v:RangeKey)=>void}) {
+ return <label className="range"><span className="sr">Illustrative chart timeframe</span><select className="range-btn" value={value} onChange={e=>onChange(e.target.value as RangeKey)}>{(Object.keys(RANGES) as RangeKey[]).map(k=><option key={k} value={k}>{RANGES[k].label}</option>)}</select></label>;
+}
+
+function PerformanceChart({ range }: { range: RangeKey }) {
+  const W = 560, H = 318, L = 58, R = 18, T = 20, B = 44;
+  const data = RANGES[range];
+  const pts: Pt[] = data.points.map((v, i) => ({ x: L + (i / (data.points.length - 1)) * (W - L - R), y: T + (1 - v / 120) * (H - T - B) }));
+  const line = smoothPath(pts); const last = pts[pts.length - 1];
+  const area = `${line} L${last.x.toFixed(1)},${H - B} L${pts[0].x.toFixed(1)},${H - B} Z`;
+  return (
+    <svg key={range} className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Illustrative organic search performance over ${data.label}, rising from ${data.points[0]}K to ${data.points[data.points.length - 1]}K.`}>
+      <defs>
+        <linearGradient id="line-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stopColor="#00f2fe" /><stop offset=".55" stopColor="#8a2be2" /><stop offset="1" stopColor="#ff4fd8" /></linearGradient>
+        <linearGradient id="area-grad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#8a2be2" stopOpacity=".55" /><stop offset=".55" stopColor="#00f2fe" stopOpacity=".14" /><stop offset="1" stopColor="#00f2fe" stopOpacity="0" /></linearGradient>
+        <filter id="line-blur" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="2" /></filter>
+      </defs>
+      {[0, 20, 40, 60, 80, 100, 120].map((t) => { const y = T + (1 - t / 120) * (H - T - B); return (<g key={t} aria-hidden="true"><line x1={L} x2={W - R} y1={y} y2={y} className="grid-line" /><text x={L - 10} y={y + 4} className="axis" textAnchor="end">{t === 0 ? "0" : `${t}K`}</text></g>); })}
+      {data.months.map((m, i) => { const x = L + (i / (data.months.length - 1)) * (W - L - R); return (<g key={m} aria-hidden="true"><line x1={x} x2={x} y1={T} y2={H - B} className="grid-line v" /><text x={x} y={H - 14} className="axis" textAnchor="middle">{m}</text></g>); })}
+      <path d={area} fill="url(#area-grad)" className="area" />
+      <path d={line} pathLength={1} className="line-glow" stroke="url(#line-grad)" filter="url(#line-blur)" />
+      <path d={line} pathLength={1} className="line" stroke="url(#line-grad)" />
+      <circle cx={last.x} cy={last.y} r="14" className="dot-halo" /><circle cx={last.x} cy={last.y} r="6" className="end-dot" />
+    </svg>
+  );
+}
+
+function MiniLine() {
+  const values = [4, 12, 10, 20, 26, 24, 36, 44, 50, 62];
+  const pts: Pt[] = values.map((v, i) => ({ x: 6 + (i / (values.length - 1)) * 148, y: 62 - (v / 62) * 52 }));
+  const last = pts[pts.length - 1];
+  return (
+    <svg className="mini-line" viewBox="0 0 160 70" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="mini-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stopColor="#00f2fe" /><stop offset="1" stopColor="#b04cff" /></linearGradient></defs>
+      <path d={smoothPath(pts)} pathLength={1} className="mini-path" stroke="url(#mini-grad)" /><circle cx={last.x} cy={last.y} r="4" className="end-dot" />
+    </svg>
+  );
 }
 
 /* ---------- stats ---------- */
@@ -248,6 +305,7 @@ function ContactModal({ plan, onClose }: { plan: string; onClose: () => void }) 
 export default function App() {
   const [menu, setMenu] = useState(false);
   const [stuck, setStuck] = useState(false);
+  const [range, setRange] = useState<RangeKey>("6");
   const [modal, setModal] = useState<ModalMode | null>(null);
   const [quotePlan,setQuotePlan]=useState("");
   const quoteTrigger=useRef<HTMLElement|null>(null);
@@ -293,15 +351,30 @@ export default function App() {
           <div className="wrap hero-in">
             <div className="hero-copy">
 
-              <h1 className="rise d1">SEO delivery for<br/><span className="grad">agencies and<br/>businesses.</span></h1>
-              <p className="sub rise d2">Outsource technical fixes, page optimisation, content and reporting. Add support for your own website or deliver client work under your agency’s brand.</p>
+              <h1 className="rise d1">SEO outsourcing<br/>for <span className="grad">agencies<br/>and businesses.</span></h1>
+              <p className="sub rise d2">Get technical SEO, keyword research, content and reporting support without hiring for every role. Work with us on a defined project, a monthly plan or your agency’s client accounts.</p>
               <div className="hero-actions rise d3">
                 <button type="button" className="btn-glow" onClick={() => openQuote()}>Get a Quote <ArrowRight size={19} aria-hidden="true" /></button>
                 <a className="ghost-link" href="#portfolio">Explore our work</a>
               </div>
 
             </div>
-            <div className="scene"><HeroEvidence /></div>
+            <div className="scene">
+              <div className="dash-wrap">
+                <div className="dash">
+                  <div className="dash-card glass">
+                    <div className="dash-head"><h2>Organic search performance</h2><RangeSelect value={range} onChange={setRange} /></div>
+                    <PerformanceChart range={range} />
+                  </div>
+                  <div className="dash-stand" aria-hidden="true"><span /></div>
+                </div>
+                <div className="minis">
+                  <div className="mini glass"><h3>Keyword visibility</h3><div className="bars" aria-hidden="true">{BARS.map((h, i) => { const t = i / (BARS.length - 1); return <span key={i} style={{ height: `${h}%`, "--i": i, background: `linear-gradient(180deg, ${barColor(t)}, ${barColor(Math.max(0, t - 0.25))})` } as CSSProperties} />; })}</div></div>
+                  <div className="mini glass d2"><h3>Organic traffic</h3><MiniLine /></div>
+                  <p className="illustrative">Illustrative analytics</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

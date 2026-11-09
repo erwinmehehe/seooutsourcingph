@@ -8,6 +8,6 @@ Preview the generated page and existing enquiry API with `python standalone/back
 
 The quote dialog uses the same-origin `/api/session` and `/api/inquiry` endpoints. It reports success only after the API returns a saved reference, retains entries after an error and offers direct email. The fixed bottom CTA contains only the discovery call.
 
-Portfolio keyword positions come from the supplied Erwin Valles SEO Portfolio PDF, dated 9 November 2026. They are snapshots, not before/after traffic or revenue claims. No project responsibilities, growth figures or delivery quantities have been invented. Pacific Seed Bank uses a text fallback because its logo was unavailable.
+Portfolio keyword positions come from the supplied Erwin Valles SEO Portfolio PDF, dated 9 November 2026. They are snapshots, not before/after traffic or revenue claims. The restored hero chart is labelled illustrative and is not client data. No project responsibilities, growth figures or delivery quantities have been invented. Pacific Seed Bank uses a text fallback because its logo was unavailable.
 
 The homepage remains noindex pending the repository’s release process. The existing WordPress export has not been updated to mirror this standalone design.
