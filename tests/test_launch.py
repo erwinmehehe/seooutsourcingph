@@ -83,6 +83,8 @@ class ApiTests(unittest.TestCase):
   try:self.assertEqual(con.execute('SELECT reference FROM inquiries').fetchone()[0],reference)
   finally:con.close()
   with self.assertRaises(ValueError):self.backend.backup_database(backup)
+  export=Path(self.temp.name)/'export.csv';self.backend.export_leads(export)
+  with self.assertRaises(FileExistsError):self.backend.export_leads(export)
   self.assertEqual(self.request('GET','/.release-ready.json')[0],404)
   self.assertEqual(self.request('GET','/../backend/server.py')[0],404)
   self.assertEqual(self.request('GET','/assets/page-shell.css')[0],200)

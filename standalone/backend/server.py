@@ -313,6 +313,8 @@ def backup_database(path):
     if destination == DB.resolve() or destination.exists():
         raise ValueError('Choose a new private backup file, separate from the live database.')
     destination.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    os.close(fd)
     with db_connect() as source:
         target = sqlite3.connect(destination)
         try:
@@ -328,7 +330,8 @@ def export_leads(path):
                'website','details','consent_at','notification_status']
     with db_connect() as db:
         rows = db.execute('SELECT ' + ','.join(columns) + ' FROM inquiries ORDER BY created_at DESC').fetchall()
-    with open(path, 'w', encoding='utf-8', newline='') as file:
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(columns)
         for row in rows:
