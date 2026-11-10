@@ -6,11 +6,13 @@
       const open = menuButton.getAttribute('aria-expanded') !== 'true';
       menuButton.setAttribute('aria-expanded', String(open));
       mobileMenu.classList.toggle('open', open);
+      mobileMenu.hidden = !open;
       menuButton.textContent = open ? 'Close' : 'Menu';
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
         mobileMenu.classList.remove('open');
+        mobileMenu.hidden = true;
         menuButton.setAttribute('aria-expanded', 'false');
         menuButton.textContent = 'Menu';
         menuButton.focus();
@@ -19,6 +21,7 @@
     mobileMenu.addEventListener('click', (e) => {
       if (e.target.closest('a')) {
         mobileMenu.classList.remove('open');
+        mobileMenu.hidden = true;
         menuButton.setAttribute('aria-expanded', 'false');
         menuButton.textContent = 'Menu';
       }
@@ -34,7 +37,7 @@
     }));
   }
   const contact = document.querySelector('#contact-form');
-  if (contact && !window.SOP_WORDPRESS_FORM) {
+  if (contact) {
     const status = document.querySelector('#contact-status');
     const params = new URLSearchParams(window.location.search);
     const audience = params.get('audience');
@@ -63,14 +66,14 @@
       status.className = `alert visible ${success ? 'success' : 'error'}`;
       status.setAttribute('role', success ? 'status' : 'alert');
     };
-    session().then(t => { token = t; }).catch(() => {
-      show('Preview mode: this form needs the included server or your WordPress CRM integration before it can receive inquiries.', false);
+    session().then(t => { token = t; contact.querySelector('[type="submit"]').disabled = false; }).catch(() => {
+      show('The quote form is temporarily unavailable. Please email info@seooutsourcingphilippines.com.', false);
     });
     contact.addEventListener('submit', async (event) => {
       event.preventDefault();
       const submit = contact.querySelector('[type="submit"]');
       if (!contact.reportValidity()) return;
-      if (!token) { show('Form submission is not enabled in this static preview. Run the included server or connect your form provider.', false); return; }
+      if (!token) { show('The quote form is temporarily unavailable. Please email info@seooutsourcingphilippines.com.', false); return; }
       const fields = Object.fromEntries(new FormData(contact).entries());
       const context = [
         fields.service ? `Service interest: ${fields.service}` : '',
@@ -99,13 +102,14 @@
         const result = await response.json();
         if (!response.ok || !result.ok) throw new Error(result.error || 'Could not submit the request.');
         show(`Request received. Reference ${result.reference}. We have saved the details you supplied.`, true);
+        window.dispatchEvent(new CustomEvent("sop:conversion", {detail:{event:"quote_request_success"}}));
         contact.reset();
-        token = await session();
+        session().then(t => { token = t; }).catch(() => { token = ""; });
       } catch (error) {
         show(error.message || 'The request could not be sent. Please email info@seooutsourcingphilippines.com.', false);
       } finally {
         submit.disabled = false;
-        submit.textContent = 'Request a tailored scope';
+        submit.textContent = 'Send quote request';
       }
     });
   }

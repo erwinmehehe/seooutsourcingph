@@ -81,9 +81,9 @@ const STEPS = [
 ];
 
 /* ---------- selected work, supplied portfolio, 9 November 2026 ---------- */
-const LOGOS: Record<string,string> = {"markd.png":brand0,"maddens.svg":brand1,"ivleague.svg":brand2,"smile.png":brand3,"katehill.png":brand4,"lifestyle.png":brand5,"glass.png":extra0,"sunlover.svg":extra1,"holdsworth.svg":extra2,"newstead.svg":extra3,"royal.png":extra4,"endo.png":extra5,"kiama.svg":extra6,"lumina.png":extra7,"madmiller.webp":extra8,"mlr.webp":extra9,"growers.png":extra10};
+export const LOGOS: Record<string,string> = {"markd.png":brand0,"maddens.svg":brand1,"ivleague.svg":brand2,"smile.png":brand3,"katehill.png":brand4,"lifestyle.png":brand5,"glass.png":extra0,"sunlover.svg":extra1,"holdsworth.svg":extra2,"newstead.svg":extra3,"royal.png":extra4,"endo.png":extra5,"kiama.svg":extra6,"lumina.png":extra7,"madmiller.webp":extra8,"mlr.webp":extra9,"growers.png":extra10};
 
-const WORK = [
+export const WORK = [
  {name:"MARKD Tattoo",asset:"markd.png",sector:"Lifestyle",place:"Sydney, Australia",tag:"Tattoo & design",query:"tattoo designer sydney",position:1,volume:"1,000",text:"Selected organic searches include Sydney tattoo studios, artists and tattoo designs.",keywords:[["tattoo designer sydney","1"],["sydney tattoo artist","2"],["tattoo parlour sydney","1"]]},
  {name:"Maddens Lawyers",asset:"maddens.svg",sector:"Professional services",place:"Victoria, Australia",tag:"Legal services",query:"personal injury lawyers ballarat",position:1,volume:"170",text:"Selected organic searches cover personal injury, compensation and local legal services in Victoria.",keywords:[["personal injury lawyers ballarat","1"],["compensation lawyers ballarat","1"],["lawyers warrnambool","2"]]},
  {name:"IV League Drips",asset:"ivleague.svg",sector:"Healthcare",place:"Sydney, Australia",tag:"Wellness services",query:"iv therapy sydney",position:1,volume:"390",text:"Selected organic searches cover IV therapy, drips and NAD infusions in Sydney.",keywords:[["iv therapy sydney","1"],["iv drips sydney","1"],["nad infusion sydney","1"]]},
@@ -267,6 +267,7 @@ function ContactModal({ plan, onClose }: { plan: string; onClose: () => void }) 
       const result=await response.json();
       if(!response.ok || !result.ok || !result.reference)throw new Error(result.error||'Your request could not be sent. Please try again or email us.');
       setReference(result.reference);
+      window.dispatchEvent(new CustomEvent("sop:conversion",{detail:{event:"quote_request_success"}}));
     } catch(err){setError(err instanceof Error?err.message:'Your request could not be sent. Please try again or email us.')}
     finally{setSending(false)}
   };
@@ -309,7 +310,11 @@ export default function App() {
   const [modal, setModal] = useState<ModalMode | null>(null);
   const [quotePlan,setQuotePlan]=useState("");
   const quoteTrigger=useRef<HTMLElement|null>(null);
-  function openQuote(plan=""){quoteTrigger.current=document.activeElement as HTMLElement;setQuotePlan(plan);setModal("quote")}
+  function openQuote(plan=""){
+    const destination=document.querySelector<HTMLMetaElement>('meta[name="sop-quote-url"]')?.content;
+    if(destination){const url=new URL(destination,window.location.href);if(plan)url.searchParams.set('plan',plan);window.location.assign(url.href);return;}
+    quoteTrigger.current=document.activeElement as HTMLElement;setQuotePlan(plan);setModal("quote");
+  }
   function closeQuote(){setModal(null);requestAnimationFrame(()=>{const trigger=quoteTrigger.current; (trigger && trigger.tagName!=="BODY" ? trigger : document.querySelector<HTMLElement>(".hero-actions button"))?.focus()})}
   useReveal();
 
@@ -471,7 +476,7 @@ export default function App() {
         <div className="wrap footer-in">
           <div className="footer-brand"><Logo /><p>Technical SEO, content, local search and reporting for agencies and businesses.</p></div>
           <div><h4>Explore</h4>{NAV.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}</div>
-          <div><h4>Resources</h4><a href="about/" target="_blank" rel="noopener noreferrer">About</a><a href="#portfolio" target="_blank" rel="noopener noreferrer">Case studies</a><a href="samples/" target="_blank" rel="noopener noreferrer">Sample deliverables</a><a href="blog/" target="_blank" rel="noopener noreferrer">Blog</a></div>
+          <div><h4>Resources</h4><a href="about/" target="_blank" rel="noopener noreferrer">About</a><a href="results/">Our work</a><a href="samples/" target="_blank" rel="noopener noreferrer">Sample deliverables</a><a href="blog/" target="_blank" rel="noopener noreferrer">Blog</a><a href="privacy-policy/">Privacy policy</a><a href="terms-of-service/">Terms of service</a><a href="cookie-policy/">Cookie policy</a></div>
           <div><h4>Contact</h4><a href={CALENDLY} target="_blank" rel="noopener noreferrer">Book a discovery call</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a><p>Available for US, UK, Canadian, Australian and New Zealand campaigns.</p></div>
         </div>
         <div className="wrap footer-bottom"><span>© {new Date().getFullYear()} SEO Outsourcing Philippines.</span><span>Technical SEO · Content · Local search · Reporting</span></div>

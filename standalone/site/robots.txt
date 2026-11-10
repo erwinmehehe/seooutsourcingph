@@ -1,3 +1,2 @@
 User-agent: *
 Disallow: /
-# Not approved for public indexing

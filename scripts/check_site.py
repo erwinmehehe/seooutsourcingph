@@ -23,9 +23,8 @@ class AuditParser(HTMLParser):
 
 errors=[]
 pages=sorted(SITE.rglob('index.html')) if SITE.is_dir() else []
-# 66 source pages also exist as WordPress drafts. The discovery-call page is
-# standalone-only until a calendar service and WordPress equivalent are approved.
-if len(pages)!=67: errors.append(f'Expected 67 HTML index pages (66 mirrored + discovery call), found {len(pages)}')
+# All standalone pages also have a WordPress draft; the theme renders the homepage.
+if len(pages)!=67: errors.append(f'Expected 67 HTML index pages, found {len(pages)}')
 if not (SITE/'book-discovery-call'/'index.html').exists():
  errors.append('Missing standalone discovery call page')
 canons=[]
@@ -59,7 +58,7 @@ else:
   tree=ET.parse(XML)
   ns={'wp':'http://wordpress.org/export/1.2/'}
   items=tree.findall('.//item')
-  if len(items)!=66:errors.append(f'Expected 66 WordPress draft records, found {len(items)}')
+  if len(items)!=67:errors.append(f'Expected 67 WordPress draft records, found {len(items)}')
   for item in items:
    if item.findtext('wp:status',namespaces=ns)!='draft':
     errors.append('A WordPress import record is not draft')

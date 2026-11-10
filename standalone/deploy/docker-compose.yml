@@ -8,6 +8,7 @@ services:
       SEO_TRUSTED_PROXY_IPS: 172.28.5.2
       SEO_PUBLIC_HOST: seooutsourcingphilippines.com
       SEO_COOKIE_SECURE: "1"
+      SEO_PRODUCTION: "1"
     volumes:
       - sop_private_leads:/var/lib/sop
     restart: unless-stopped
@@ -23,6 +24,12 @@ services:
     read_only: true
     tmpfs:
       - /tmp:rw,nosuid,noexec,size=64m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 8s
+      retries: 3
+      start_period: 15s
   proxy:
     image: caddy:2
     ports:
@@ -38,7 +45,8 @@ services:
       sop_net:
         ipv4_address: 172.28.5.2
     depends_on:
-      - website
+      website:
+        condition: service_healthy
 volumes:
   sop_private_leads:
   caddy_data:

@@ -1,13 +1,11 @@
-# Homepage design
+# Homepage source
 
-Editable React source for the standalone homepage. Other routes and the WordPress theme retain their existing implementations.
+`npm run build` generates the standalone homepage, the WordPress homepage assets/template and the portfolio page. Both implementations share `src/App.tsx`; the original hero block is fingerprinted in `tests/original-hero.sha256`.
 
-Run `npm ci`, then `npm run build` in this directory. The build prerenders the complete page into `../standalone/site/index.html`, with CSS, JavaScript, fonts and logos embedded. Content remains readable without JavaScript. `npx tsc --noEmit` checks types.
+After building, run `python scripts/sync_wordpress.py` from the repository root. `npx tsc --noEmit` checks types. Generated WordPress assets are committed for hosts without Node.
 
-Preview the generated page and existing enquiry API with `python standalone/backend/serve.py --port 5181` from the repository root. Enable submissions locally with `SEO_FORM_ENABLED=1`; keep the lead database outside source control. Production form activation, SMTP and hosting settings remain controlled by the existing backend configuration. GitHub Pages provides a static preview and cannot receive submissions.
+The standalone quote modal uses `/api/session` and `/api/inquiry`. WordPress supplies a `sop-quote-url` meta tag, so the same buttons open its native contact form and retain the selected plan. GitHub Pages does not provide an enquiry backend.
 
-The quote dialog uses the same-origin `/api/session` and `/api/inquiry` endpoints. It reports success only after the API returns a saved reference, retains entries after an error and offers direct email. The fixed bottom CTA contains only the discovery call.
+Portfolio positions come from the supplied PDF dated 9 November 2026. They are snapshots, not growth or revenue claims. The original hero remains labelled illustrative. No client responsibilities, team biographies, testimonials or delivery quantities are invented.
 
-Portfolio keyword positions come from the supplied Erwin Valles SEO Portfolio PDF, dated 9 November 2026. They are snapshots, not before/after traffic or revenue claims. The restored hero chart is labelled illustrative and is not client data. No project responsibilities, growth figures or delivery quantities have been invented. Pacific Seed Bank uses a text fallback because its logo was unavailable.
-
-The homepage remains noindex pending the repository’s release process. The existing WordPress export has not been updated to mirror this standalone design.
+See the root README and DEPLOYMENT.md for release, migration and hosting requirements.
