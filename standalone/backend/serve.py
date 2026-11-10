@@ -65,7 +65,7 @@ class SiteHandler(Handler):
         if not PRODUCTION:self.send_header('X-Robots-Tag','noindex, nofollow')
         inline=re.findall(rb'<script\b[^>]*>(.*?)</script>',data,re.DOTALL|re.IGNORECASE) if media=='text/html' else []
         hashes=["'sha256-"+base64.b64encode(hashlib.sha256(js).digest()).decode('ascii')+"'" for js in inline]
-        csp="default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' "+' '.join(hashes)
+        csp="default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' "+' '.join(hashes)
         self.send_header('Content-Security-Policy',csp)
         self.send_header('Cache-Control','no-store' if media=='text/html' else 'public, max-age=3600')
         self.end_headers()

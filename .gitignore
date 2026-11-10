@@ -30,3 +30,6 @@ Thumbs.db
 .idea/
 *.bak
 *.tmp
+
+landing-page/dist/
+landing-page/.render.mjs

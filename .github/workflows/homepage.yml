@@ -1,0 +1,27 @@
+name: Homepage build
+on:
+  pull_request:
+    paths: ['landing-page/**', 'standalone/backend/**', '.github/workflows/homepage.yml']
+  push:
+    branches: [main]
+    paths: ['landing-page/**', '.github/workflows/homepage.yml']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: landing-page/package-lock.json
+      - run: npm ci
+        working-directory: landing-page
+      - run: npx tsc --noEmit
+        working-directory: landing-page
+      - run: npm run build
+        working-directory: landing-page
+      - run: python3 scripts/check_site.py
+      - run: python3 scripts/content_gate.py
