@@ -74,10 +74,10 @@ const MODELS = [
 
 /* ---------- approach ---------- */
 const STEPS = [
-  { title: "Tell us what you need", text: "Send your website, target market and the SEO work you want help with. Include any launch dates or deadlines." },
-  { title: "Review the quote", text: "We send the proposed tasks, deliverables, fees and dates for your approval." },
-  { title: "Start the agreed work", text: "We begin once the scope is approved and the required access and information are available." },
-  { title: "Review delivery and results", text: "We report completed tasks and search performance, then agree the next priorities with you." },
+  { title: "Tell us what you need", text: "Send your website, target market and priorities." },
+  { title: "Review the quote", text: "Review the proposed work, price and schedule." },
+  { title: "Get started", text: "Provide the access and information needed to begin." },
+  { title: "Review progress", text: "See what was completed, what changed and what comes next." },
 ];
 
 /* ---------- selected work, supplied portfolio, 9 November 2026 ---------- */
@@ -390,20 +390,20 @@ export default function App() {
         {/* SERVICES */}
         <section className="section" id="services">
           <div className="wrap">
-            <div className="heading reveal"><h2>SEO services</h2><p>Get help with the work your team needs to complete. Choose a single service or ongoing support.</p></div>
+            <div className="heading reveal"><h2>SEO services</h2><p>Choose the services you need help with.</p></div>
             <div className="service-editorial">
               {SERVICES.map(({icon:Icon,title,text,points},i)=><details className="service-row" key={title} open={i===0}><summary><span className="service-n">0{i+1}</span><Icon size={25} aria-hidden="true"/><h3>{title}</h3><PlusIcon/></summary><div className="service-content"><p>{text}</p><ul className="ticks">{points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul><button type="button" className="link-arrow" onClick={()=>openQuote()}>Get a Quote <ArrowUpRight size={16}/></button></div></details>)}
             </div>
             <div className="models">
-              <div className="heading tight reveal"><h2>Project, monthly and white-label support</h2></div>
+              <div className="heading tight reveal"><h2>Ways to work with us</h2></div>
               <div className="cards">
                 {MODELS.map((m, i) => (
                   <div className={`reveal d${i + 1}`} key={m.title}>
-                    <article className="card glass model">
+                    <article className="card model">
 
                       <h3>{m.title}</h3>
                       <p>{m.text}</p>
-                      <ul className="ticks">{m.points.map((p) => <li key={p}><Check size={15} aria-hidden="true" />{p}</li>)}</ul>
+                      
                     </article>
                   </div>
                 ))}
@@ -413,12 +413,14 @@ export default function App() {
         </section>
 
 
+        <section className="section work-sample"><div className="wrap sample-in"><div><h2>See a sample deliverable</h2><p>Review an example technical issue log, content brief or reporting format before discussing your project.</p><p className="sample-context">Examples show document structure. They do not contain confidential client work.</p></div><a className="btn-outline" href="samples/">View sample deliverables <ArrowUpRight size={17}/></a></div></section>
+
         {/* APPROACH */}
         <section className="section" id="approach">
           <div className="wrap">
-            <div className="heading reveal"><h2>How we work</h2><p>We agree the deliverables, responsibilities and review dates before starting.</p></div>
+            <div className="heading reveal"><h2>How we work</h2><p>From your first enquiry to ongoing work.</p></div>
             <ol className="steps">
-              {STEPS.map((s, i) => (<li className={`step glass reveal d${i + 1}`} key={s.title}><span className="step-n">{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></li>))}
+              {STEPS.map((s, i) => (<li className={`step reveal d${i + 1}`} key={s.title}><span className="step-n">{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></li>))}
             </ol>
 
           </div>
@@ -427,7 +429,7 @@ export default function App() {
         {/* PRICING */}
         <section className="section" id="pricing">
           <div className="wrap">
-            <div className="heading reveal"><h2>Monthly SEO plans</h2><p>Choose the support that fits your workload. Monthly fees start at the prices below; we confirm the work included in your quote.</p></div>
+            <div className="heading reveal"><h2>Monthly SEO plans</h2><p>Compare the focus of each plan. These are starting prices; your quote specifies the work included.</p></div>
             <div className="plans">
               {PLANS.map((p, i) => (
                 <article className={`plan glass reveal d${i + 1}${p.popular ? " popular" : ""}`} key={p.name}>
@@ -441,7 +443,7 @@ export default function App() {
                 </article>
               ))}
             </div>
-            <p className="plan-terms">Your quote lists the monthly deliverables, implementation responsibilities and any third-party costs. Ranking and traffic outcomes are not guaranteed.</p>
+            <p className="plan-terms">Monthly quantities and implementation work are confirmed in your quote. Third-party costs are listed separately. Search outcomes are not guaranteed.</p>
             <p className="fine reveal">One-off projects and agency requirements are quoted separately.</p>
           </div>
         </section>
