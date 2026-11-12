@@ -1,3 +1,4 @@
+import Testimonials from "./Testimonials";
 import extra0 from "./assets/glass.png";
 import extra1 from "./assets/sunlover.svg";
 import extra2 from "./assets/holdsworth.svg";
@@ -425,6 +426,8 @@ export default function App() {
 
           </div>
         </section>
+
+        <Testimonials />
 
         {/* PRICING */}
         <section className="section" id="pricing">
