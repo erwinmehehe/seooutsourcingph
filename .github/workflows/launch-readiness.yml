@@ -61,4 +61,4 @@ jobs:
           cp -R wordpress/sop-proposal-form "$WP/wp-content/plugins/"
           php "$RUNNER_TEMP/wp-cli.phar" plugin activate sop-proposal-form --path="$WP"
           php "$RUNNER_TEMP/wp-cli.phar" theme activate sop-premium-agency --path="$WP"
-          php "$RUNNER_TEMP/wp-cli.phar" eval-file "$GITHUB_WORKSPACE/tests/wordpress-smoke.php" --path="$WP"
+          php "$RUNNER_TEMP/wp-cli.phar" eval-file "$GITHUB_WORKSPACE/tests/wordpress-smoke.php" --path="$WP" --url=https://seooutsourcingphilippines.com

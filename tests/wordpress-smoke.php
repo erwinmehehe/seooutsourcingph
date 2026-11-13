@@ -38,9 +38,12 @@ ob_start();include get_template_directory().'/front-page.php';$markup=ob_get_cle
 sop_assert(strpos($markup,'Organic search performance')!==false,'Original hero is missing.');
 sop_assert(strpos($markup,'name="sop-quote-url"')!==false,'WordPress quote route is missing.');
 sop_assert(substr_count($markup,'<h1')===1,'Homepage must have exactly one H1.');
+update_option('home','https://seooutsourcingphilippines.com');
+update_option('siteurl','https://seooutsourcingphilippines.com');
+update_option('blog_public',1);
 $robots=apply_filters('robots_txt',"User-agent: *\nSitemap: https://temporary.hostingersite.com/sitemap.xml\n",true);
 sop_assert(strpos($robots,'hostingersite.com')===false,'Temporary sitemap domain remains.');
-sop_assert(strpos($robots,'Sitemap: https://seooutsourcingphilippines.com/wp-sitemap.xml')!==false,'Production sitemap discovery is incorrect.');
+sop_assert(strpos($robots,'Sitemap: https://seooutsourcingphilippines.com/wp-sitemap.xml')!==false,'Production sitemap discovery is incorrect: '. $robots . ' Home: '.home_url('/'));
 update_post_meta($home,'sop_release_status','HOLD');$robots=apply_filters('wp_robots',array());
 sop_assert(!empty($robots['noindex']),'Held imported pages must remain noindex.');
 echo "WordPress homepage, form storage, notification recovery and privacy checks passed.\n";
