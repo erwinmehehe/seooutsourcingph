@@ -7,6 +7,28 @@ def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
 release=load('release_test_module',ROOT/'scripts/build_release.py')
 class SourceTests(unittest.TestCase):
+ def test_pages_quotes_and_legacy_paths(self):
+  with tempfile.TemporaryDirectory() as temp:
+   out=Path(temp)/'pages'
+   subprocess.run([sys.executable,str(ROOT/'scripts/build_pages_preview.py'),'--out',str(out)],check=True,capture_output=True)
+   homepage=(out/'index.html').read_text(encoding='utf-8')
+   self.assertNotIn('Temporary site preview',homepage)
+   self.assertIn('Organic search performance',homepage)
+   contact=(out/'contact/index.html').read_text(encoding='utf-8')
+   import re,csv
+   form=re.search(r'<form\b[^>]*id="contact-form".*?</form>',contact,re.S).group()
+   self.assertIn('action="https://formsubmit.co/info@seooutsourcingphilippines.com"',form)
+   self.assertNotIn('novalidate',form);self.assertNotIn('disabled',form)
+   self.assertIn('name="_honey"',form);self.assertNotIn('name="_captcha"',form)
+   self.assertIn('https://erwinmehehe.github.io/seooutsourcingph/quote-request-sent/',form)
+   self.assertTrue((out/'quote-request-sent/index.html').is_file())
+   scripts=list((out/'assets').glob('pages-site-*.js'));self.assertEqual(len(scripts),1)
+   self.assertIn('sop-static-form',scripts[0].read_text())
+   redirects=json.loads((ROOT/'quality/redirects.json').read_text())
+   with (ROOT/'quality/LIVE_URL_MIGRATION_INVENTORY.csv').open(encoding='utf-8',newline='') as f:
+    for row in csv.DictReader(f):
+     file=out/row['path'].lstrip('/')/'index.html';self.assertTrue(file.is_file(),row['path'])
+     if row['path'] in redirects:self.assertIn('/seooutsourcingph/'+redirects[row['path']].lstrip('/'),file.read_text())
  def test_every_existing_url_is_retained_or_redirected(self):
   import csv
   redirects=json.loads((ROOT/'quality/redirects.json').read_text(encoding='utf-8'))

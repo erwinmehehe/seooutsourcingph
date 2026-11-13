@@ -3,13 +3,14 @@
 
 The production-ready source in standalone/site is never modified. GitHub Pages
 serves project sites under /<repository>/, so root-relative site links need a
-prefix. The backend contact form is intentionally disabled in this static preview.
+prefix. Quote requests use FormSubmit on Pages; the Hostinger source remains unchanged.
 """
 from __future__ import annotations
 
 import argparse
 import os
 import json
+import hashlib
 from pathlib import Path
 import re
 import shutil
@@ -24,24 +25,22 @@ CONTACT_FORM = re.compile(
     r'<form\b[^>]*\bid=["\']contact-form["\'][^>]*>.*?</form>',
     flags=re.IGNORECASE | re.DOTALL,
 )
-NOTICE = (
-    '<aside role="note" aria-label="Temporary site preview" '
-    'style="position:relative;z-index:1000;padding:9px 16px;'
-    'background:#fff3d1;color:#192338;text-align:center;'
-    'font:600 13px/1.5 system-ui,sans-serif">'
-    'Website preview. '
-    'For quotes, email info@seooutsourcingphilippines.com.</aside>'
-)
-FORM_NOTICE = (
-    '<div role="note" style="padding:24px;border:1px solid #8c83bb;'
-    'border-radius:12px;background:#11182c;color:#edf2ff">'
-    '<h2>Request a quote</h2>'
-    '<p>Quote submissions are unavailable in this preview. '
-    'Email <a href="mailto:info@seooutsourcingphilippines.com">'
-    'info@seooutsourcingphilippines.com</a> with your website and requirements, '
-    'or <a href="https://calendly.com/discovery-call-with-erwin" target="_blank" '
-    'rel="noopener noreferrer">book a discovery call</a>.</p></div>'
-)
+FORM_ENDPOINT = "https://formsubmit.co/info@seooutsourcingphilippines.com"
+
+
+def static_form(match, base_path, public_origin):
+    form = match.group(0)
+    form = re.sub(r'action=["\'][^"\']*["\']', 'action="'+FORM_ENDPOINT+'"', form, count=1)
+    form = re.sub(r'\snovalidate(?:=["\'][^"\']*["\'])?', '', form)
+    form = re.sub(r'\sdisabled(?:=["\'][^"\']*["\'])?', '', form)
+    form = form.replace('name="phone_confirm"', 'name="_honey"')
+    hidden = ('<input type="hidden" name="_subject" value="SEO quote request"/>'
+              '<input type="hidden" name="_template" value="table"/>'
+              '<input type="hidden" name="_next" value="'+public_origin+base_path+'quote-request-sent/"/>')
+    disclosure = ('<p class="small">Quote requests are processed by '
+                  '<a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a> '
+                  'and emailed to info@seooutsourcingphilippines.com. Do not include passwords or sensitive account information.</p>')
+    return form.replace('</form>',hidden+disclosure+'</form>')
 
 
 
@@ -60,6 +59,7 @@ def main() -> None:
         parser.error("Invalid repository name")
 
     base_path = "/" if args.repo_name.endswith(".github.io") else f"/{args.repo_name}/"
+    public_origin = "https://" + os.getenv("GITHUB_REPOSITORY", "erwinmehehe/seooutsourcingph").split("/")[0] + ".github.io"
     marker = dest / '.sop-preview.json'
     if dest.exists() and any(dest.iterdir()):
         if not marker.is_file() or json.loads(marker.read_text(encoding='utf-8')).get('source') != str(source):
@@ -87,16 +87,52 @@ def main() -> None:
 
         if file == dest / "index.html":
             page = page.replace('</head>', '<meta name="sop-quote-url" content="'+base_path+'contact/"/></head>', 1)
-        page, replaced = CONTACT_FORM.subn(FORM_NOTICE, page)
+        page, replaced = CONTACT_FORM.subn(lambda m: static_form(m, base_path, public_origin), page)
         if replaced:
-            page = page.replace("Use the form or email us directly.", "Email us directly.")
+            page = page.replace("</head>", '<meta name="sop-static-form" content="formsubmit"/></head>', 1)
+        if file == dest / 'privacy-policy/index.html':
+            page = page.replace('<h2>Service providers</h2>', '<h2>Quote form processing</h2><p>On this GitHub Pages website, FormSubmit processes quote requests and emails them to us. Its documentation states that submission records are retained for 30 days. Its spam protection may require a CAPTCHA. <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">Read FormSubmit’s privacy policy</a>.</p><h2>Service providers</h2>')
         form_count += replaced
         if "name=\"robots\"" not in page and "name='robots'" not in page:
             page = re.sub(r"<head>", '<head><meta name="robots" content="noindex,nofollow">', page, count=1, flags=re.I)
-        page = re.sub(r"<body(?:\s[^>]*)?>", lambda match: match.group(0) + NOTICE, page, count=1, flags=re.I)
         file.write_text(page, encoding="utf-8")
         changed += 1
 
+    # Keep existing navigation JS, but let the hosted form submit natively with validation.
+    js = dest / "assets/site.js"
+    script = js.read_text(encoding="utf-8")
+    assert script.count("if (contact) {") == 1
+    script = script.replace("if (contact) {", "if (contact && !document.querySelector('meta[name=\"sop-static-form\"]')) {")
+    script += '''
+if (document.querySelector('meta[name="sop-static-form"]')) {
+ const form=document.querySelector('#contact-form');
+ if(form){
+  const params=new URLSearchParams(location.search);
+  for(const key of ['audience','plan','service','industry']){
+   const field=form.elements.namedItem(key), value=params.get(key);
+   if(field && value && [...field.options].some(o=>o.value===value))field.value=value;
+  }
+ }
+}
+'''
+    asset_name = 'pages-site-' + hashlib.sha256(script.encode()).hexdigest()[:12] + '.js'
+    (dest / 'assets' / asset_name).write_text(script, encoding='utf-8')
+    for file in dest.rglob('*.html'):
+        html = file.read_text(encoding='utf-8')
+        html = re.sub(r'assets/site\.js(?:\?[^"\x27]*)?', 'assets/'+asset_name, html)
+        file.write_text(html, encoding='utf-8')
+    contact = (dest / "contact/index.html").read_text(encoding="utf-8")
+    thankyou = re.sub(r'<main\b.*?</main>', '<main id="main"><section class="page-hero"><div class="container"><h1>Thank you for your enquiry.</h1><p>Your quote request has been submitted. We’ll review your requirements and reply by email.</p><a class="btn" href="'+base_path+'">Back to home</a></div></section></main>', contact, count=1, flags=re.S)
+    thankyou = thankyou.replace('Contact SEO Outsourcing Philippines | SEO Outsourcing Philippines','Quote request submitted | SEO Outsourcing Philippines')
+    thankyou = re.sub(r'<link\b[^>]*rel="canonical"[^>]*>', '<link rel="canonical" href="'+public_origin+base_path+'quote-request-sent/"/>', thankyou)
+    target = dest / "quote-request-sent/index.html"; target.parent.mkdir(); target.write_text(thankyou, encoding="utf-8")
+    # Pages cannot issue HTTP 301s; these compatibility pages forward old paths immediately.
+    redirects = json.loads((ROOT / "quality/redirects.json").read_text(encoding="utf-8"))
+    for source_path, target_path in redirects.items():
+        target_url = base_path + target_path.lstrip("/")
+        alias = dest / source_path.lstrip("/") / "index.html"
+        alias.parent.mkdir(parents=True, exist_ok=True)
+        alias.write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="'+public_origin+target_url+'"><meta http-equiv="refresh" content="0;url='+target_url+'"><title>Page moved</title></head><body><a href="'+target_url+'">Continue to this page</a><script>location.replace('+json.dumps(target_url)+'+location.search+location.hash)</script></body></html>', encoding="utf-8")
     (dest / ".nojekyll").touch()
     if changed < 60:
         raise SystemExit(f"Unexpectedly found only {changed} HTML pages. Refusing to deploy.")
@@ -104,7 +140,7 @@ def main() -> None:
         raise SystemExit(f"Expected exactly one backend contact form; found {form_count}. Refusing to deploy.")
     assert (dest / "index.html").exists()
     assert (dest / "assets" / "site.css").exists()
-    print(f"Built {changed} non-indexable HTML pages for {base_path}; disabled {form_count} contact form.")
+    print(f"Built {changed} non-indexable HTML pages for {base_path}; connected {form_count} FormSubmit quote form; preserved {len(redirects)} old paths.")
 
 
 if __name__ == "__main__":
