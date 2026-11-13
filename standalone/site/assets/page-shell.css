@@ -70,3 +70,15 @@ main:not(.inner-design) .page-contents a,main:not(.inner-design) .source-list a{
 main:not(.inner-design) .metric-list strong{color:#c2b2ff}
 main:not(.inner-design) .metric-list span{color:#aab6d0}
 main:not(.inner-design) .v8-calc-grid input{background:#0c1020;color:#eef1ff;border-color:#36415c;border-radius:8px}
+
+/* Phone ergonomics: avoid input zoom and keep fixed actions out of the keyboard flow. */
+@media(max-width:700px){
+ main#main input:not([type=checkbox]):not([type=radio]),main#main select,main#main textarea{font-size:16px}
+ main#main input,main#main select,main#main textarea{scroll-margin-block:110px}
+ body:has(#contact-form:focus-within) .shell-fixed-call{visibility:hidden;pointer-events:none}
+ .shell-fixed-call{background:#20223d;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));bottom:10px}
+ .site-footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+ .site-footer .footer-grid>div>a:not(.brand){min-height:44px;display:flex;align-items:center}
+ main:not(.inner-design) [data-filter]{min-height:44px}
+ .mobile-nav a{min-height:44px;display:flex;align-items:center}
+}
