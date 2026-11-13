@@ -10,7 +10,6 @@ import extra7 from "./assets/lumina.png";
 import extra8 from "./assets/madmiller.webp";
 import extra9 from "./assets/mlr.webp";
 import extra10 from "./assets/growers.png";
-import brand0 from "./assets/markd.png";
 import brand1 from "./assets/maddens.svg";
 import brand2 from "./assets/ivleague.svg";
 import brand3 from "./assets/smile.png";
@@ -82,10 +81,9 @@ const STEPS = [
 ];
 
 /* ---------- selected work, supplied portfolio, 9 November 2026 ---------- */
-export const LOGOS: Record<string,string> = {"markd.png":brand0,"maddens.svg":brand1,"ivleague.svg":brand2,"smile.png":brand3,"katehill.png":brand4,"lifestyle.png":brand5,"glass.png":extra0,"sunlover.svg":extra1,"holdsworth.svg":extra2,"newstead.svg":extra3,"royal.png":extra4,"endo.png":extra5,"kiama.svg":extra6,"lumina.png":extra7,"madmiller.webp":extra8,"mlr.webp":extra9,"growers.png":extra10};
+export const LOGOS: Record<string,string> = {"maddens.svg":brand1,"ivleague.svg":brand2,"smile.png":brand3,"katehill.png":brand4,"lifestyle.png":brand5,"glass.png":extra0,"sunlover.svg":extra1,"holdsworth.svg":extra2,"newstead.svg":extra3,"royal.png":extra4,"endo.png":extra5,"kiama.svg":extra6,"lumina.png":extra7,"madmiller.webp":extra8,"mlr.webp":extra9,"growers.png":extra10};
 
 export const WORK = [
- {name:"MARKD Tattoo",asset:"markd.png",sector:"Lifestyle",place:"Sydney, Australia",tag:"Tattoo & design",query:"tattoo designer sydney",position:1,volume:"1,000",text:"Selected organic searches include Sydney tattoo studios, artists and tattoo designs.",keywords:[["tattoo designer sydney","1"],["sydney tattoo artist","2"],["tattoo parlour sydney","1"]]},
  {name:"Maddens Lawyers",asset:"maddens.svg",sector:"Professional services",place:"Victoria, Australia",tag:"Legal services",query:"personal injury lawyers ballarat",position:1,volume:"170",text:"Selected organic searches cover personal injury, compensation and local legal services in Victoria.",keywords:[["personal injury lawyers ballarat","1"],["compensation lawyers ballarat","1"],["lawyers warrnambool","2"]]},
  {name:"IV League Drips",asset:"ivleague.svg",sector:"Healthcare",place:"Sydney, Australia",tag:"Wellness services",query:"iv therapy sydney",position:1,volume:"390",text:"Selected organic searches cover IV therapy, drips and NAD infusions in Sydney.",keywords:[["iv therapy sydney","1"],["iv drips sydney","1"],["nad infusion sydney","1"]]},
  {name:"The Smile Spot",asset:"smile.png",sector:"Healthcare",place:"Sydney, Australia",tag:"Dental practice",query:"dentist in strathfield",position:1,volume:"390",text:"Selected organic searches include local dentists, implants and other treatments in Sydney suburbs.",keywords:[["dentist in strathfield","1"],["dental implant concord","1"],["dentist dulwich hill","3"]]},
