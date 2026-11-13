@@ -57,7 +57,7 @@ class SourceTests(unittest.TestCase):
     if not self.skip:self.parts.append(data)
   for page in (ROOT/'standalone/site').rglob('*.html'):
    parser=Text();parser.feed(page.read_text(encoding='utf-8'));text=' '.join(parser.parts)
-   self.assertNotRegex(text,r'(?i)led\s+by\s+erwin|erwin\s+valles|draft policy|implementation package|must be reviewed by the site owner|production email delivery must|Online calendar booking is not connected yet|Inspect source dashboard')
+   self.assertNotRegex(text,r'(?i)led\s+by\s+erwin|erwin\s+valles|draft policy|implementation package|must be reviewed by the site owner|production email delivery must|Online calendar booking is not connected yet|Inspect source dashboard|This guide turns that situation|No Australian branch office is claimed|ready for the next owner or implementation step')
  def test_staging_is_not_a_production_release(self):
   with tempfile.TemporaryDirectory() as temp:
    out=Path(temp)/'release';result=subprocess.run([sys.executable,str(ROOT/'scripts/build_release.py'),'--out',str(out)],capture_output=True)

@@ -6,3 +6,67 @@ body{background:#080b1a;color:#e9edf7;font-family:Inter,system-ui,-apple-system,
 @media(max-width:560px){.shell-fixed-call{left:18px;right:18px;text-align:center}.brand-name{font-size:14px}.page-hero h1{font-size:36px}.section-head h2{font-size:29px}}
 
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* Shared layout for service details, industry pages, guides, resources and policies. */
+main:not(.inner-design){background:radial-gradient(ellipse at 80% 0,rgba(84,48,161,.1),transparent 650px)}
+main:not(.inner-design) .crumbs{font-size:11px;padding-top:24px;padding-bottom:0;color:#8f9bb9}
+main:not(.inner-design) .page-hero{background:transparent;padding-top:55px;padding-bottom:50px;border-bottom:1px solid #aab5dc22}
+main:not(.inner-design) .page-hero .container{max-width:1180px}
+main:not(.inner-design) .page-hero h1{max-width:1000px;font-size:clamp(34px,4.5vw,62px);font-weight:650;line-height:1.13;letter-spacing:-.05em;margin:0 0 25px;text-wrap:balance}
+main:not(.inner-design) .page-hero p{max-width:730px;font-size:17px;line-height:1.8;color:#b1b7ce;margin-bottom:26px}
+main:not(.inner-design) .btn{border-radius:12px;padding:14px 22px;font-size:13px;min-height:48px}
+main:not(.inner-design) .btn-row{gap:15px;align-items:center}
+main:not(.inner-design) .section{padding-top:55px;padding-bottom:55px}
+main:not(.inner-design) .section.soft{background:transparent;border-top:1px solid #aab5dc20}
+main:not(.inner-design) .section-head{align-items:start;gap:45px;margin-bottom:30px}
+main:not(.inner-design) h2{font-size:clamp(25px,2.6vw,36px);line-height:1.25;letter-spacing:-.035em;font-weight:600}
+main:not(.inner-design) h3{font-size:20px;line-height:1.4;letter-spacing:-.02em}
+main:not(.inner-design) p,main:not(.inner-design) li{line-height:1.8}
+main:not(.inner-design) .section-head>p{max-width:500px;color:#aeb9d0;font-size:14px}
+main:not(.inner-design) .card{background:#121728;border:1px solid #aab5dc24;border-radius:16px;padding:27px;box-shadow:none;min-width:0}
+main:not(.inner-design) .feature-card{display:flex;flex-direction:column;align-items:start}
+main:not(.inner-design) .card h3{margin:0 0 15px;color:#edf0ff}
+main:not(.inner-design) .card p{font-size:14px;color:#b1bbd2}
+main:not(.inner-design) .card a.more{margin-top:auto;padding-top:15px;color:#beb0f6;font-size:12px;text-decoration:none}
+main:not(.inner-design) .grid{gap:22px}
+main:not(.inner-design) .article,main:not(.inner-design) .policy-copy{font-size:16px;line-height:1.9;color:#c0c9dd;min-width:0}
+main:not(.inner-design) .policy-copy{max-width:820px}
+main:not(.inner-design) .article h2,main:not(.inner-design) .policy-copy h2{margin-top:48px;margin-bottom:20px;font-size:29px;scroll-margin-top:100px}
+main:not(.inner-design) .article h3,main:not(.inner-design) .policy-copy h3{margin-top:30px;font-size:21px}
+main:not(.inner-design) .article p,main:not(.inner-design) .policy-copy p{margin-block:18px}
+main:not(.inner-design) .article a,main:not(.inner-design) .policy-copy a{color:#bcb0f2;text-underline-offset:4px;overflow-wrap:anywhere}
+main:not(.inner-design) .article li,main:not(.inner-design) .policy-copy li{padding-left:4px;margin-block:8px}
+main:not(.inner-design) .editorial-layout{gap:55px;align-items:start}
+main:not(.inner-design) .aside-box,main:not(.inner-design) .side-box{background:#121728;border:1px solid #aab5dc24;border-radius:15px;padding:25px;min-width:0}
+main:not(.inner-design) .aside-box h3{font-size:17px}
+main:not(.inner-design) .aside-box a{font-size:13px;color:#bcb0f2;overflow-wrap:anywhere}
+main:not(.inner-design) table{border-collapse:collapse;line-height:1.7;font-size:13px;width:100%}
+main:not(.inner-design) table th{background:#1a2034;color:#e4e7f6;font-weight:500;text-align:left}
+main:not(.inner-design) table td,main:not(.inner-design) table th{border-bottom:1px solid #aab5dc22;padding:15px 18px;vertical-align:top}
+main:not(.inner-design) table td{color:#bac5db}
+main:not(.inner-design) .table-scroll,main:not(.inner-design) .matrix-scroll,main:not(.inner-design) div.responsive-table{overflow:auto;border:1px solid #aab5dc22;border-radius:13px;margin:25px 0}
+main:not(.inner-design) .worked-example{border:1px solid #aab5dc24;background:#121728;border-radius:16px;padding:30px}
+main:not(.inner-design) .worked-example h2{font-size:26px;margin-top:0}
+main:not(.inner-design) .sample,main:not(.inner-design) .v8-decision,main:not(.inner-design) .v8-pilot,main:not(.inner-design) .v8-buyer-test{border:1px solid #aab5dc24;border-radius:15px;background:#121728;box-shadow:none}
+main:not(.inner-design) .example-note,main:not(.inner-design) .tiny{font-size:12px;color:#98a6c1;line-height:1.75}
+main:not(.inner-design) .cta-band{background:transparent;border-top:1px solid #aab5dc22;padding:42px 0 60px}
+main:not(.inner-design) .cta-band h2{font-size:32px}
+main:not(.inner-design) .cta-band p{color:#aeb9d0;font-size:14px;max-width:620px}
+main:not(.inner-design) [data-filter]{border-radius:25px;border:1px solid #303850;background:transparent;color:#b1bbd2;padding:9px 15px;font-size:12px}
+main:not(.inner-design) [data-filter][aria-pressed=true]{background:#e3dfff;color:#15152a;border-color:#e3dfff}
+main:not(.inner-design) details{border-bottom:1px solid #aab5dc22;padding:18px 0}
+main:not(.inner-design) summary{font-size:15px;line-height:1.6;color:#e0d9fa;cursor:pointer}
+@media(max-width:960px){main:not(.inner-design) .editorial-layout{grid-template-columns:1fr}main:not(.inner-design) .section-head{gap:22px}main:not(.inner-design) .grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){main:not(.inner-design) .page-hero{padding-top:36px;padding-bottom:34px}main:not(.inner-design) .page-hero h1{font-size:35px}main:not(.inner-design) .page-hero p{font-size:15px}main:not(.inner-design) .section{padding-block:35px}main:not(.inner-design) .section-head,main:not(.inner-design) .cta-inner{display:block}main:not(.inner-design) .grid.three,main:not(.inner-design) .grid.two{grid-template-columns:1fr}main:not(.inner-design) .card,main:not(.inner-design) .worked-example{padding:23px}main:not(.inner-design) .article,main:not(.inner-design) .policy-copy{font-size:15px}main:not(.inner-design) .article h2,main:not(.inner-design) .policy-copy h2{font-size:25px;margin-top:35px}main:not(.inner-design) table{font-size:12px}main:not(.inner-design) table th,main:not(.inner-design) table td{padding:12px 10px}main:not(.inner-design) .cta-band .btn{margin-top:20px}}
+
+main:not(.inner-design) .page-hero::before,main:not(.inner-design) .page-hero::after,main:not(.inner-design) .feature-card::before{display:none}
+main:not(.inner-design) .page-hero h1 .accent{color:inherit}
+main:not(.inner-design) .chip,main:not(.inner-design) .pillbar span{background:#1a2034;border-color:#39425c;color:#c6cfe3}
+main:not(.inner-design) .proof-band,main:not(.inner-design) .section.dark{background:#121728;border-color:#aab5dc22}
+main:not(.inner-design) .sample-head,main:not(.inner-design) .sample-grid .th,main:not(.inner-design) .matrix th{background:#1a2034;color:#e4e7f6}
+main:not(.inner-design) .sample-grid>div,main:not(.inner-design) .sample-foot,main:not(.inner-design) .info-rail,main:not(.inner-design) .quick-item,main:not(.inner-design) .note-grid div,main:not(.inner-design) .metric-list div,main:not(.inner-design) .readiness,main:not(.inner-design) .policy-warning,main:not(.inner-design) .v8-source-note,main:not(.inner-design) .v8-calc,main:not(.inner-design) .matrix,main:not(.inner-design) .v8-decision .responsive-table,main:not(.inner-design) .table-scroll{background:#121728;border-color:#aab5dc24;color:#c1cade}
+main:not(.inner-design) .article blockquote,main:not(.inner-design) .article .callout,main:not(.inner-design) .page-contents{background:#171d30;border-color:#8d7cb9;color:#c1cade;border-radius:10px;padding:22px 25px}
+main:not(.inner-design) .page-contents a,main:not(.inner-design) .source-list a{background:transparent;color:#bcb0f2}
+main:not(.inner-design) .metric-list strong{color:#c2b2ff}
+main:not(.inner-design) .metric-list span{color:#aab6d0}
+main:not(.inner-design) .v8-calc-grid input{background:#0c1020;color:#eef1ff;border-color:#36415c;border-radius:8px}
