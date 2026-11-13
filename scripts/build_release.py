@@ -83,6 +83,7 @@ def review():
             if dest.startswith("/assets/"): continue
             if "." in dest.rsplit("/",1)[-1]: continue
             dest = dest if dest.endswith("/") else dest + "/"
+            dest = redirects.get(dest, dest)
             if dest not in approved:
                 problems.append(url + " links to held page " + dest)
     for path in SITE.rglob("*.html"):

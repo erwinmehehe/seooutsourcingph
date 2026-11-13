@@ -7,6 +7,17 @@ def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
 release=load('release_test_module',ROOT/'scripts/build_release.py')
 class SourceTests(unittest.TestCase):
+ def test_every_existing_url_is_retained_or_redirected(self):
+  import csv
+  redirects=json.loads((ROOT/'quality/redirects.json').read_text(encoding='utf-8'))
+  with (ROOT/'quality/LIVE_URL_MIGRATION_INVENTORY.csv').open(encoding='utf-8',newline='') as file:
+   rows=list(csv.DictReader(file))
+  self.assertEqual(len(rows),76)
+  for row in rows:
+   self.assertNotEqual(row['action'],'review')
+   target=redirects.get(row['path'],row['path'])
+   self.assertNotIn(target,redirects)
+   self.assertTrue((ROOT/'standalone/site'/target.lstrip('/')/'index.html').is_file(),target)
  def test_original_hero_is_unchanged(self):
   text=(ROOT/'landing-page/src/App.tsx').read_text(encoding='utf-8');a=text.index('        {/* HERO */}');b=text.index('        </section>',a)+len('        </section>')
   self.assertEqual(hashlib.sha256(text[a:b].encode()).hexdigest(),(ROOT/'tests/original-hero.sha256').read_text().strip())

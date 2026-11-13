@@ -17,7 +17,7 @@ WordPress retains existing content and URLs. `quality/redirects.json` is intende
 
 ## Standalone
 
-1. Review `quality/LIVE_URL_MIGRATION_INVENTORY.csv`. Keep or map every existing URL. Twenty-one direct equivalents are supplied in `quality/redirects.json`; 48 other paths still need attention. Do not redirect unrelated articles or all archives to the homepage.
+1. Review `quality/LIVE_URL_MIGRATION_INVENTORY.csv`. Keep or map every existing URL. Twenty-one direct equivalents are supplied in `quality/redirects.json`; the remaining paths are now retained. Do not redirect unrelated articles or all archives to the homepage.
 2. Complete the actual approvals in `quality/release-approvals.json`, select `STANDALONE`, and list the approved page URLs. Do not mark checks complete without the corresponding evidence.
 3. Build a fresh release with `python scripts/build_release.py --out standalone/release/site`. The builder rejects missing signoffs, unresolved existing URLs, redirect chains and links to held pages. It generates production robots.txt, a sitemap, redirects and a release marker. Source files remain noindex.
 4. Copy `standalone/.env.example` to `standalone/.env` privately and set real credentials. Never add it to Git. Production requires a strong form secret, secure cookies, the expected hostname, persistent storage and mail configuration.
@@ -43,3 +43,10 @@ Both implementations emit `quote_request_success` and `discovery_call_click` to 
 ## Rollback
 
 Keep the prior theme, database and server configuration until the new deployment is verified. Restore the prior application and configuration if forms, routing or indexing fail. Preserve enquiries collected after the backup rather than overwriting the lead store during rollback.
+
+
+## Standalone migration update
+
+Standalone is the selected production platform. All 76 inventoried page/archive URLs are covered: 55 retained paths and 21 single-hop redirects. The 48 previously unresolved URLs are generated from saved public article text and category listings in `migration/preserved-content.json`. Run `python scripts/preserve_migration.py` to regenerate them and `--check` to verify synchronization. The standalone site now contains 115 pages; the optional WordPress draft import remains at 67.
+
+This resolves URL mapping, not production publication approval. SMTP/inbox verification and the other business/hosting release checks remain required. The original hero is unchanged.
