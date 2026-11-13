@@ -106,15 +106,15 @@ add_filter('robots_txt', static function ($output, $public) {
 }, 99, 2);
 
 // Homepage copy comes from the theme build, not stale imported SEO fields.
-function sop_home_description() { return 'Technical SEO, content, local search and white-label support for agencies and businesses. View our work and request a quote.'; }
-add_filter('pre_get_document_title', static function ($title) { return is_front_page() ? 'SEO Outsourcing Philippines — SEO services for agencies and businesses' : $title; });
-add_filter('wpseo_title', static function ($title) { return is_front_page() ? 'SEO Outsourcing Philippines — SEO services for agencies and businesses' : $title; });
+function sop_home_description() { return 'Scale your search rankings with SEO Outsourcing Philippines. Lower costs, drive organic traffic, and execute proven technical strategies. Get started today!'; }
+add_filter('pre_get_document_title', static function ($title) { return is_front_page() ? 'White Label SEO Services | SEO Outsourcing Philippines' : $title; });
+add_filter('wpseo_title', static function ($title) { return is_front_page() ? 'White Label SEO Services | SEO Outsourcing Philippines' : $title; });
 add_filter('wpseo_metadesc', static function ($description) { return is_front_page() ? sop_home_description() : $description; });
 add_filter('wpseo_opengraph_image', static function ($url) { return is_front_page() ? get_template_directory_uri().'/assets/og-image.png' : $url; });
 add_action('wp_head', static function () {
   if (!is_front_page() || defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) return;
   echo '<meta name="description" content="'.esc_attr(sop_home_description()).'">';
-  echo '<meta property="og:type" content="website"><meta property="og:title" content="SEO Outsourcing Philippines"><meta property="og:description" content="'.esc_attr(sop_home_description()).'"><meta property="og:url" content="'.esc_url(home_url('/')).'"><meta property="og:image" content="'.esc_url(get_template_directory_uri().'/assets/og-image.png').'"><meta name="twitter:card" content="summary_large_image">';
+  echo '<meta property="og:type" content="website"><meta property="og:title" content="White Label SEO Services | SEO Outsourcing Philippines"><meta property="og:description" content="'.esc_attr(sop_home_description()).'"><meta property="og:url" content="'.esc_url(home_url('/')).'"><meta property="og:image" content="'.esc_url(get_template_directory_uri().'/assets/og-image.png').'"><meta name="twitter:card" content="summary_large_image">';
   echo '<script type="application/ld+json">'.wp_json_encode(array('@context'=>'https://schema.org','@type'=>'Organization','name'=>'SEO Outsourcing Philippines','url'=>home_url('/'),'email'=>'info@seooutsourcingphilippines.com')).'</script>';
 }, 6);
 
