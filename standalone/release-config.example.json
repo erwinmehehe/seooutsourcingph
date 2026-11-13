@@ -1,35 +1,19 @@
 {
-  "reviewed_by": "",
-  "reviewed_at": "",
+  "release_status": "HOLD",
+  "production_platform": "STANDALONE",
+  "approved_urls": [],
   "signoffs": {
-    "contracting_entity_verified": false,
-    "contact_email_inbox_tested": false,
-    "privacy_policy_legally_approved": false,
-    "cookie_policy_legally_approved": false,
-    "terms_of_service_legally_approved": false,
-    "hero_image_rights_approved": false,
-    "client_results_sharing_permissions_verified": false,
-    "published_pricing_approved": false,
-    "approved_copy_and_sources": false,
-    "live_url_migration_and_redirects_reviewed": false,
-    "production_email_and_form_delivery_tested": false,
-    "backups_and_rollback_tested": false
+    "legal_operator_verified": false,
+    "named_delivery_owner_confirmed": false,
+    "ranking_and_image_permissions_verified": false,
+    "pricing_and_scope_approved": false,
+    "privacy_and_terms_approved": false,
+    "live_form_inbox_test_passed": false,
+    "security_and_backup_review_passed": false,
+    "analytics_and_consent_test_passed": false,
+    "accessibility_mobile_review_passed": false,
+    "existing_url_redirects_reviewed": false,
+    "australian_regulated_content_reviewed": false
   },
-  "approved_urls": [
-    "/",
-    "/about/",
-    "/contact/",
-    "/privacy-policy/",
-    "/cookie-policy/",
-    "/terms-of-service/",
-    "/services/",
-    "/services/white-label-seo/",
-    "/services/technical-seo/",
-    "/services/on-page-seo/",
-    "/services/local-seo/",
-    "/pricing/",
-    "/results/",
-    "/samples/",
-    "/how-it-works/"
-  ]
+  "signoff_notes": "HOLD until each gate is verified by its responsible reviewer. No approvals are inferred from automated checks."
 }

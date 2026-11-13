@@ -88,6 +88,8 @@ def main() -> None:
         if file == dest / "index.html":
             page = page.replace('</head>', '<meta name="sop-quote-url" content="'+base_path+'contact/"/></head>', 1)
         page, replaced = CONTACT_FORM.subn(FORM_NOTICE, page)
+        if replaced:
+            page = page.replace("Use the form or email us directly.", "Email us directly.")
         form_count += replaced
         if "name=\"robots\"" not in page and "name='robots'" not in page:
             page = re.sub(r"<head>", '<head><meta name="robots" content="noindex,nofollow">', page, count=1, flags=re.I)

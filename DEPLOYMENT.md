@@ -2,6 +2,8 @@
 
 The live domain currently uses WordPress. Merging source into GitHub does not install a theme or configure production mail.
 
+Standalone is the selected launch platform. The WordPress instructions below are retained only for the optional alternative.
+
 ## WordPress
 
 1. Back up the WordPress database, uploads, theme and plugin configuration. Keep a restore point and a URL inventory.
@@ -18,7 +20,7 @@ WordPress retains existing content and URLs. `quality/redirects.json` is intende
 ## Standalone
 
 1. Review `quality/LIVE_URL_MIGRATION_INVENTORY.csv`. Keep or map every existing URL. Twenty-one direct equivalents are supplied in `quality/redirects.json`; the remaining paths are now retained. Do not redirect unrelated articles or all archives to the homepage.
-2. Complete the actual approvals in `quality/release-approvals.json`, select `STANDALONE`, and list the approved page URLs. Do not mark checks complete without the corresponding evidence.
+2. Use `quality/release-approvals.json` as the active release manifest. `standalone/release-config.example.json` is a matching example, not a second configuration consumed by the builder. Complete the actual approvals in `quality/release-approvals.json`, select `STANDALONE`, and list the approved page URLs. Do not mark checks complete without the corresponding evidence.
 3. Build a fresh release with `python scripts/build_release.py --out standalone/release/site`. The builder rejects missing signoffs, unresolved existing URLs, redirect chains and links to held pages. It generates production robots.txt, a sitemap, redirects and a release marker. Source files remain noindex.
 4. Copy `standalone/.env.example` to `standalone/.env` privately and set real credentials. Never add it to Git. Production requires a strong form secret, secure cookies, the expected hostname, persistent storage and mail configuration.
 5. From `standalone/deploy/`, run `docker compose build` and `docker compose up -d`. The Docker image copies `backend/` and the approved `release/site/`, not unreviewed source pages. The proxy waits for the application health check.
