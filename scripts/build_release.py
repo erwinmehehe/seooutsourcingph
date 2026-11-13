@@ -140,6 +140,10 @@ def main():
         target.parent.mkdir(parents=True,exist_ok=True)
         html = source.read_text(encoding="utf-8")
         html = enable_indexing(html, url)
+        if url == "/" and 'name="google-site-verification"' not in html:
+            if "</head>" not in html:
+                raise RuntimeError("Homepage head not found for Search Console verification")
+            html = html.replace("</head>", '<meta name="google-site-verification" content="zjY_Lrg-eC1N8fPXARPBeYg2otuitmqG4l2jyAntTTo" /></head>', 1)
         target.write_text(html,encoding="utf-8")
     shutil.copy2(SITE/"404.html",out/"404.html")
     (out/"robots.txt").write_text("User-agent: *\nAllow: /\nSitemap: "+DOMAIN+"/sitemap.xml\n",encoding="utf-8")

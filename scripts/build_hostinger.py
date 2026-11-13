@@ -20,6 +20,11 @@ def build(out):
         assert target not in redirects and (site/target.lstrip('/')/'index.html').is_file(),row['path']
     public=out/'public_html';private=out/'sop-private'
     shutil.copytree(site,public);private.mkdir()
+    homepage=public/'index.html'
+    homepage_html=homepage.read_text(encoding='utf-8')
+    if 'name="google-site-verification"' not in homepage_html:
+        if '</head>' not in homepage_html: raise SystemExit('Homepage head not found for Search Console verification')
+        homepage.write_text(homepage_html.replace('</head>', '<meta name="google-site-verification" content="zjY_Lrg-eC1N8fPXARPBeYg2otuitmqG4l2jyAntTTo" /></head>', 1), encoding='utf-8')
     shutil.copytree(src/'api',public/'api')
     shutil.copytree(src/'vendor',private/'vendor')
     shutil.copy2(src/'maintenance.php',private/'maintenance.php')

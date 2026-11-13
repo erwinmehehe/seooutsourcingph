@@ -105,6 +105,8 @@ def main() -> None:
                 page = page.replace(old, new)
 
         if file == dest / "index.html":
+            if 'name="google-site-verification"' not in page:
+                page = page.replace('</head>', '<meta name="google-site-verification" content="zjY_Lrg-eC1N8fPXARPBeYg2otuitmqG4l2jyAntTTo" /></head>', 1)
             page = page.replace('</head>', '<meta name="sop-quote-url" content="'+base_path+'contact/"/></head>', 1)
         page, replaced = CONTACT_FORM.subn(lambda m: static_form(m, base_path, public_origin), page)
         if replaced:
