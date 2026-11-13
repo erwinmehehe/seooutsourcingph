@@ -14,6 +14,8 @@ import hashlib
 from pathlib import Path
 import re
 import shutil
+from urllib.parse import urlsplit
+from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "standalone" / "site"
@@ -49,6 +51,7 @@ def main() -> None:
     parser.add_argument("--out", required=True, type=Path,
                         help="New output directory for GitHub Pages artifact")
     parser.add_argument("--repo-name", default=os.getenv("GITHUB_REPOSITORY", "erwinmehehe/seooutsourcingph").split("/")[-1])
+    parser.add_argument('--public-url', help='Actual URL supplied by actions/configure-pages')
     args = parser.parse_args()
 
     dest = args.out.resolve()
@@ -60,6 +63,16 @@ def main() -> None:
 
     base_path = "/" if args.repo_name.endswith(".github.io") else f"/{args.repo_name}/"
     public_origin = "https://" + os.getenv("GITHUB_REPOSITORY", "erwinmehehe/seooutsourcingph").split("/")[0] + ".github.io"
+    custom_domain = False
+    if args.public_url:
+        parts = urlsplit(args.public_url)
+        allowed = {urlsplit(public_origin).hostname, 'seooutsourcingphilippines.com'}
+        if parts.scheme != 'https' or parts.hostname not in allowed or parts.username or parts.password or parts.query or parts.fragment:
+            parser.error('Unexpected Pages public URL')
+        public_origin = 'https://' + parts.netloc
+        base_path = parts.path.rstrip('/') + '/'
+        custom_domain = parts.hostname == 'seooutsourcingphilippines.com'
+        if custom_domain and base_path != '/': parser.error('Custom domain must use the domain root')
     marker = dest / '.sop-preview.json'
     if dest.exists() and any(dest.iterdir()):
         if not marker.is_file() or json.loads(marker.read_text(encoding='utf-8')).get('source') != str(source):
@@ -101,6 +114,8 @@ def main() -> None:
         form_count += replaced
         if "name=\"robots\"" not in page and "name='robots'" not in page:
             page = re.sub(r"<head>", '<head><meta name="robots" content="noindex,nofollow">', page, count=1, flags=re.I)
+        if custom_domain and file.name != '404.html':
+            page = re.sub(r'<meta\b[^>]*>', lambda m: '<meta name="robots" content="index,follow,max-image-preview:large"/>' if re.search(r'\bname=["\x27]robots["\x27]',m[0],re.I) else m[0],page,flags=re.I)
         file.write_text(page, encoding="utf-8")
         changed += 1
 
@@ -130,6 +145,7 @@ if (document.querySelector('meta[name="sop-static-form"]')) {
     contact = (dest / "contact/index.html").read_text(encoding="utf-8")
     thankyou = re.sub(r'<main\b.*?</main>', '<main id="main"><section class="page-hero"><div class="container"><h1>Thank you for your enquiry.</h1><p>Your quote request has been submitted. We’ll review your requirements and reply by email.</p><a class="btn" href="'+base_path+'">Back to home</a></div></section></main>', contact, count=1, flags=re.S)
     thankyou = thankyou.replace('Contact SEO Outsourcing Philippines | SEO Outsourcing Philippines','Quote request submitted | SEO Outsourcing Philippines')
+    thankyou = re.sub(r'<meta\b[^>]*>', lambda m: '<meta name="robots" content="noindex,nofollow"/>' if re.search(r'\bname=["\x27]robots["\x27]',m[0],re.I) else m[0],thankyou,flags=re.I)
     thankyou = re.sub(r'<link\b[^>]*rel="canonical"[^>]*>', '<link rel="canonical" href="'+public_origin+base_path+'quote-request-sent/"/>', thankyou)
     target = dest / "quote-request-sent/index.html"; target.parent.mkdir(); target.write_text(thankyou, encoding="utf-8")
     # Pages cannot issue HTTP 301s; these compatibility pages forward old paths immediately.
@@ -140,6 +156,13 @@ if (document.querySelector('meta[name="sop-static-form"]')) {
         alias.parent.mkdir(parents=True, exist_ok=True)
         alias.write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="'+public_origin+target_url+'"><meta http-equiv="refresh" content="0;url='+target_url+'"><title>Page moved</title></head><body><a href="'+target_url+'">Continue to this page</a><script>location.replace('+json.dumps(target_url)+'+location.search+location.hash)</script></body></html>', encoding="utf-8")
     (dest / ".nojekyll").touch()
+    if custom_domain:
+        (dest/'CNAME').write_text('seooutsourcingphilippines.com\n')
+        (dest/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+public_origin+'/sitemap.xml\n')
+        paths=['/' if p.parent==source else '/'+p.parent.relative_to(source).as_posix()+'/' for p in source.rglob('index.html')]
+        sitemap='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+escape(public_origin+p)+'</loc></url>' for p in sorted(paths))+'</urlset>'
+        for name in ['sitemap.xml','sitemap_index.xml','wp-sitemap.xml','post-sitemap.xml','page-sitemap.xml','category-sitemap.xml']:
+            (dest/name).write_text(sitemap,encoding='utf-8')
     if changed < 60:
         raise SystemExit(f"Unexpectedly found only {changed} HTML pages. Refusing to deploy.")
     if form_count != 1:

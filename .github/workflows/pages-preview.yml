@@ -22,10 +22,13 @@ jobs:
     steps:
       - name: Check out site source
         uses: actions/checkout@v4
-      - name: Generate non-indexable preview with project-relative links
-        run: python3 scripts/build_pages_preview.py --out "$RUNNER_TEMP/seoout-pages"
       - name: Configure Pages
+        id: pages
         uses: actions/configure-pages@v5
+      - name: Build for the configured Pages URL
+        env:
+          PAGES_PUBLIC_URL: ${{ steps.pages.outputs.base_url }}
+        run: python3 scripts/build_pages_preview.py --out "$RUNNER_TEMP/seoout-pages" --public-url "$PAGES_PUBLIC_URL"
       - name: Upload preview files
         uses: actions/upload-pages-artifact@v4
         with:

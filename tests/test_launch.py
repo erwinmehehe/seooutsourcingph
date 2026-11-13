@@ -7,6 +7,19 @@ def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
 release=load('release_test_module',ROOT/'scripts/build_release.py')
 class SourceTests(unittest.TestCase):
+ def test_custom_domain_build(self):
+  with tempfile.TemporaryDirectory() as temp:
+   out=Path(temp)/'domain'
+   subprocess.run([sys.executable,str(ROOT/'scripts/build_pages_preview.py'),'--out',str(out),'--public-url','https://seooutsourcingphilippines.com'],check=True,capture_output=True)
+   home=(out/'index.html').read_text(encoding='utf-8');contact=(out/'contact/index.html').read_text(encoding='utf-8')
+   self.assertNotIn('markd',home.lower());self.assertNotIn('/seooutsourcingph/',contact)
+   self.assertIn('content="index,follow,max-image-preview:large"',home)
+   self.assertIn('https://seooutsourcingphilippines.com/quote-request-sent/',contact)
+   self.assertIn('noindex,nofollow',(out/'quote-request-sent/index.html').read_text())
+   self.assertEqual((out/'CNAME').read_text().strip(),'seooutsourcingphilippines.com')
+   self.assertEqual((out/'sitemap.xml').read_text().count('<url>'),115)
+   self.assertIn('Allow: /',(out/'robots.txt').read_text())
+   self.assertIn('url=/results/',(out/'result/index.html').read_text())
  def test_pages_quotes_and_legacy_paths(self):
   with tempfile.TemporaryDirectory() as temp:
    out=Path(temp)/'pages'
