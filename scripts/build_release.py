@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Fail-closed production release builder. Does not deploy to hosting."""
 import argparse
+try:
+    from scripts.ga4_tag import inject_ga4
+except ModuleNotFoundError:  # Direct CLI invocation from scripts/
+    from ga4_tag import inject_ga4
 import csv
 import json
 import re
@@ -140,6 +144,7 @@ def main():
         target.parent.mkdir(parents=True,exist_ok=True)
         html = source.read_text(encoding="utf-8")
         html = enable_indexing(html, url)
+        html = inject_ga4(html)
         if url == "/" and 'name="google-site-verification"' not in html:
             if "</head>" not in html:
                 raise RuntimeError("Homepage head not found for Search Console verification")

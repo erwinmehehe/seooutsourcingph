@@ -14,6 +14,7 @@ import hashlib
 from pathlib import Path
 import re
 import shutil
+from ga4_tag import inject_ga4
 from urllib.parse import urlsplit
 from xml.sax.saxutils import escape
 
@@ -118,6 +119,7 @@ def main() -> None:
             page = re.sub(r"<head>", '<head><meta name="robots" content="noindex,nofollow">', page, count=1, flags=re.I)
         if custom_domain and file.name != '404.html':
             page = re.sub(r'<meta\b[^>]*>', lambda m: '<meta name="robots" content="index,follow,max-image-preview:large"/>' if re.search(r'\bname=["\x27]robots["\x27]',m[0],re.I) else m[0],page,flags=re.I)
+        page = inject_ga4(page)
         file.write_text(page, encoding="utf-8")
         changed += 1
 

@@ -67,7 +67,7 @@ Until this step, pages remain noindex deliberately. Review the published service
 
 In Cron Jobs, temporarily run a PHP job for the full path to sop-private/publish.php with argument --publish. If the PHP UI cannot accept arguments, use the Custom command type: the hosting PHP executable followed by the full private script path and --publish. Use the PHP executable path provided by hPanel, not a guessed server path. Run once, confirm output says "Indexing enabled for 115 pages", then remove this one-time job. Keep the maintenance job.
 
-Verify page source contains index,follow; /robots.txt allows crawling and lists the real-domain /sitemap.xml; the sitemap contains 115 URLs and no temporary hostname. /sitemap_index.xml and /wp-sitemap.xml redirect to it. Submit /sitemap.xml to Search Console. No analytics provider has been silently installed; connect your existing measurement property separately if needed.
+Verify page source contains index,follow; /robots.txt allows crawling and lists the real-domain /sitemap.xml; the sitemap contains 115 URLs and no temporary hostname. /sitemap_index.xml and /wp-sitemap.xml redirect to it. Submit /sitemap.xml to Search Console. GA4 (`G-Y6B0JEJRZ4`) is included in the generated HTML for the live domain only. Before publication, approve updated privacy/cookie notices and any required analytics consent controls; then confirm page views and conversion events in GA4 Realtime/DebugView. Do not treat this package as proof that analytics is receiving live traffic.
 
 ## Rollback
 

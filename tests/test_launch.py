@@ -7,6 +7,15 @@ def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
 release=load('release_test_module',ROOT/'scripts/build_release.py')
 class SourceTests(unittest.TestCase):
+ def test_ga4_head_tag_once_and_preview_hostname_guard(self):
+  from scripts.ga4_tag import inject_ga4, GA4_MEASUREMENT_ID
+  initial='<html><head><title>Sample</title></head><body></body></html>'
+  tagged=inject_ga4(initial)
+  self.assertEqual(tagged.count('data-sop-ga4'),1)
+  self.assertEqual(tagged.count(GA4_MEASUREMENT_ID),1)
+  self.assertIn('seooutsourcingphilippines',tagged)
+  self.assertIn('location.hostname',tagged)
+  self.assertEqual(inject_ga4(tagged),tagged)
  def test_custom_domain_build(self):
   with tempfile.TemporaryDirectory() as temp:
    out=Path(temp)/'domain'
@@ -17,6 +26,10 @@ class SourceTests(unittest.TestCase):
    self.assertIn('https://seooutsourcingphilippines.com/quote-request-sent/',contact)
    self.assertIn('noindex,nofollow',(out/'quote-request-sent/index.html').read_text())
    self.assertEqual((out/'CNAME').read_text().strip(),'seooutsourcingphilippines.com')
+   self.assertEqual(home.count('data-sop-ga4'),1)
+   self.assertEqual(contact.count('data-sop-ga4'),1)
+   self.assertIn('G-Y6B0JEJRZ4',home)
+   self.assertIn('G-Y6B0JEJRZ4',contact)
    self.assertEqual((out/'sitemap.xml').read_text().count('<url>'),115)
    self.assertIn('Allow: /',(out/'robots.txt').read_text())
    self.assertIn('url=/results/',(out/'result/index.html').read_text())

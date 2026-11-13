@@ -40,7 +40,9 @@ For WordPress, configure a reliable host cron for WP-Cron, monitor the SEO enqui
 
 ## Measurement
 
-Both implementations emit `quote_request_success` and `discovery_call_click` to `dataLayer`. Events contain no submitted names, email addresses, URLs or message text. No analytics provider, advertising pixel or consent assumption is added. Connect the actual analytics property and required consent behaviour on the production host, then verify events in its debugger.
+Google Analytics 4 measurement ID `G-Y6B0JEJRZ4` is configured in the generated standalone site and optional WordPress theme. The tag loads only on `seooutsourcingphilippines.com` (and `www`) so local and GitHub Pages preview visits are not measured. It sends standard page views plus the existing `quote_request_success` and `discovery_call_click` event names, without passing submitted names, email addresses or message text. Build paths inject the same tag once per document; existing GA4 installations must be checked before production rollout to avoid duplicates.
+
+**Not a launch approval:** Review/update privacy and cookie notices, choose and implement any legally required consent controls, and confirm page views and conversion events in GA4 Realtime/DebugView on the real domain. The `analytics_and_consent_test_passed` release gate remains unset until these are verified.
 
 ## Rollback
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Create an upload archive; private settings and mail dependencies stay outside public_html."""
 import argparse, csv, hashlib, json, re, secrets, shutil, zipfile
+from ga4_tag import inject_ga4
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -20,6 +21,9 @@ def build(out):
         assert target not in redirects and (site/target.lstrip('/')/'index.html').is_file(),row['path']
     public=out/'public_html';private=out/'sop-private'
     shutil.copytree(site,public);private.mkdir()
+    # Add GA4 once to every deployable page; never modify held source files.
+    for page in public.rglob('*.html'):
+        page.write_text(inject_ga4(page.read_text(encoding='utf-8')), encoding='utf-8')
     homepage=public/'index.html'
     homepage_html=homepage.read_text(encoding='utf-8')
     if 'name="google-site-verification"' not in homepage_html:
