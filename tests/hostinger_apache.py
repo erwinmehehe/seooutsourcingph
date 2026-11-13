@@ -11,7 +11,7 @@ for row in rows:
  status,headers,body=get(row['path'])
  if row['path'] in redirects:assert status==301 and headers['Location'].endswith(redirects[row['path']]),(row['path'],status,headers)
  else:assert status==200 and b'<html' in body,(row['path'],status)
-for path in ['/sitemap_index.xml','/wp-sitemap.xml']:
+for path in ['/sitemap_index.xml','/wp-sitemap.xml','/post-sitemap.xml','/page-sitemap.xml','/category-sitemap.xml']:
  status,headers,_=get(path);assert status==301 and headers['Location'].endswith('/sitemap.xml')
 assert get('/no-such-page/')[0]==404
 for path in ['/api/common.php','/.htaccess']:assert get(path)[0]==403

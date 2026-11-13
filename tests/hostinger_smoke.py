@@ -51,6 +51,10 @@ def main():
     try:assert request('GET','/api/health')[0]==200;break
     except (ConnectionError,OSError):time.sleep(.1)
    token=request('GET','/api/session')[1]['csrf_token']
+   assert request('GET','/api/inquiry')[0]==405
+   (private/'config.php').rename(private/'config.disabled')
+   assert request('GET','/api/session')[0]==503
+   (private/'config.disabled').rename(private/'config.php')
    d={'csrf_token':token,'name':'Local Test','email':'customer@example.com','website':'https://example.com','audience':'business','plan':'SEO Essential','details':'Synthetic integration test request.','consent':True}
    assert request('POST','/api/inquiry',d,origin='https://other.example')[0]==403
    assert request('POST','/api/inquiry',dict(d,csrf_token='invalid'))[0]==403
@@ -76,6 +80,10 @@ def main():
    d['csrf_token']=request('GET','/api/session')[1]['csrf_token'];assert request('POST','/api/inquiry',d)[0]==201
    d['csrf_token']=request('GET','/api/session')[1]['csrf_token'];assert request('POST','/api/inquiry',d)[0]==429
    assert len(list((private/'enquiries').glob('*.json')))==3
+   old=json.loads(saved.read_text());old['created']=time.time()-91*86400;saved.write_text(json.dumps(old))
+   shutil.copy2(src/'maintenance.php',private/'maintenance.php')
+   subprocess.run(cli+[str(private/'maintenance.php')],check=True,capture_output=True)
+   assert not saved.exists() # Retention applies even without another incoming enquiry.
    # Verify CLI-only publication writes real-domain discovery and page robots.
    shutil.copy2(src/'publish.php',private/'publish.php');(private/'pages.json').write_text('["/"]')
    (pub/'index.html').write_text('<head><meta content="noindex,nofollow" name="robots"/></head>');(pub/'404.html').write_text('Not found')

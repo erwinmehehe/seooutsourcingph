@@ -37,7 +37,7 @@ def build(out):
       'RewriteRule ^ https://seooutsourcingphilippines.com%{REQUEST_URI} [R=301,L,NE]']
     for source,target in redirects.items():
         rules.append('RewriteRule ^'+re.escape(source.strip('/'))+'/?$ '+target+' [R=301,L,NE]')
-    rules += ['RewriteRule ^(?:sitemap_index|wp-sitemap)\\.xml$ /sitemap.xml [R=301,L]',
+    rules += ['RewriteRule ^(?:sitemap_index|wp-sitemap|post-sitemap|page-sitemap|category-sitemap)\\.xml$ /sitemap.xml [R=301,L]',
       'RewriteRule ^api/(?:session|inquiry|health)/?$ api/index.php [END]',
       'RewriteRule ^api/(?!index\\.php$) - [F,END]',
       'RewriteCond %{REQUEST_FILENAME} -f [OR]','RewriteCond %{REQUEST_FILENAME} -d','RewriteRule ^ - [END]']
