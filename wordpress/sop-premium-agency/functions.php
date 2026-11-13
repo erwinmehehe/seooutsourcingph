@@ -14,6 +14,7 @@ add_action('wp_enqueue_scripts', static function () {
   } else {
     wp_enqueue_style('sop-site', $uri.'/assets/site.css', array(), filemtime($path.'/assets/site.css'));
     wp_enqueue_style('sop-page-shell', $uri.'/assets/page-shell.css', array('sop-site'), filemtime($path.'/assets/page-shell.css'));
+    wp_enqueue_style('sop-inner-pages', $uri.'/assets/inner-pages.css', array('sop-page-shell'), filemtime($path.'/assets/inner-pages.css'));
     wp_enqueue_script('sop-site', $uri.'/assets/site.js', array(), filemtime($path.'/assets/site.js'), true);
     wp_enqueue_script('sop-measurement', $uri.'/assets/measurement.js', array(), filemtime($path.'/assets/measurement.js'), true);
   }
