@@ -82,3 +82,5 @@ main:not(.inner-design) .v8-calc-grid input{background:#0c1020;color:#eef1ff;bor
  main:not(.inner-design) [data-filter]{min-height:44px}
  .mobile-nav a{min-height:44px;display:flex;align-items:center}
 }
+
+.shell-fixed-call[hidden]{display:none}

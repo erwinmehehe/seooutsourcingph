@@ -132,3 +132,13 @@ document.querySelectorAll('[data-margin-calculator]').forEach((calculator) => {
   Object.values(inputs).forEach(x=>x.addEventListener('input',update));
   update();
 });
+
+// Keep the floating call action clear of quote fields and submission controls.
+(() => {
+  const form = document.querySelector('#contact-form');
+  const call = document.querySelector('.shell-fixed-call');
+  if (!form || !call || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(([entry]) => {
+    call.hidden = entry.isIntersecting;
+  }).observe(form);
+})();
