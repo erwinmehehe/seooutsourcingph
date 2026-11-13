@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Same-origin SEO site and inquiry API; deploy behind an approved HTTPS reverse proxy."""
-import argparse, base64, hashlib, mimetypes, re
+import argparse, base64, hashlib, json, mimetypes, re
 from pathlib import Path
 from http import HTTPStatus
 from http.server import ThreadingHTTPServer
 from urllib.parse import urlparse, unquote
-from server import Handler, db_connect, DB, export_leads, PRODUCTION, production_preflight
+from server import Handler, db_connect, DB, export_leads, PRODUCTION, production_preflight, retry_notifications, backup_database
 
 ROOT=(Path(__file__).resolve().parent.parent/'site').resolve()
 
@@ -20,6 +20,16 @@ class SiteHandler(Handler):
         parsed=urlparse(self.path)
         path=parsed.path
         suffix=('?'+parsed.query) if parsed.query else ''
+        redirect_file=ROOT/'redirects.json'
+        if redirect_file.exists():
+            redirects=json.loads(redirect_file.read_text(encoding='utf-8'))
+            destination=redirects.get(path)
+            if isinstance(destination,str) and destination.startswith('/') and not destination.startswith('//') and destination!=path:
+                self.send_response(301)
+                self.send_header('Location',destination+suffix)
+                self.send_header('Cache-Control','public, max-age=3600')
+                self.end_headers()
+                return
         if path.startswith('/api/'):
             if head:
                 self.send_response(405)
@@ -67,7 +77,7 @@ class SiteHandler(Handler):
         hashes=["'sha256-"+base64.b64encode(hashlib.sha256(js).digest()).decode('ascii')+"'" for js in inline]
         csp="default-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' "+' '.join(hashes)
         self.send_header('Content-Security-Policy',csp)
-        self.send_header('Cache-Control','no-store' if media=='text/html' else 'public, max-age=3600')
+        self.send_header('Cache-Control','no-store' if media=='text/html' else ('no-cache' if candidate.suffix in ('.css','.js') else 'public, max-age=3600'))
         self.end_headers()
         if not head:self.wfile.write(data)
 
@@ -76,11 +86,20 @@ if __name__=='__main__':
     ap.add_argument('--host',default='127.0.0.1')
     ap.add_argument('--port',type=int,default=8080)
     ap.add_argument('--export-leads',metavar='PRIVATE_OUTPUT_CSV')
+    ap.add_argument('--retry-notifications',action='store_true')
+    ap.add_argument('--backup-db',metavar='NEW_PRIVATE_BACKUP_FILE')
     args=ap.parse_args()
     if args.export_leads:
         export_leads(args.export_leads)
+    elif args.backup_db:
+        backup_database(args.backup_db)
+    elif args.retry_notifications:
+        production_preflight()
+        raise SystemExit(1 if retry_notifications() else 0)
     else:
         production_preflight()
+        if PRODUCTION and not (ROOT/'.release-ready.json').is_file():
+            raise RuntimeError('Production requires an approved build from scripts/build_release.py.')
         with db_connect():pass
         s=ThreadingHTTPServer((args.host,args.port),SiteHandler)
         print('Staging website: http://%s:%d/ (private lead DB: %s)' % (args.host,args.port,DB),flush=True)

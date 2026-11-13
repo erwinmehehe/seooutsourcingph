@@ -7,6 +7,7 @@ configured by the site owner. Deploy behind an HTTPS reverse proxy.
 """
 import argparse
 import csv
+from contextlib import contextmanager
 from datetime import datetime, timezone, timedelta
 from email.message import EmailMessage
 import hashlib
@@ -51,19 +52,24 @@ EMAIL_RE = re.compile(r'^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$')
 TRUSTED_PROXIES = {ip.strip() for ip in os.getenv('SEO_TRUSTED_PROXY_IPS', '').split(',') if ip.strip()}
 
 
+@contextmanager
 def db_connect():
     con = sqlite3.connect(DB, timeout=10)
-    con.execute('PRAGMA journal_mode=WAL')
-    if DB.exists(): os.chmod(DB, 0o600)
-    con.execute('''CREATE TABLE IF NOT EXISTS inquiries (
-      reference TEXT PRIMARY KEY, created_at INTEGER NOT NULL, ip_hash TEXT NOT NULL,
-      audience TEXT NOT NULL, plan TEXT NOT NULL, name TEXT NOT NULL,
-      email TEXT NOT NULL, company TEXT NOT NULL, website TEXT NOT NULL,
-      details TEXT NOT NULL, consent_at INTEGER NOT NULL, notification_status TEXT NOT NULL
-    )''')
-    con.execute('CREATE INDEX IF NOT EXISTS inquiries_created_idx ON inquiries(created_at)')
-    con.execute('CREATE INDEX IF NOT EXISTS inquiries_rate_idx ON inquiries(ip_hash, created_at)')
-    return con
+    try:
+        con.execute('PRAGMA journal_mode=WAL')
+        if DB.exists(): os.chmod(DB, 0o600)
+        con.execute('''CREATE TABLE IF NOT EXISTS inquiries (
+          reference TEXT PRIMARY KEY, created_at INTEGER NOT NULL, ip_hash TEXT NOT NULL,
+          audience TEXT NOT NULL, plan TEXT NOT NULL, name TEXT NOT NULL,
+          email TEXT NOT NULL, company TEXT NOT NULL, website TEXT NOT NULL,
+          details TEXT NOT NULL, consent_at INTEGER NOT NULL, notification_status TEXT NOT NULL
+        )''')
+        con.execute('CREATE INDEX IF NOT EXISTS inquiries_created_idx ON inquiries(created_at)')
+        con.execute('CREATE INDEX IF NOT EXISTS inquiries_rate_idx ON inquiries(ip_hash, created_at)')
+        with con:
+            yield con
+    finally:
+        con.close()
 
 
 def signed_token(session_id, stamp):
@@ -161,6 +167,10 @@ def notify(payload, reference):
 
 
 class Handler(BaseHTTPRequestHandler):
+    def setup(self):
+        super().setup()
+        self.connection.settimeout(15)
+
     def log_message(self, fmt, *args):
         # Access logs omit request bodies, names, and email addresses.
         # Do not log query parameters, submitted values or full request targets.
@@ -231,8 +241,8 @@ class Handler(BaseHTTPRequestHandler):
         origin = self.headers.get('Origin')
         if origin:
             source = urlparse(origin)
-            host = self.headers.get('Host', '').split(':')[0]
-            if source.hostname != host:
+            host = self.headers.get('Host', '').lower()
+            if source.netloc.lower() != host or (PRODUCTION and source.scheme != 'https'):
                 self.reply(403, {'ok': False, 'error': 'Origin is not allowed.'})
                 return
         if not self.headers.get('Content-Type', '').startswith('application/json'):
@@ -282,12 +292,46 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(503, {'ok': False, 'error': 'Submission service is temporarily unavailable.'})
 
 
+def retry_notifications():
+    """Operator-only command; recover saved requests whose notification failed."""
+    with db_connect() as db:
+        rows = db.execute("SELECT reference,audience,plan,name,email,company,website,details FROM inquiries WHERE notification_status IN ('pending','not_configured','missing_from','send_failed') ORDER BY created_at LIMIT 100").fetchall()
+    failed = 0
+    for row in rows:
+        reference = row[0]
+        payload = dict(zip(['audience','plan','name','email','company','website','details'],row[1:]))
+        status = notify(payload,reference)
+        with db_connect() as db:
+            db.execute('UPDATE inquiries SET notification_status=? WHERE reference=?',(status,reference))
+        if status != 'smtp_accepted': failed += 1
+    print('Notifications processed:',len(rows),'remaining failures:',failed,flush=True)
+    return failed
+
+
+def backup_database(path):
+    destination = Path(path).resolve()
+    if destination == DB.resolve() or destination.exists():
+        raise ValueError('Choose a new private backup file, separate from the live database.')
+    destination.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    os.close(fd)
+    with db_connect() as source:
+        target = sqlite3.connect(destination)
+        try:
+            source.backup(target)
+        finally:
+            target.close()
+    os.chmod(destination, 0o600)
+    print('Private database backup created.', flush=True)
+
+
 def export_leads(path):
     columns = ['reference','created_at','audience','plan','name','email','company',
                'website','details','consent_at','notification_status']
     with db_connect() as db:
         rows = db.execute('SELECT ' + ','.join(columns) + ' FROM inquiries ORDER BY created_at DESC').fetchall()
-    with open(path, 'w', encoding='utf-8', newline='') as file:
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(columns)
         for row in rows:

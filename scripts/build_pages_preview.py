@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import json
 from pathlib import Path
 import re
 import shutil
@@ -28,18 +29,20 @@ NOTICE = (
     'style="position:relative;z-index:1000;padding:9px 16px;'
     'background:#fff3d1;color:#192338;text-align:center;'
     'font:600 13px/1.5 system-ui,sans-serif">'
-    'Temporary GitHub Pages preview. Content and claims are under review; '
-    'the contact form is not active.</aside>'
+    'Website preview. '
+    'For quotes, email info@seooutsourcingphilippines.com.</aside>'
 )
 FORM_NOTICE = (
-    '<div role="note" style="padding:22px;border:1px solid #d7b36b;'
-    'border-radius:12px;background:#fff9ed;color:#192338">'
-    '<strong>Preview only: contact form unavailable.</strong>'
-    '<p>GitHub Pages cannot run the secure form backend. '
-    'Please do not enter contact or client information here. '
-    'For now, use <a href="mailto:info@seooutsourcingphilippines.com">'
-    'info@seooutsourcingphilippines.com</a>.</p></div>'
+    '<div role="note" style="padding:24px;border:1px solid #8c83bb;'
+    'border-radius:12px;background:#11182c;color:#edf2ff">'
+    '<h2>Request a quote</h2>'
+    '<p>Quote submissions are unavailable in this preview. '
+    'Email <a href="mailto:info@seooutsourcingphilippines.com">'
+    'info@seooutsourcingphilippines.com</a> with your website and requirements, '
+    'or <a href="https://calendly.com/discovery-call-with-erwin" target="_blank" '
+    'rel="noopener noreferrer">book a discovery call</a>.</p></div>'
 )
+
 
 
 def main() -> None:
@@ -57,9 +60,13 @@ def main() -> None:
         parser.error("Invalid repository name")
 
     base_path = "/" if args.repo_name.endswith(".github.io") else f"/{args.repo_name}/"
-    if dest.exists():
+    marker = dest / '.sop-preview.json'
+    if dest.exists() and any(dest.iterdir()):
+        if not marker.is_file() or json.loads(marker.read_text(encoding='utf-8')).get('source') != str(source):
+            parser.error('Output is not an owned preview directory; choose a new empty directory')
         shutil.rmtree(dest)
-    shutil.copytree(source, dest)
+    shutil.copytree(source, dest, dirs_exist_ok=True)
+    marker.write_text(json.dumps({'source':str(source)}),encoding='utf-8')
 
     changed = 0
     form_count = 0
@@ -78,6 +85,8 @@ def main() -> None:
             ):
                 page = page.replace(old, new)
 
+        if file == dest / "index.html":
+            page = page.replace('</head>', '<meta name="sop-quote-url" content="'+base_path+'contact/"/></head>', 1)
         page, replaced = CONTACT_FORM.subn(FORM_NOTICE, page)
         form_count += replaced
         if "name=\"robots\"" not in page and "name='robots'" not in page:

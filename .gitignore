@@ -33,3 +33,5 @@ Thumbs.db
 
 landing-page/dist/
 landing-page/.render.mjs
+standalone/release/
+release-artifacts/

@@ -5,7 +5,7 @@ from html.parser import HTMLParser
 from collections import Counter
 from urllib.parse import urlsplit,unquote
 from xml.etree import ElementTree as ET
-import sys, re
+import sys, re, json
 
 ROOT=Path(__file__).resolve().parent.parent
 SITE=ROOT/'standalone'/'site'
@@ -23,9 +23,8 @@ class AuditParser(HTMLParser):
 
 errors=[]
 pages=sorted(SITE.rglob('index.html')) if SITE.is_dir() else []
-# 66 source pages also exist as WordPress drafts. The discovery-call page is
-# standalone-only until a calendar service and WordPress equivalent are approved.
-if len(pages)!=67: errors.append(f'Expected 67 HTML index pages (66 mirrored + discovery call), found {len(pages)}')
+# All standalone pages also have a WordPress draft; the theme renders the homepage.
+if len(pages)!=115: errors.append(f'Expected 115 HTML index pages, found {len(pages)}')
 if not (SITE/'book-discovery-call'/'index.html').exists():
  errors.append('Missing standalone discovery call page')
 canons=[]
@@ -49,6 +48,7 @@ for f in pages:
   if purl.netloc and purl.netloc not in ('seooutsourcingphilippines.com','www.seooutsourcingphilippines.com'):continue
   path=unquote(purl.path)
   if not path or path=='/':continue
+  path=json.loads((ROOT/'quality/redirects.json').read_text(encoding='utf-8')).get(path,path)
   destination=(SITE/path.lstrip('/'))
   if not (destination.is_file() or (destination/'index.html').is_file()):
    errors.append(f'{f.relative_to(SITE)}: missing internal target {url}')
@@ -59,7 +59,7 @@ else:
   tree=ET.parse(XML)
   ns={'wp':'http://wordpress.org/export/1.2/'}
   items=tree.findall('.//item')
-  if len(items)!=66:errors.append(f'Expected 66 WordPress draft records, found {len(items)}')
+  if len(items)!=67:errors.append(f'Expected 67 WordPress draft records, found {len(items)}')
   for item in items:
    if item.findtext('wp:status',namespaces=ns)!='draft':
     errors.append('A WordPress import record is not draft')

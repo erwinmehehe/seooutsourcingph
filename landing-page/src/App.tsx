@@ -1,3 +1,4 @@
+import Testimonials from "./Testimonials";
 import extra0 from "./assets/glass.png";
 import extra1 from "./assets/sunlover.svg";
 import extra2 from "./assets/holdsworth.svg";
@@ -74,16 +75,16 @@ const MODELS = [
 
 /* ---------- approach ---------- */
 const STEPS = [
-  { title: "Tell us what you need", text: "Send your website, target market and the SEO work you want help with. Include any launch dates or deadlines." },
-  { title: "Review the quote", text: "We send the proposed tasks, deliverables, fees and dates for your approval." },
-  { title: "Start the agreed work", text: "We begin once the scope is approved and the required access and information are available." },
-  { title: "Review delivery and results", text: "We report completed tasks and search performance, then agree the next priorities with you." },
+  { title: "Tell us what you need", text: "Send your website, target market and priorities." },
+  { title: "Review the quote", text: "Review the proposed work, price and schedule." },
+  { title: "Get started", text: "Provide the access and information needed to begin." },
+  { title: "Review progress", text: "See what was completed, what changed and what comes next." },
 ];
 
 /* ---------- selected work, supplied portfolio, 9 November 2026 ---------- */
-const LOGOS: Record<string,string> = {"markd.png":brand0,"maddens.svg":brand1,"ivleague.svg":brand2,"smile.png":brand3,"katehill.png":brand4,"lifestyle.png":brand5,"glass.png":extra0,"sunlover.svg":extra1,"holdsworth.svg":extra2,"newstead.svg":extra3,"royal.png":extra4,"endo.png":extra5,"kiama.svg":extra6,"lumina.png":extra7,"madmiller.webp":extra8,"mlr.webp":extra9,"growers.png":extra10};
+export const LOGOS: Record<string,string> = {"markd.png":brand0,"maddens.svg":brand1,"ivleague.svg":brand2,"smile.png":brand3,"katehill.png":brand4,"lifestyle.png":brand5,"glass.png":extra0,"sunlover.svg":extra1,"holdsworth.svg":extra2,"newstead.svg":extra3,"royal.png":extra4,"endo.png":extra5,"kiama.svg":extra6,"lumina.png":extra7,"madmiller.webp":extra8,"mlr.webp":extra9,"growers.png":extra10};
 
-const WORK = [
+export const WORK = [
  {name:"MARKD Tattoo",asset:"markd.png",sector:"Lifestyle",place:"Sydney, Australia",tag:"Tattoo & design",query:"tattoo designer sydney",position:1,volume:"1,000",text:"Selected organic searches include Sydney tattoo studios, artists and tattoo designs.",keywords:[["tattoo designer sydney","1"],["sydney tattoo artist","2"],["tattoo parlour sydney","1"]]},
  {name:"Maddens Lawyers",asset:"maddens.svg",sector:"Professional services",place:"Victoria, Australia",tag:"Legal services",query:"personal injury lawyers ballarat",position:1,volume:"170",text:"Selected organic searches cover personal injury, compensation and local legal services in Victoria.",keywords:[["personal injury lawyers ballarat","1"],["compensation lawyers ballarat","1"],["lawyers warrnambool","2"]]},
  {name:"IV League Drips",asset:"ivleague.svg",sector:"Healthcare",place:"Sydney, Australia",tag:"Wellness services",query:"iv therapy sydney",position:1,volume:"390",text:"Selected organic searches cover IV therapy, drips and NAD infusions in Sydney.",keywords:[["iv therapy sydney","1"],["iv drips sydney","1"],["nad infusion sydney","1"]]},
@@ -267,6 +268,7 @@ function ContactModal({ plan, onClose }: { plan: string; onClose: () => void }) 
       const result=await response.json();
       if(!response.ok || !result.ok || !result.reference)throw new Error(result.error||'Your request could not be sent. Please try again or email us.');
       setReference(result.reference);
+      window.dispatchEvent(new CustomEvent("sop:conversion",{detail:{event:"quote_request_success"}}));
     } catch(err){setError(err instanceof Error?err.message:'Your request could not be sent. Please try again or email us.')}
     finally{setSending(false)}
   };
@@ -309,7 +311,11 @@ export default function App() {
   const [modal, setModal] = useState<ModalMode | null>(null);
   const [quotePlan,setQuotePlan]=useState("");
   const quoteTrigger=useRef<HTMLElement|null>(null);
-  function openQuote(plan=""){quoteTrigger.current=document.activeElement as HTMLElement;setQuotePlan(plan);setModal("quote")}
+  function openQuote(plan=""){
+    const destination=document.querySelector<HTMLMetaElement>('meta[name="sop-quote-url"]')?.content;
+    if(destination){const url=new URL(destination,window.location.href);if(plan)url.searchParams.set('plan',plan);window.location.assign(url.href);return;}
+    quoteTrigger.current=document.activeElement as HTMLElement;setQuotePlan(plan);setModal("quote");
+  }
   function closeQuote(){setModal(null);requestAnimationFrame(()=>{const trigger=quoteTrigger.current; (trigger && trigger.tagName!=="BODY" ? trigger : document.querySelector<HTMLElement>(".hero-actions button"))?.focus()})}
   useReveal();
 
@@ -385,20 +391,20 @@ export default function App() {
         {/* SERVICES */}
         <section className="section" id="services">
           <div className="wrap">
-            <div className="heading reveal"><h2>SEO services</h2><p>Get help with the work your team needs to complete. Choose a single service or ongoing support.</p></div>
+            <div className="heading reveal"><h2>SEO services</h2><p>Choose the services you need help with.</p></div>
             <div className="service-editorial">
               {SERVICES.map(({icon:Icon,title,text,points},i)=><details className="service-row" key={title} open={i===0}><summary><span className="service-n">0{i+1}</span><Icon size={25} aria-hidden="true"/><h3>{title}</h3><PlusIcon/></summary><div className="service-content"><p>{text}</p><ul className="ticks">{points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul><button type="button" className="link-arrow" onClick={()=>openQuote()}>Get a Quote <ArrowUpRight size={16}/></button></div></details>)}
             </div>
             <div className="models">
-              <div className="heading tight reveal"><h2>Project, monthly and white-label support</h2></div>
+              <div className="heading tight reveal"><h2>Ways to work with us</h2></div>
               <div className="cards">
                 {MODELS.map((m, i) => (
                   <div className={`reveal d${i + 1}`} key={m.title}>
-                    <article className="card glass model">
+                    <article className="card model">
 
                       <h3>{m.title}</h3>
                       <p>{m.text}</p>
-                      <ul className="ticks">{m.points.map((p) => <li key={p}><Check size={15} aria-hidden="true" />{p}</li>)}</ul>
+                      
                     </article>
                   </div>
                 ))}
@@ -408,21 +414,25 @@ export default function App() {
         </section>
 
 
+        <section className="section work-sample"><div className="wrap sample-in"><div><h2>See a sample deliverable</h2><p>Review an example technical issue log, content brief or reporting format before discussing your project.</p><p className="sample-context">Examples show document structure. They do not contain confidential client work.</p></div><a className="btn-outline" href="samples/">View sample deliverables <ArrowUpRight size={17}/></a></div></section>
+
         {/* APPROACH */}
         <section className="section" id="approach">
           <div className="wrap">
-            <div className="heading reveal"><h2>How we work</h2><p>We agree the deliverables, responsibilities and review dates before starting.</p></div>
+            <div className="heading reveal"><h2>How we work</h2><p>From your first enquiry to ongoing work.</p></div>
             <ol className="steps">
-              {STEPS.map((s, i) => (<li className={`step glass reveal d${i + 1}`} key={s.title}><span className="step-n">{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></li>))}
+              {STEPS.map((s, i) => (<li className={`step reveal d${i + 1}`} key={s.title}><span className="step-n">{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></li>))}
             </ol>
 
           </div>
         </section>
 
+        <Testimonials />
+
         {/* PRICING */}
         <section className="section" id="pricing">
           <div className="wrap">
-            <div className="heading reveal"><h2>Monthly SEO plans</h2><p>Choose the support that fits your workload. Monthly fees start at the prices below; we confirm the work included in your quote.</p></div>
+            <div className="heading reveal"><h2>Monthly SEO plans</h2><p>Compare the focus of each plan. These are starting prices; your quote specifies the work included.</p></div>
             <div className="plans">
               {PLANS.map((p, i) => (
                 <article className={`plan glass reveal d${i + 1}${p.popular ? " popular" : ""}`} key={p.name}>
@@ -436,7 +446,7 @@ export default function App() {
                 </article>
               ))}
             </div>
-            <p className="plan-terms">Your quote lists the monthly deliverables, implementation responsibilities and any third-party costs. Ranking and traffic outcomes are not guaranteed.</p>
+            <p className="plan-terms">Monthly quantities and implementation work are confirmed in your quote. Third-party costs are listed separately. Search outcomes are not guaranteed.</p>
             <p className="fine reveal">One-off projects and agency requirements are quoted separately.</p>
           </div>
         </section>
@@ -471,7 +481,7 @@ export default function App() {
         <div className="wrap footer-in">
           <div className="footer-brand"><Logo /><p>Technical SEO, content, local search and reporting for agencies and businesses.</p></div>
           <div><h4>Explore</h4>{NAV.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}</div>
-          <div><h4>Resources</h4><a href="about/" target="_blank" rel="noopener noreferrer">About</a><a href="#portfolio" target="_blank" rel="noopener noreferrer">Case studies</a><a href="samples/" target="_blank" rel="noopener noreferrer">Sample deliverables</a><a href="blog/" target="_blank" rel="noopener noreferrer">Blog</a></div>
+          <div><h4>Resources</h4><a href="about/" target="_blank" rel="noopener noreferrer">About</a><a href="results/">Our work</a><a href="samples/" target="_blank" rel="noopener noreferrer">Sample deliverables</a><a href="blog/" target="_blank" rel="noopener noreferrer">Blog</a><a href="privacy-policy/">Privacy policy</a><a href="terms-of-service/">Terms of service</a><a href="cookie-policy/">Cookie policy</a></div>
           <div><h4>Contact</h4><a href={CALENDLY} target="_blank" rel="noopener noreferrer">Book a discovery call</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a><p>Available for US, UK, Canadian, Australian and New Zealand campaigns.</p></div>
         </div>
         <div className="wrap footer-bottom"><span>© {new Date().getFullYear()} SEO Outsourcing Philippines.</span><span>Technical SEO · Content · Local search · Reporting</span></div>

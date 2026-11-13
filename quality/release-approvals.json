@@ -1,6 +1,6 @@
 {
   "release_status": "HOLD",
-  "production_platform": "UNSELECTED",
+  "production_platform": "STANDALONE",
   "approved_urls": [],
   "signoffs": {
     "legal_operator_verified": false,

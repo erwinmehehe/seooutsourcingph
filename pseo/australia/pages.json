@@ -14,7 +14,7 @@
       "meta": "A practical white-label SEO launch QA service for Australian web design agencies: URL mapping, redirects, technical checks, handoff evidence and sign-off.",
       "h1": "SEO Launch QA for Australian Web Design Agencies",
       "eyebrow": "For Australian web designers and developers",
-      "lead": "Your new website can look finished while the search handoff is still incomplete. This page shows how to separate visual sign-off from redirects, crawlability, tracking and the checks an SEO reviewer actually needs.",
+      "lead": "Check redirects, crawlability and conversion tracking before a redesigned website goes live. Get a clear list of fixes and responsibilities for your team.",
       "targetKeyword": "white label SEO QA for Australian web design agencies",
       "service": "technical-seo",
       "audience": "Web design agency handing a new WordPress, Elementor or custom website to a client",
@@ -79,7 +79,7 @@
         {
           "title": "Worked handoff: service URLs changed during an Elementor rebuild",
           "paras": [
-            "Illustrative scenario, not a claim about a completed client project. An Australian trades website previously used /services/hot-water/ and the redesign team has replaced it with /plumbing/hot-water-systems/. The old page has local search history. The client approves the new menu but nobody has signed off the URL change.",
+            "Example: An Australian trades website previously used /services/hot-water/ and the redesign team has replaced it with /plumbing/hot-water-systems/. The old page has local search history. The client approves the new menu but nobody has signed off the URL change.",
             "Capture the old URL and its existing inbound and internal links. Confirm the new page serves the same service intent, update the internal navigation, and set a direct permanent redirect from the old page to the chosen new destination. Then crawl both versions after publication. A redirect to the homepage is not an equivalent replacement for a specific service.",
             "Close the ticket only when the old URL reaches the intended final destination, the new page returns 200, its canonical points to itself, the sitemap includes the new path, and the enquiry CTA remains functional. Attach the response chain and a dated retest record."
           ]

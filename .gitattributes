@@ -1,2 +1,8 @@
 landing-page/** text=auto eol=lf
 standalone/site/index.html text eol=lf
+*.php text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+standalone/site/** text=auto eol=lf
+wordpress/sop-premium-agency/assets/** text=auto eol=lf
+wordpress/sop-premium-agency/templates/** text=auto eol=lf

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SOP Proposal Form
  * Description: Secure, consent-based proposal submissions for SEO Outsourcing Philippines. Configure WordPress mail before publishing.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires PHP: 8.1
  * Text Domain: sop-proposal-form
  */
@@ -36,14 +36,16 @@ function sop_pf_form() {
     $audiences = array('agency'=>'Agency / client accounts','business'=>'My own business');
     $plan = sop_pf_pick('plan',array_keys($plans),'Not sure - recommend a scope');
     $audience = sop_pf_pick('audience',array_keys($audiences),'agency');
+    $reference = '';
     $status = isset($_GET['sop_status']) && $_GET['sop_status'] === 'invalid' ? 'invalid' : '';
     if (isset($_GET['sop_receipt']) && is_string($_GET['sop_receipt'])) {
         $receipt = sanitize_text_field(wp_unslash($_GET['sop_receipt']));
         if (preg_match('/^[a-zA-Z0-9]{24}$/', $receipt)) {
             $cache_key = 'sop_receipt_' . hash('sha256', $receipt);
             $saved = get_transient($cache_key);
-            if (in_array($saved, array('sent','error'), true)) {
-                $status = $saved;
+            if (is_array($saved) && in_array($saved['status'] ?? '', array('sent','error'), true)) {
+                $status = $saved['status'];
+                $reference = $saved['reference'] ?? '';
                 delete_transient($cache_key);
             }
         }
@@ -51,10 +53,10 @@ function sop_pf_form() {
     ob_start();
     if (!sop_pf_recipient()) {
         if (current_user_can('manage_options')) echo '<div class="alert visible error" role="alert">Form is disabled. Configure SOP_LEADS_EMAIL and verify delivery before launch.</div>';
-        echo '<p>The online proposal form is temporarily unavailable. Please email <a href="mailto:info@seooutsourcingphilippines.com">info@seooutsourcingphilippines.com</a> with your website and SEO request. Do not send passwords or sensitive records.</p>';
+        echo '<p>The quote form is temporarily unavailable. Please email <a href="mailto:info@seooutsourcingphilippines.com">info@seooutsourcingphilippines.com</a> with your website and SEO request. Do not send passwords or sensitive records.</p>';
         return ob_get_clean();
     }
-    if ($status === 'sent') echo '<div class="alert visible success" role="status">Your inquiry was received by the configured mail service. Keep the submitted details for your records. You can follow up by email if needed.</div>';
+    if ($status === 'sent') echo '<div class="alert visible success" role="status" data-sop-quote-received>Your quote request was received. Reference: '.esc_html($reference).'. We will reply to the email address you provided.</div>';
     if ($status === 'error') echo '<div class="alert visible error" role="alert">The request could not be delivered. Please try again or email the company directly.</div>';
     if ($status === 'invalid') echo '<div class="alert visible error" role="alert">Please check all required fields, the privacy consent, and try again.</div>';
     ?>
@@ -82,7 +84,7 @@ function sop_pf_form() {
       <div class="field"><label for="sop-details">What SEO work do you need? *</label><textarea id="sop-details" name="details" required minlength="20" maxlength="5000" placeholder="Include target markets, workstreams and approval requirements."></textarea></div>
       <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden"><label for="sop-confirm">Do not fill this in</label><input id="sop-confirm" name="phone_confirm" tabindex="-1" autocomplete="off"></div>
       <div class="field"><label style="display:flex;align-items:flex-start;gap:10px;font-size:13px"><input type="checkbox" required name="consent" value="1" style="width:auto;margin-top:5px">I agree to be contacted regarding this request and to the handling of my inquiry described in the <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a>. This is not a marketing subscription.</label></div>
-      <button class="btn" type="submit">Request a tailored scope</button>
+      <button class="btn" type="submit">Send quote request</button>
       <p class="legal-note">Do not submit passwords, patient information, or sensitive client records. If the form cannot deliver, email <a href="mailto:info@seooutsourcingphilippines.com">info@seooutsourcingphilippines.com</a>.</p>
     </form>
     <?php return ob_get_clean();
@@ -116,7 +118,7 @@ function sop_pf_submit() {
     $valid = $consent && strlen($data['name'])>=2 && strlen($data['name'])<=120 && is_email($data['email'])
        && strlen($data['details']) >= 20 && strlen($data['details']) <= 5000
        && in_array($data['audience'], array('agency','business'),true) && in_array($data['plan'], $valid_plans,true) && in_array($data['service'], $valid_services,true) && in_array($data['industry'], $valid_industries,true)
-       && strlen($data['company'])<=160 && (empty($data['website']) || filter_var($data['website'],FILTER_VALIDATE_URL));
+       && strlen($data['email'])<=254 && strlen($data['website'])<=300 && strlen($data['company'])<=160 && (empty($data['website']) || filter_var($data['website'],FILTER_VALIDATE_URL));
     if (!$valid) { wp_safe_redirect(add_query_arg('sop_status','invalid',$redirect),303); exit; }
     if (!sop_pf_recipient()) { wp_safe_redirect(add_query_arg('sop_status','error',$redirect),303); exit; }
     // Fixed-rate guard; hashed IP, not the raw client address. Use a CDN/WAF for advanced abuse defense.
@@ -128,11 +130,68 @@ function sop_pf_submit() {
     $subject = '[SEO outsourcing inquiry] ' . $data['plan'];
     $body = "Inquiry received at " . gmdate('c') . "\n\n";
     foreach(array('name','email','company','website','audience','plan','service','industry','details') as $k) $body .= ucfirst($k).": ".$data[$k]."\n";
-    $headers = array('Content-Type: text/plain; charset=UTF-8', 'Reply-To: '.$data['email']);
-    $ok = wp_mail(sop_pf_recipient(),$subject,$body,$headers);
+    $reference = 'SEO-'.gmdate('Ymd').'-'.strtoupper(wp_generate_password(8,false,false));
+    $post_id = wp_insert_post(array(
+        'post_type'=>'sop_inquiry', 'post_status'=>'private', 'post_title'=>$reference,
+        'post_content'=>$body,
+        'meta_input'=>array('_sop_reply_to'=>$data['email'], '_sop_subject'=>$subject,
+            '_sop_notification_status'=>'pending', '_sop_notification_attempts'=>0)
+    ), true);
+    $saved = !is_wp_error($post_id) && $post_id;
+    if ($saved) sop_pf_notify_inquiry($post_id);
     $receipt = wp_generate_password(24,false,false);
-    set_transient('sop_receipt_'.hash('sha256',$receipt), $ok?'sent':'error', 5*MINUTE_IN_SECONDS);
+    set_transient('sop_receipt_'.hash('sha256',$receipt), array('status'=>$saved?'sent':'error','reference'=>$saved?$reference:''), 5*MINUTE_IN_SECONDS);
     wp_safe_redirect(add_query_arg('sop_receipt',$receipt,$redirect),303); exit;
 }
 add_action('admin_post_nopriv_sop_send_proposal','sop_pf_submit');
 add_action('admin_post_sop_send_proposal','sop_pf_submit');
+
+// Enquiries are private, excluded from REST/search/sitemaps, and visible only to administrators.
+add_action('init', static function () {
+    register_post_type('sop_inquiry', array(
+        'label'=>'SEO enquiries', 'public'=>false, 'show_ui'=>true, 'show_in_rest'=>false,
+        'exclude_from_search'=>true, 'supports'=>array('title','editor'),
+        'map_meta_cap'=>false,
+        'capabilities'=>array('edit_post'=>'manage_options','read_post'=>'manage_options','delete_post'=>'manage_options',
+            'edit_posts'=>'manage_options','edit_others_posts'=>'manage_options','publish_posts'=>'manage_options',
+            'read_private_posts'=>'manage_options','delete_posts'=>'manage_options','delete_private_posts'=>'manage_options',
+            'delete_published_posts'=>'manage_options','delete_others_posts'=>'manage_options',
+            'edit_private_posts'=>'manage_options','edit_published_posts'=>'manage_options','create_posts'=>'do_not_allow')
+    ));
+});
+function sop_pf_notify_inquiry($post_id) {
+    $post = get_post($post_id);
+    if (!$post || $post->post_type !== 'sop_inquiry' || get_post_meta($post_id,'_sop_notification_status',true) === 'accepted') return;
+    $attempts = (int)get_post_meta($post_id,'_sop_notification_attempts',true);
+    if ($attempts >= 3) return;
+    $recipient = sop_pf_recipient();
+    $reply_to = get_post_meta($post_id,'_sop_reply_to',true);
+    $headers = array('Content-Type: text/plain; charset=UTF-8');
+    if (is_email($reply_to)) $headers[] = 'Reply-To: '.$reply_to;
+    $ok = $recipient && wp_mail($recipient, get_post_meta($post_id,'_sop_subject',true).' '.$post->post_title, $post->post_content, $headers);
+    update_post_meta($post_id,'_sop_notification_attempts',$attempts+1);
+    update_post_meta($post_id,'_sop_notification_status',$ok?'accepted':'failed');
+    if (!$ok && $attempts < 2 && !wp_next_scheduled('sop_pf_retry_notification',array($post_id))) {
+        wp_schedule_single_event(time()+5*MINUTE_IN_SECONDS,'sop_pf_retry_notification',array($post_id));
+    }
+}
+add_action('sop_pf_retry_notification','sop_pf_notify_inquiry');
+add_action('sop_pf_retention', static function () {
+    $days = max(1, defined('SOP_ENQUIRY_RETENTION_DAYS') ? (int)SOP_ENQUIRY_RETENTION_DAYS : 90);
+    $ids = get_posts(array('post_type'=>'sop_inquiry','post_status'=>'private','fields'=>'ids','posts_per_page'=>200,
+        'date_query'=>array(array('before'=>gmdate('Y-m-d H:i:s',time()-$days*DAY_IN_SECONDS),'inclusive'=>true))));
+    foreach ($ids as $id) wp_delete_post($id,true);
+});
+register_activation_hook(__FILE__, static function () {
+    if (!wp_next_scheduled('sop_pf_retention')) wp_schedule_event(time()+HOUR_IN_SECONDS,'daily','sop_pf_retention');
+});
+register_deactivation_hook(__FILE__, static function () {
+    wp_clear_scheduled_hook('sop_pf_retention');
+    wp_unschedule_hook('sop_pf_retry_notification');
+});
+add_action('admin_notices', static function () {
+    if (!current_user_can('manage_options')) return;
+    $failed = get_posts(array('post_type'=>'sop_inquiry','post_status'=>'private','fields'=>'ids','posts_per_page'=>1,
+        'meta_key'=>'_sop_notification_status','meta_value'=>'failed'));
+    if ($failed) echo '<div class="notice notice-error"><p>SEO enquiries are saved, but an email notification failed. Review SEO enquiries and check SMTP delivery.</p></div>';
+});

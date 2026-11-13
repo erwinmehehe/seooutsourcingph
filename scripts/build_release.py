@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Fail-closed production release builder. Does not deploy to hosting."""
 import argparse
+import csv
 import json
 import re
 import shutil
 import sys
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urljoin, unquote
 from xml.sax.saxutils import escape
 from html.parser import HTMLParser
 
@@ -14,6 +15,16 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "standalone/site"
 MANIFEST = ROOT / "quality/release-approvals.json"
 DOMAIN = "https://seooutsourcingphilippines.com"
+REDIRECTS = ROOT / 'quality/redirects.json'
+MIGRATION = ROOT / 'quality/LIVE_URL_MIGRATION_INVENTORY.csv'
+REQUIRED_SIGNOFFS = (
+    'legal_operator_verified', 'named_delivery_owner_confirmed',
+    'ranking_and_image_permissions_verified', 'pricing_and_scope_approved',
+    'privacy_and_terms_approved', 'live_form_inbox_test_passed',
+    'security_and_backup_review_passed', 'analytics_and_consent_test_passed',
+    'accessibility_mobile_review_passed', 'existing_url_redirects_reviewed',
+    'australian_regulated_content_reviewed',
+)
 
 class Links(HTMLParser):
     def __init__(self):
@@ -36,13 +47,30 @@ def review():
         problems.append("Release status is HOLD; no public build is authorized.")
     if manifest.get("production_platform") != "STANDALONE":
         problems.append("Production platform is not explicitly approved as STANDALONE.")
-    for key, value in manifest.get("signoffs", {}).items():
-        if value is not True: problems.append("Missing human approval: " + key)
+    for key in REQUIRED_SIGNOFFS:
+        if manifest.get("signoffs", {}).get(key) is not True:
+            problems.append("Missing human approval: " + key)
     approved = set(manifest.get("approved_urls") or [])
     if not approved:
         problems.append("No URL is approved for public indexing.")
+    elif '/' not in approved:
+        problems.append("The homepage must be included in a public release.")
     for url in approved:
         if url not in pages: problems.append("Approved URL missing from website: " + str(url))
+    redirects = json.loads(REDIRECTS.read_text(encoding='utf-8')) if REDIRECTS.exists() else {}
+    for source, target in redirects.items():
+        if not source.startswith('/') or source.startswith('//') or not target.startswith('/') or target.startswith('//'):
+            problems.append('Redirect paths must be same-site paths: ' + source)
+        elif source == target or target in redirects:
+            problems.append('Redirect loop or chain: ' + source)
+        elif target not in approved:
+            problems.append('Redirect target is not approved: ' + target)
+    if MIGRATION.exists():
+        with MIGRATION.open(encoding='utf-8', newline='') as file:
+            for row in csv.DictReader(file):
+                path = row['path']
+                if path not in approved and path not in redirects:
+                    problems.append('Existing URL needs content retention or an explicit redirect: ' + path)
     # Withheld pages cannot be referenced by the public release. Fix nav or obtain page sign-off.
     for url in approved & pages.keys():
         p = Links()
@@ -50,12 +78,35 @@ def review():
         for link in p.links:
             parts = urlsplit(link)
             if parts.netloc and parts.netloc not in ("seooutsourcingphilippines.com","www.seooutsourcingphilippines.com"): continue
-            dest = parts.path
-            if not dest or dest.startswith("/assets/") or "." in dest.rsplit("/",1)[-1]: continue
+            if not parts.path: continue
+            dest = unquote(urlsplit(urljoin(DOMAIN + url, link)).path)
+            if dest.startswith("/assets/"): continue
+            if "." in dest.rsplit("/",1)[-1]: continue
             dest = dest if dest.endswith("/") else dest + "/"
+            dest = redirects.get(dest, dest)
             if dest not in approved:
                 problems.append(url + " links to held page " + dest)
+    for path in SITE.rglob("*.html"):
+        text = path.read_text(encoding="utf-8")
+        if "hostingersite.com" in text:
+            problems.append("Temporary hostname found: " + str(path.relative_to(SITE)))
     return pages, approved, list(dict.fromkeys(problems))
+
+def enable_indexing(html, url):
+    # Accept either attribute order and both staging noindex policies.
+    pattern = r"<meta\b[^>]*>"
+    found = []
+    def replace(match):
+        tag = match.group(0)
+        if re.search(r"\bname\s*=\s*[\"']robots[\"']", tag, re.I):
+            found.append(tag)
+            return '<meta name="robots" content="index,follow,max-image-preview:large"/>'
+        return tag
+    result = re.sub(pattern, replace, html, flags=re.I)
+    if len(found) != 1:
+        raise RuntimeError("Expected one robots meta tag: " + url)
+    return result
+
 
 def main():
     ap = argparse.ArgumentParser(description="Review signoffs or build a standalone production directory; never deploys.")
@@ -88,15 +139,17 @@ def main():
         target = out/("index.html" if url=="/" else url.lstrip("/")+"index.html")
         target.parent.mkdir(parents=True,exist_ok=True)
         html = source.read_text(encoding="utf-8")
-        html,n = re.subn(r'<meta content="noindex,follow,max-image-preview:large" name="robots"/>',
-                         '<meta content="index,follow,max-image-preview:large" name="robots"/>',html,count=1)
-        if n!=1:
-            raise RuntimeError("Expected one staging robots meta tag: "+url)
+        html = enable_indexing(html, url)
         target.write_text(html,encoding="utf-8")
     shutil.copy2(SITE/"404.html",out/"404.html")
     (out/"robots.txt").write_text("User-agent: *\nAllow: /\nSitemap: "+DOMAIN+"/sitemap.xml\n",encoding="utf-8")
     nodes="".join("<url><loc>"+escape(DOMAIN+url)+"</loc></url>" for url in sorted(approved))
     (out/"sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+nodes+"</urlset>",encoding="utf-8")
+    (out/".release-ready.json").write_text(json.dumps({"domain":DOMAIN,"approved_urls":sorted(approved)},indent=2),encoding="utf-8")
+    # Preserve the former WordPress sitemap endpoint after a standalone migration.
+    redirects = json.loads(REDIRECTS.read_text(encoding='utf-8')) if REDIRECTS.exists() else {}
+    redirects['/sitemap_index.xml'] = '/sitemap.xml'
+    (out/"redirects.json").write_text(json.dumps(redirects,indent=2),encoding="utf-8")
     print("Built approved public files at",out,":",len(approved),"pages. Deployment is a separate action.")
     return 0
 

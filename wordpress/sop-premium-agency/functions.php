@@ -6,8 +6,17 @@ add_action('after_setup_theme', static function () {
   add_theme_support('html5', array('search-form','gallery','caption','style','script'));
 });
 add_action('wp_enqueue_scripts', static function () {
-  wp_enqueue_style('sop-site', get_template_directory_uri().'/assets/site.css', array(), '1.0.0');
-  wp_enqueue_script('sop-site', get_template_directory_uri().'/assets/site.js', array(), '1.0.0', true);
+  $uri = get_template_directory_uri();
+  $path = get_template_directory();
+  if (is_front_page()) {
+    wp_enqueue_style('sop-homepage', $uri.'/assets/homepage.css', array(), filemtime($path.'/assets/homepage.css'));
+    wp_enqueue_script('sop-homepage', $uri.'/assets/homepage.js', array(), filemtime($path.'/assets/homepage.js'), true);
+  } else {
+    wp_enqueue_style('sop-site', $uri.'/assets/site.css', array(), filemtime($path.'/assets/site.css'));
+    wp_enqueue_style('sop-page-shell', $uri.'/assets/page-shell.css', array('sop-site'), filemtime($path.'/assets/page-shell.css'));
+    wp_enqueue_script('sop-site', $uri.'/assets/site.js', array(), filemtime($path.'/assets/site.js'), true);
+    wp_enqueue_script('sop-measurement', $uri.'/assets/measurement.js', array(), filemtime($path.'/assets/measurement.js'), true);
+  }
 });
 // Full-layout imported pages contain real HTML headings/sections; do not autowrap HTML in paragraphs.
 add_action('wp', static function () {
@@ -44,7 +53,7 @@ add_filter('wp_robots', static function ($robots) {
   return $robots;
 });
 add_action('wp_head', static function () {
-  if (!is_singular() || defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) return;
+  if (is_front_page() || !is_singular() || defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) return;
   $desc = get_post_meta(get_queried_object_id(), '_yoast_wpseo_metadesc', true);
   if ($desc) echo '<meta name="description" content="'.esc_attr($desc).'">' . "\n";
 }, 5);
@@ -78,3 +87,45 @@ add_filter('wp_sitemaps_posts_query_args', static function ($args, $post_type) {
   );
   return $args;
 }, 20, 2);
+
+// Replace imported static contact forms with the server-side WordPress form.
+add_filter('the_content', static function ($html) {
+  if (!is_page('contact')) return $html;
+  $form = shortcode_exists('sop_proposal_form') ? do_shortcode('[sop_proposal_form]') : '<p>The quote form is temporarily unavailable. Email <a href="mailto:info@seooutsourcingphilippines.com">info@seooutsourcingphilippines.com</a>.</p>';
+  $html = str_replace('[sop_proposal_form]', $form, $html);
+  return preg_replace('/<div class="form-wrap"[^>]*><form\b[\s\S]*?<\/form><\/div>/', $form, $html, 1);
+}, 9);
+
+// Keep sitemap discovery on the configured production domain, never a preview hostname.
+add_filter('robots_txt', static function ($output, $public) {
+  if (!$public || !in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), array('seooutsourcingphilippines.com','www.seooutsourcingphilippines.com'), true)) return "User-agent: *\nDisallow: /\n";
+  $output = preg_replace('/^Sitemap:.*$/mi', '', $output);
+  $endpoint = (defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) ? '/sitemap_index.xml' : '/wp-sitemap.xml';
+  return rtrim($output)."\nSitemap: ".home_url($endpoint, 'https')."\n";
+}, 99, 2);
+
+// Homepage copy comes from the theme build, not stale imported SEO fields.
+function sop_home_description() { return 'Technical SEO, content, local search and white-label support for agencies and businesses. View our work and request a quote.'; }
+add_filter('pre_get_document_title', static function ($title) { return is_front_page() ? 'SEO Outsourcing Philippines — SEO services for agencies and businesses' : $title; });
+add_filter('wpseo_title', static function ($title) { return is_front_page() ? 'SEO Outsourcing Philippines — SEO services for agencies and businesses' : $title; });
+add_filter('wpseo_metadesc', static function ($description) { return is_front_page() ? sop_home_description() : $description; });
+add_filter('wpseo_opengraph_image', static function ($url) { return is_front_page() ? get_template_directory_uri().'/assets/og-image.png' : $url; });
+add_action('wp_head', static function () {
+  if (!is_front_page() || defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) return;
+  echo '<meta name="description" content="'.esc_attr(sop_home_description()).'">';
+  echo '<meta property="og:type" content="website"><meta property="og:title" content="SEO Outsourcing Philippines"><meta property="og:description" content="'.esc_attr(sop_home_description()).'"><meta property="og:url" content="'.esc_url(home_url('/')).'"><meta property="og:image" content="'.esc_url(get_template_directory_uri().'/assets/og-image.png').'"><meta name="twitter:card" content="summary_large_image">';
+  echo '<script type="application/ld+json">'.wp_json_encode(array('@context'=>'https://schema.org','@type'=>'Organization','name'=>'SEO Outsourcing Philippines','url'=>home_url('/'),'email'=>'info@seooutsourcingphilippines.com')).'</script>';
+}, 6);
+
+add_action('template_redirect', static function () {
+  if (!is_page('contact')) return;
+  if (!defined('DONOTCACHEPAGE')) define('DONOTCACHEPAGE', true);
+  nocache_headers();
+}, 1);
+add_action('send_headers', static function () {
+  $existing = implode("\n", headers_list());
+  foreach (array('X-Content-Type-Options'=>'nosniff', 'Referrer-Policy'=>'strict-origin-when-cross-origin',
+      'Permissions-Policy'=>'camera=(), microphone=(), geolocation=()') as $name=>$value) {
+    if (stripos($existing,$name.':') === false) header($name.': '.$value);
+  }
+});
