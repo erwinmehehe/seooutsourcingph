@@ -67,7 +67,7 @@ def main() -> None:
     if args.public_url:
         parts = urlsplit(args.public_url)
         allowed = {urlsplit(public_origin).hostname, 'seooutsourcingphilippines.com'}
-        if parts.scheme != 'https' or parts.hostname not in allowed or parts.username or parts.password or parts.query or parts.fragment:
+        if parts.scheme not in ('http','https') or parts.hostname not in allowed or parts.username or parts.password or parts.query or parts.fragment:
             parser.error('Unexpected Pages public URL')
         public_origin = 'https://' + parts.netloc
         base_path = parts.path.rstrip('/') + '/'
