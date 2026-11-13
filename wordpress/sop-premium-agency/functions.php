@@ -101,7 +101,7 @@ add_filter('robots_txt', static function ($output, $public) {
   if (!$public || !in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), array('seooutsourcingphilippines.com','www.seooutsourcingphilippines.com'), true)) return "User-agent: *\nDisallow: /\n";
   $output = preg_replace('/^Sitemap:.*$/mi', '', $output);
   $endpoint = (defined('WPSEO_VERSION') || defined('RANK_MATH_VERSION')) ? '/sitemap_index.xml' : '/wp-sitemap.xml';
-  return rtrim($output)."\nSitemap: ".home_url($endpoint)."\n";
+  return rtrim($output)."\nSitemap: ".home_url($endpoint, 'https')."\n";
 }, 99, 2);
 
 // Homepage copy comes from the theme build, not stale imported SEO fields.
