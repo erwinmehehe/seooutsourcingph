@@ -76,6 +76,12 @@ def main() -> None:
             lambda match: match.group("attr") + match.group("quote") + base_path,
             page,
         )
+        # Saved WordPress articles use absolute internal links. Keep navigation
+        # inside this Pages project without changing canonical/schema metadata.
+        page = re.sub(
+            r'(<a\b[^>]*\bhref\s*=\s*["\x27])https?://(?:www\.)?seooutsourcingphilippines\.com/',
+            lambda match: match.group(1) + base_path, page, flags=re.I,
+        )
         if file.name == "404.html" and file.parent == dest:
             for old, new in (
                 ('href="assets/site.css"', f'href="{base_path}assets/site.css"'),

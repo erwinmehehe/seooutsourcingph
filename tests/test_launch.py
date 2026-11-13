@@ -22,6 +22,8 @@ class SourceTests(unittest.TestCase):
    self.assertIn('name="_honey"',form);self.assertNotIn('name="_captcha"',form)
    self.assertIn('https://erwinmehehe.github.io/seooutsourcingph/quote-request-sent/',form)
    self.assertTrue((out/'quote-request-sent/index.html').is_file())
+   for page in out.rglob('*.html'):
+    self.assertNotRegex(page.read_text(encoding='utf-8'),r'<a\b[^>]*href=["\x27]https?://(?:www\.)?seooutsourcingphilippines\.com/')
    scripts=list((out/'assets').glob('pages-site-*.js'));self.assertEqual(len(scripts),1)
    self.assertIn('sop-static-form',scripts[0].read_text())
    redirects=json.loads((ROOT/'quality/redirects.json').read_text())
