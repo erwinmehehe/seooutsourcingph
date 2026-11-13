@@ -6,6 +6,28 @@ on:
 permissions:
   contents: read
 jobs:
+  hostinger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: composer install --no-dev --prefer-dist --no-interaction --working-dir=standalone/hostinger
+      - run: find standalone/hostinger -name '*.php' -not -path '*/vendor/*' -print0 | xargs -0 -n1 php -l
+      - run: python3 tests/hostinger_smoke.py
+      - name: Test upload package with Apache HTTPS and real rewrite rules
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y apache2 libapache2-mod-php
+          sudo python3 scripts/build_hostinger.py --out /var/www/sop-hostinger
+          sudo chmod -R a+rX /var/www/sop-hostinger
+          sudo openssl req -x509 -newkey rsa:2048 -nodes -days 1 -keyout /etc/ssl/private/sop-qa.key -out /etc/ssl/certs/sop-qa.pem -subj /CN=seooutsourcingphilippines.com
+          sudo a2enmod ssl rewrite headers
+          echo 'Listen 8443' | sudo tee /etc/apache2/conf-available/sop-qa.conf
+          sudo a2enconf sop-qa
+          sudo cp tests/hostinger-apache.conf /etc/apache2/sites-available/sop-qa.conf
+          sudo a2ensite sop-qa
+          sudo apache2ctl configtest
+          sudo systemctl restart apache2
+          python3 tests/hostinger_apache.py
   regressions:
     runs-on: ubuntu-latest
     steps:

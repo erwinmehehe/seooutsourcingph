@@ -35,3 +35,5 @@ landing-page/dist/
 landing-page/.render.mjs
 standalone/release/
 release-artifacts/
+standalone/hostinger/vendor/
+standalone/hostinger/config.php
