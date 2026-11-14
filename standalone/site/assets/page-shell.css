@@ -84,3 +84,36 @@ main:not(.inner-design) .v8-calc-grid input{background:#0c1020;color:#eef1ff;bor
 }
 
 .shell-fixed-call[hidden]{display:none}
+
+/* Neutral surfaces, clear controls and flat content groups. */
+body{background:#101518!important;color:#edf0eb;--blue:#b0ccc2;--blue2:#b0ccc2;--gold:#b0ccc2;--pale:#151c20;--navy:#101518}
+body *,body *::before,body *::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html{scroll-behavior:auto!important}
+.site-header,.mobile-nav.open{background:#101518!important}
+main,.inner-design,.page-hero,.section.dark,.section.soft,.cta-band{background:#101518!important;background-image:none!important}
+body main::before,body main::after,.page-hero::before,.page-hero::after,.feature-card::before,.feature-card::after{display:none!important}
+.btn,.btn.gold,.quote-card .quote-submit{background:#d8e4dc!important;border-color:#d8e4dc!important;color:#111a17!important;border-radius:4px!important}
+.btn.outline,.btn.ghost,.shell-fixed-call{background:#151c20!important;color:#edf0eb!important;border:1px solid #52615b!important;border-radius:4px!important}
+.btn:hover,.shell-fixed-call:hover{filter:none!important;transform:none!important}
+a.more,.article a,.aside-box a,.side-box a:not(.btn),.quote-direct a,.quote-email{color:#b0ccc2!important}
+body .card,body .price-card,body .mini-proof,body .aside-box,body .side-box,body .v8-path,body .sample,body .v8-decision,body .v8-pilot,body .v8-buyer-test{border-radius:0!important;background:transparent!important;border:0!important;border-top:1px solid #34413b!important}
+body .form-wrap,body .quote-card.form-wrap{background:#151d20!important;border:1px solid #3c4945!important;border-radius:4px!important}
+body .field input,body .field textarea,body .field select{background:#10171b!important;border-color:#52615b!important;border-radius:4px!important}
+body .shell-fixed-call{box-shadow:none!important}
+.site-footer{background:#0b1114!important}
+.brand-sub{color:#b0ccc2!important}.brand-symbol{border-radius:0!important}
+.diagram-support,.team-diagram{background:#151d20!important;border-color:#34413b!important;border-radius:0!important}
+.about-opening{grid-template-columns:1fr!important}.about-opening>div:first-child{max-width:760px}
+.inner-design .work-card{background:transparent!important;border:0!important;border-top:1px solid #34413b!important;border-radius:0!important}
+.inner-design .work-logo{background:#edf0eb!important;border-radius:0!important}
+.inner-design .work-logo img{filter:none!important}.inner-design .work-logo .wordmark{color:#111a17!important}
+.work-highlight strong{color:#c4d7cc!important}.work-card summary{color:#c4d7cc!important}
+.inner-design .plan-card,.inner-design .plan-card.plan-emphasis{background:#151d20!important;border-color:#46534d!important;border-radius:4px!important}
+.plan-emphasis .btn{background:#d8e4dc!important;color:#111a17!important}
+body .work-toolbar button,body main [data-filter]{border-radius:4px!important}
+body .work-toolbar button[aria-pressed=true],body main [data-filter][aria-pressed=true]{background:#d8e4dc!important;color:#111a17!important;border-color:#d8e4dc!important}
+body .responsive-table,body .table-scroll,body .matrix-scroll,body .sample{border-radius:0!important}
+.workflow .step:after{display:none!important}
+
+body .worked-example,body .callout,body .page-contents{background:transparent!important;border-radius:0!important;border-color:#34413b!important}
+body .responsive-table th,body .sample-head{background:#1c2529!important}

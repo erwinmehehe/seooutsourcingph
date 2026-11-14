@@ -17,17 +17,8 @@ import brand4 from "./assets/katehill.png";
 import brand5 from "./assets/lifestyle.png";
 import { useEffect, useRef, useState, type FormEvent, type CSSProperties } from "react";
 import {
-  CalendarCheck,
-  Check,
   ChevronDown,
-  FileText,
-  Layers,
-  Link2,
-  Mail,
-  MapPin,
   Menu,
-  PenLine,
-  Search,
   X,
 } from "lucide-react";
 
@@ -56,12 +47,12 @@ const BARS = [18, 26, 32, 40, 50, 60, 72, 86, 100];
 
 /* ---------- services ---------- */
 const SERVICES = [
-  { icon: Search, title: "SEO strategy & keyword research", text: "Find the searches your customers use, compare competing pages and decide which pages to create or improve.", points: ["Keyword and topic research", "Competitor gap analysis", "Page and intent mapping"] },
-  { icon: Layers, title: "Technical SEO", text: "Identify the technical issues affecting how search engines find and understand your pages. Get prioritised fixes and implementation guidance.", points: ["Technical audits", "Indexation diagnostics", "Implementation guidance & retest"] },
-  { icon: FileText, title: "On-page SEO", text: "Improve existing pages with clearer titles, headings, copy and internal links, based on the searches each page should answer.", points: ["Page optimisation", "Internal linking", "Content refreshes"] },
-  { icon: PenLine, title: "SEO content", text: "Plan, write or update service pages and articles. Briefs and reviews use your service details, audience and brand requirements.", points: ["Content briefs", "Service and landing pages", "Article optimisation"] },
-  { icon: MapPin, title: "Local & international SEO", text: "Help customers find your business in the places you serve. Work can include local keyword research, location pages and business-profile recommendations.", points: ["Local search planning", "Location-page optimisation", "International SEO support"] },
-  { icon: Link2, title: "Authority & reporting", text: "Research relevant link opportunities and report on the work completed, changes in search performance and what to do next.", points: ["Link prospect research", "Performance reporting", "Executive summaries"] },
+  { title: "SEO strategy & keyword research", text: "Find the searches your customers use, compare competing pages and decide which pages to create or improve.", points: ["Keyword and topic research", "Competitor gap analysis", "Page and intent mapping"] },
+  { title: "Technical SEO", text: "Identify the technical issues affecting how search engines find and understand your pages. Get prioritised fixes and implementation guidance.", points: ["Technical audits", "Indexation diagnostics", "Implementation guidance & retest"] },
+  { title: "On-page SEO", text: "Improve existing pages with clearer titles, headings, copy and internal links, based on the searches each page should answer.", points: ["Page optimisation", "Internal linking", "Content refreshes"] },
+  { title: "SEO content", text: "Plan, write or update service pages and articles. Briefs and reviews use your service details, audience and brand requirements.", points: ["Content briefs", "Service and landing pages", "Article optimisation"] },
+  { title: "Local & international SEO", text: "Help customers find your business in the places you serve. Work can include local keyword research, location pages and business-profile recommendations.", points: ["Local search planning", "Location-page optimisation", "International SEO support"] },
+  { title: "Authority & reporting", text: "Research relevant link opportunities and report on the work completed, changes in search performance and what to do next.", points: ["Link prospect research", "Performance reporting", "Executive summaries"] },
 ];
 
 const MODELS = [
@@ -137,18 +128,6 @@ function barColor(t: number) {
   return `rgb(${Math.round(176 * t)},${Math.round(242 - 166 * t)},${Math.round(254 + t)})`;
 }
 
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      els.forEach((el) => el.classList.add("in"));
-      return;
-    }
-    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.1, rootMargin: "0px 0px -30px" });
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
 
 /* ---------- brand ---------- */
 function Mark() {
@@ -208,13 +187,12 @@ function BrandAsset({asset,name,decorative=false}:{asset:string;name:string;deco
  return LOGOS[asset]?<img src={LOGOS[asset]} alt={decorative?"":name} width="180" height="60"/>:<span className="brand-name-fallback" aria-hidden={decorative||undefined}>{name}</span>;
 }
 function BrandMarquee() {
- const [paused,setPaused]=useState(false);
- return <section className="brand-section" aria-label="Brands in the portfolio"><div className="wrap trust-heading"><div><h2>Selected work</h2></div><button className="motion-toggle" onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?"Play logos":"Pause logos Ⅱ"}</button></div><div className={`brand-marquee${paused?" paused":""}`}><div className="brand-track">{[0,1].map(copy=><div className="brand-set" key={copy} aria-hidden={copy===1}>{BRANDS.map(b=><div className="brand-item" key={b.name}><BrandAsset asset={b.asset} name={b.name} decorative={copy===1}/>{LOGOS[b.asset]&&<span className="brand-caption" aria-hidden="true">{b.name}</span>}</div>)}</div>)}</div></div></section>;
+ return <section className="brand-section" aria-label="Brands in the portfolio"><div className="wrap trust-heading"><h2>Selected work</h2></div><div className="brand-marquee"><div className="brand-track"><div className="brand-set">{BRANDS.map(b=><div className="brand-item" key={b.name}><BrandAsset asset={b.asset} name={b.name}/>{LOGOS[b.asset]&&<span className="brand-caption" aria-hidden="true">{b.name}</span>}</div>)}</div></div></div></section>;
 }
 function SelectedWork(){
  const [active,setActive]=useState(0),[sector,setSector]=useState<Sector>("All");const project=WORK[active];
  const visible=sector==="All"?WORK:WORK.filter(w=>w.sector===sector);
- return <section className="section selected-work" id="portfolio"><div className="wrap"><div className="work-spotlight"><div className="project-art"><BrandAsset asset={project.asset} name={project.name}/><div className="project-place"><MapPin size={14}/>{project.place}</div><span className="project-orbit" aria-hidden="true"/></div><div className="project-story" key={project.name}><h3>{project.name}</h3><p>{project.tag} · {project.place}</p><div className="ranking-feature"><strong>#{project.position}</strong><div><span>Organic search position</span><b>{project.query}</b><small>{project.volume} estimated searches / month</small></div></div><table className="project-keywords"><caption>Selected organic searches</caption><thead><tr><th scope="col">Search term</th><th scope="col">Position</th></tr></thead><tbody>{project.keywords.map(([q,n])=><tr key={q}><td>{q}</td><td>#{n}</td></tr>)}</tbody></table></div></div><div className="project-picker" role="group" aria-label="Featured project">{WORK.slice(0,3).map((w,i)=><button key={w.name} aria-pressed={active===i} onClick={()=>setActive(i)}><span>0{i+1}</span>{w.name}</button>)}</div><div className="work-subhead"><div className="filters" role="group" aria-label="Filter portfolio">{SECTORS.map(x=><button className={`chip${sector===x?" active":""}`} key={x} aria-pressed={sector===x} onClick={()=>setSector(x)}>{x}</button>)}</div></div><div className="portfolio-grid">{visible.map(w=><button className="portfolio-tile" key={w.name} onClick={()=>{setActive(WORK.indexOf(w));document.querySelector('.work-spotlight')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'})}}><span className="tile-logo"><BrandAsset asset={w.asset} name={w.name} decorative/></span><span className="tile-info"><b>{w.name}</b><small>{w.tag} · {w.place.split(',')[0]}</small></span></button>)}</div><p className="evidence-note">Rankings recorded {CHECKED}. Google Australia or US, as applicable. Search volumes are estimates; positions may change.</p></div></section>;
+ return <section className="section selected-work" id="portfolio"><div className="wrap"><div className="work-spotlight"><div className="project-art"><BrandAsset asset={project.asset} name={project.name}/><div className="project-place">{project.place}</div><span className="project-orbit" aria-hidden="true"/></div><div className="project-story" key={project.name}><h3>{project.name}</h3><p>{project.tag} · {project.place}</p><div className="ranking-feature"><strong>#{project.position}</strong><div><span>Organic search position</span><b>{project.query}</b><small>{project.volume} estimated searches / month</small></div></div><table className="project-keywords"><caption>Selected organic searches</caption><thead><tr><th scope="col">Search term</th><th scope="col">Position</th></tr></thead><tbody>{project.keywords.map(([q,n])=><tr key={q}><td>{q}</td><td>#{n}</td></tr>)}</tbody></table></div></div><div className="project-picker" role="group" aria-label="Featured project">{WORK.slice(0,3).map((w,i)=><button key={w.name} aria-pressed={active===i} onClick={()=>setActive(i)}><span>0{i+1}</span>{w.name}</button>)}</div><div className="work-subhead"><div className="filters" role="group" aria-label="Filter portfolio">{SECTORS.map(x=><button className={`chip${sector===x?" active":""}`} key={x} aria-pressed={sector===x} onClick={()=>setSector(x)}>{x}</button>)}</div></div><div className="portfolio-grid">{visible.map(w=><button className="portfolio-tile" key={w.name} onClick={()=>{setActive(WORK.indexOf(w));document.querySelector('.work-spotlight')?.scrollIntoView({behavior:'auto',block:'center'})}}><span className="tile-logo"><BrandAsset asset={w.asset} name={w.name} decorative/></span><span className="tile-info"><b>{w.name}</b><small>{w.tag} · {w.place.split(',')[0]}</small></span></button>)}</div><p className="evidence-note">Rankings recorded {CHECKED}. Google Australia or US, as applicable. Search volumes are estimates; positions may change.</p></div></section>;
 }
 
 function PlusIcon(){return <span className="service-plus" aria-hidden="true">+</span>}
@@ -275,7 +253,7 @@ function ContactModal({ plan, onClose }: { plan: string; onClose: () => void }) 
 
         <h2 id="modal-title">Request a quote</h2>
         <p className="modal-sub">Share your website, target market and the tasks you need help with. Include any deadlines or planned website changes.</p>
-        {reference?<div className="quote-success" role="status"><Check size={30}/><h3>Quote request received.</h3><p>Thank you. We’ll review your requirements and reply to the email address you provided.</p><p>Reference: <strong>{reference}</strong></p><button type="button" className="btn-outline full" onClick={onClose}>Back to the website</button></div>:<form className="modal-form" onSubmit={submit}>
+        {reference?<div className="quote-success" role="status"><h3>Quote request received.</h3><p>Thank you. We’ll review your requirements and reply to the email address you provided.</p><p>Reference: <strong>{reference}</strong></p><button type="button" className="btn-outline full" onClick={onClose}>Back to the website</button></div>:<form className="modal-form" onSubmit={submit}>
           <label>Website<input ref={first} name="website" maxLength={300} type="url" placeholder="https://yourdomain.com" required /></label>
           <div className="two">
             <label>Name<input name="name" maxLength={120} autoComplete="name" placeholder="Your name" required /></label>
@@ -313,7 +291,6 @@ export default function App() {
     quoteTrigger.current=document.activeElement as HTMLElement;setQuotePlan(plan);setModal("quote");
   }
   function closeQuote(){setModal(null);requestAnimationFrame(()=>{const trigger=quoteTrigger.current; (trigger && trigger.tagName!=="BODY" ? trigger : document.querySelector<HTMLElement>(".hero-actions button"))?.focus()})}
-  useReveal();
 
   useEffect(() => {
     const onScroll = () => setStuck(window.scrollY > 12);
@@ -327,8 +304,6 @@ export default function App() {
 
   return (
     <div className="page">
-      <div className="leak leak-cyan" aria-hidden="true" /><div className="leak leak-violet" aria-hidden="true" /><div className="leak leak-violet-b" aria-hidden="true" /><div className="leak leak-mid" aria-hidden="true" />
-      <div className="noise" aria-hidden="true" />
       <a href="#main" className="skip">Skip to content</a>
 
       <header className={`header${stuck || menu ? " stuck" : ""}`}>
@@ -389,7 +364,7 @@ export default function App() {
           <div className="wrap">
             <div className="heading reveal"><h2>SEO services</h2><p>Choose the services you need help with.</p></div>
             <div className="service-editorial">
-              {SERVICES.map(({icon:Icon,title,text,points},i)=><details className="service-row" key={title} open={i===0}><summary><span className="service-n">0{i+1}</span><Icon size={25} aria-hidden="true"/><h3>{title}</h3><PlusIcon/></summary><div className="service-content"><p>{text}</p><ul className="ticks">{points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul><button type="button" className="link-arrow" onClick={()=>openQuote()}>Get a Quote </button></div></details>)}
+              {SERVICES.map(({title,text,points},i)=><details className="service-row" key={title} open={i===0}><summary><h3>{title}</h3><PlusIcon/></summary><div className="service-content"><p>{text}</p><ul className="ticks">{points.map(p=><li key={p}>{p}</li>)}</ul><button type="button" className="link-arrow" onClick={()=>openQuote()}>Get a Quote </button></div></details>)}
             </div>
             <div className="models">
               <div className="heading tight reveal"><h2>Ways to work with us</h2></div>
@@ -437,7 +412,7 @@ export default function App() {
                   <h3>{p.name}</h3>
                   <p className="plan-desc">{p.desc}</p>
                   <div className="price"><span>from</span><strong>${p.price}</strong><span>USD / month</span></div>
-                  <ul className="ticks">{p.features.map((f) => <li key={f}><Check size={15} aria-hidden="true" />{f}</li>)}</ul>
+                  <ul className="ticks">{p.features.map((f) => <li key={f}>{f}</li>)}</ul>
                   <button type="button" className={p.popular ? "btn-glow full" : "btn-outline full"} onClick={() => openQuote(p.name)}>Get a Quote </button>
                 </article>
               ))}
@@ -466,8 +441,8 @@ export default function App() {
             </div>
             <div className="cta-actions">
               <button type="button" className="btn-glow full" onClick={() => openQuote()}>Get a Quote </button>
-              <a className="btn-outline full" href={CALENDLY} target="_blank" rel="noopener noreferrer"><CalendarCheck size={18} aria-hidden="true" /> Book a discovery call</a>
-              <a className="mail-link" href={`mailto:${EMAIL}`}><Mail size={16} aria-hidden="true" /> {EMAIL}</a>
+              <a className="btn-outline full" href={CALENDLY} target="_blank" rel="noopener noreferrer"> Book a discovery call</a>
+              <a className="mail-link" href={`mailto:${EMAIL}`}> {EMAIL}</a>
             </div>
           </div>
         </section>
@@ -483,7 +458,7 @@ export default function App() {
         <div className="wrap footer-bottom"><span>© {new Date().getFullYear()} SEO Outsourcing Philippines.</span><span>Technical SEO · Content · Local search · Reporting</span></div>
       </footer>
 
-      <div className="fixed-actions"><a className="fixed-discovery" href={CALENDLY} target="_blank" rel="noopener noreferrer"><CalendarCheck size={18} aria-hidden="true"/><span>Book a Discovery Call</span><span className="sr"> (opens in a new tab)</span></a>
+      <div className="fixed-actions"><a className="fixed-discovery" href={CALENDLY} target="_blank" rel="noopener noreferrer"><span>Book a Discovery Call</span><span className="sr"> (opens in a new tab)</span></a>
       </div>
       {modal && <ContactModal plan={quotePlan} onClose={closeQuote} />}
     </div>
