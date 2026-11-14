@@ -9,7 +9,7 @@ template=(SITE/'blog/on-page-seo-checklist/index.html').read_text(encoding='utf-
 changed=[]
 for record in records:
  title=html.escape(record['title']);url='https://seooutsourcingphilippines.com'+record['path']
- main='<main id="main"><section class="page-hero"><div class="container"><h1>'+title+'</h1></div></section><section class="section"><article class="container policy-copy">'+clean(record['content'])+'</article></section></main>'
+ main='<main id="main"><section class="page-hero"><div class="container"><h1>'+title+'</h1></div></section><section class="section"><article class="container policy-copy">'+clean(record.get('reviewed_content', record['content']))+'</article></section></main>'
  page=re.sub(r'<main\b[^>]*>.*?</main>',lambda _:main,template,flags=re.S)
  page=re.sub(r'<title>.*?</title>',lambda _:'<title>'+title+' | SEO Outsourcing Philippines</title>',page,flags=re.S)
  page=re.sub(r'<link[^>]*rel="canonical"[^>]*>',lambda _:'<link href="'+url+'" rel="canonical"/>',page)
