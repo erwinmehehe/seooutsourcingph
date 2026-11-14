@@ -151,6 +151,7 @@ if (document.querySelector('meta[name="sop-static-form"]')) {
     thankyou = thankyou.replace('Contact SEO Outsourcing Philippines | SEO Outsourcing Philippines','Quote request submitted | SEO Outsourcing Philippines')
     thankyou = re.sub(r'<meta\b[^>]*>', lambda m: '<meta name="robots" content="noindex,nofollow"/>' if re.search(r'\bname=["\x27]robots["\x27]',m[0],re.I) else m[0],thankyou,flags=re.I)
     thankyou = re.sub(r'<link\b[^>]*rel="canonical"[^>]*>', '<link rel="canonical" href="'+public_origin+base_path+'quote-request-sent/"/>', thankyou)
+    thankyou = thankyou.replace('href="#request-quote"', 'href="'+base_path+'contact/#request-quote"')
     target = dest / "quote-request-sent/index.html"; target.parent.mkdir(); target.write_text(thankyou, encoding="utf-8")
     # Pages cannot issue HTTP 301s; these compatibility pages forward old paths immediately.
     redirects = json.loads((ROOT / "quality/redirects.json").read_text(encoding="utf-8"))
