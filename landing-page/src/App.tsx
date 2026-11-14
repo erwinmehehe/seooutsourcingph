@@ -384,9 +384,6 @@ export default function App() {
           </div>
         </section>
 
-
-        <section className="section work-sample"><div className="wrap sample-in"><div><h2>See a sample deliverable</h2><p>Review an example technical issue log, content brief or reporting format before discussing your project.</p><p className="sample-context">Examples show document structure. They do not contain confidential client work.</p></div><a className="btn-outline" href="samples/">View sample deliverables </a></div></section>
-
         {/* APPROACH */}
         <section className="section" id="approach">
           <div className="wrap">
