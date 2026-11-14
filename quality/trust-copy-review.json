@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-14",
+  "scope": "115 public content pages and homepage source; preserved URL paths",
+  "changes": [
+    "Deleted all fictional testimonial samples and their mockup feature",
+    "Restored the two owner-supplied testimonials verbatim; removed unsupported permission-confirmed flags",
+    "Replaced Trusted by heading with Selected work",
+    "Removed unapproved missed-deliverable fee promise",
+    "Replaced unsupported savings and proven-strategy meta description",
+    "Removed 25 duplicate paragraphs and repeated process tables",
+    "Reworded editorial notes and generic prose across service, industry, agency and guide pages"
+  ],
+  "evidence": {
+    "testimonials": "Two quotes supplied directly by the owner in this conversation; not independently verified",
+    "rankings": "Owner-supplied Erwin_Valles_SEO_Portfolio_Redesigned.pdf, Search Atlas observations dated 9 November 2026; not proof of growth or revenue",
+    "permissions": "No new permission or independent verification claims are made"
+  },
+  "protected": [
+    "Original hero markup",
+    "Pricing page and plan data",
+    "17 remaining portfolio records and ranking values"
+  ],
+  "limits": "This is a source and copy review, not independent confirmation of client relationships, publication rights or live rankings."
+}

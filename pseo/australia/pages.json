@@ -20,7 +20,7 @@
       "audience": "Web design agency handing a new WordPress, Elementor or custom website to a client",
       "intro": [
         "Design teams often own typography, layouts, forms and client approval. SEO problems appear in the gaps: retired URLs disappear without redirects, a development noindex setting travels into production, internal links still point at preview domains, or a contact conversion is never recorded. The SEO handoff should happen before launch, not after a drop in organic traffic.",
-        "This is not an offer to create another generic audit PDF. The useful work is a route-by-route launch checklist with a clear developer owner, acceptance test and evidence. If the client has an established site, preserve existing high-value URLs whenever possible. A beautiful redesign is not a reason to change every path."
+        "The launch checklist records existing URLs, planned redirects, indexing settings, form tests and the developer responsible for each fix. Preserve established URLs where possible and check changed paths before release."
       ],
       "sections": [
         {
@@ -351,7 +351,7 @@
       "meta": "White-label Google Business Profile QA for Australian agencies: real locations, service areas, categories, review integrity, change logs and monthly acceptance checks.",
       "h1": "Google Business Profile QA for Australian Agencies",
       "eyebrow": "For Australian local SEO and digital agencies",
-      "lead": "Maps work goes wrong when business facts are guessed, branch locations are invented or review handling is treated as a volume target. This is a verification-led handoff for real Australian locations and service areas.",
+      "lead": "Review Google Business Profile details, service areas and customer contact options against information supplied by the business.",
       "targetKeyword": "white label Google Business Profile QA Australia",
       "service": "local-seo",
       "audience": "Local SEO agency managing real Australian storefronts or service-area clients",
@@ -530,7 +530,7 @@
       "meta": "White-label SEO content briefs for Australian agencies: search intent, first-hand evidence, Australian English, legal review and page-level acceptance criteria.",
       "h1": "SEO Content Briefs for Australian Agencies",
       "eyebrow": "For agency content leads and SEO teams",
-      "lead": "A keyword list is not a content brief. A strong Australian SEO brief explains who needs the page, which facts the business can substantiate, what the reader must decide and who should review sensitive claims.",
+      "lead": "A content brief sets out the reader, search intent, business facts, page structure and review requirements.",
       "targetKeyword": "white label SEO content briefs for Australian agencies",
       "service": "seo-content",
       "audience": "Digital agency outsourcing evidence-led briefs, not anonymous blog generation",

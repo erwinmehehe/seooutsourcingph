@@ -106,7 +106,7 @@ add_filter('robots_txt', static function ($output, $public) {
 }, 99, 2);
 
 // Homepage copy comes from the theme build, not stale imported SEO fields.
-function sop_home_description() { return 'Scale your search rankings with SEO Outsourcing Philippines. Lower costs, drive organic traffic, and execute proven technical strategies. Get started today!'; }
+function sop_home_description() { return 'White-label SEO, technical fixes, content and local search support for agencies and businesses. Review our work and request a quote for your website.'; }
 add_filter('pre_get_document_title', static function ($title) { return is_front_page() ? 'White Label SEO Services | SEO Outsourcing Philippines' : $title; });
 add_filter('wpseo_title', static function ($title) { return is_front_page() ? 'White Label SEO Services | SEO Outsourcing Philippines' : $title; });
 add_filter('wpseo_metadesc', static function ($description) { return is_front_page() ? sop_home_description() : $description; });

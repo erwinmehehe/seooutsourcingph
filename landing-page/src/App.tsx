@@ -122,7 +122,7 @@ const FAQS: [string,string][] = [
  ["How soon will we see results?", "Timing depends on the website, competition and work required. We report completed tasks separately from changes in rankings, traffic and enquiries. We do not guarantee a ranking or a fixed result date."],
  ["How will we track progress?", "Reports cover completed work, search performance, outstanding approvals and recommended next tasks. The reporting format and review schedule are agreed before work starts."],
  ["Can we keep some SEO work in-house?", "Yes. Keep the tasks your team already handles and outsource the rest. We agree responsibilities before starting so work is not duplicated."],
- ["What if an agreed deliverable is missed?", "If we miss a contracted deliverable within the agreed scope and timetable, we complete the outstanding work without additional SEO management fees."],
+ ["How are revisions handled?", "Your proposal sets out the review process, included revisions and how changes to the agreed scope are priced."],
 ];
 
 type Pt = { x: number; y: number };
@@ -211,7 +211,7 @@ function BrandAsset({asset,name,decorative=false}:{asset:string;name:string;deco
 }
 function BrandMarquee() {
  const [paused,setPaused]=useState(false);
- return <section className="brand-section" aria-label="Brands in the portfolio"><div className="wrap trust-heading"><div><h2>Trusted by these brands.</h2></div><button className="motion-toggle" onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?"Play logos →":"Pause logos Ⅱ"}</button></div><div className={`brand-marquee${paused?" paused":""}`}><div className="brand-track">{[0,1].map(copy=><div className="brand-set" key={copy} aria-hidden={copy===1}>{BRANDS.map(b=><div className="brand-item" key={b.name}><BrandAsset asset={b.asset} name={b.name} decorative={copy===1}/>{LOGOS[b.asset]&&<span className="brand-caption" aria-hidden="true">{b.name}</span>}</div>)}</div>)}</div></div></section>;
+ return <section className="brand-section" aria-label="Brands in the portfolio"><div className="wrap trust-heading"><div><h2>Selected work</h2></div><button className="motion-toggle" onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?"Play logos →":"Pause logos Ⅱ"}</button></div><div className={`brand-marquee${paused?" paused":""}`}><div className="brand-track">{[0,1].map(copy=><div className="brand-set" key={copy} aria-hidden={copy===1}>{BRANDS.map(b=><div className="brand-item" key={b.name}><BrandAsset asset={b.asset} name={b.name} decorative={copy===1}/>{LOGOS[b.asset]&&<span className="brand-caption" aria-hidden="true">{b.name}</span>}</div>)}</div>)}</div></div></section>;
 }
 function SelectedWork(){
  const [active,setActive]=useState(0),[sector,setSector]=useState<Sector>("All");const project=WORK[active];
