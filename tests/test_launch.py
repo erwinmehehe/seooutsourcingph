@@ -74,7 +74,7 @@ class SourceTests(unittest.TestCase):
    def __init__(self):super().__init__();self.actions=0;self.errors=[]
    def handle_starttag(self,tag,attrs):
     classes=set(dict(attrs).get('class','').split())
-    if classes & {'eyebrow','kicker','overline','crumbs'}:self.errors.append('eyebrow label')
+    if classes & {'eyebrow','kicker','overline','crumbs','category','service-index','service-more','audience-symbol'}:self.errors.append('eyebrow label')
     if tag in ('a','button'):self.actions+=1
    def handle_endtag(self,tag):
     if tag in ('a','button'):self.actions=max(0,self.actions-1)

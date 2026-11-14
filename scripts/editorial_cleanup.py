@@ -5,7 +5,7 @@ from html import unescape
 def strip_cta_decoration(html):
     """Remove CTA arrows and the small labels above page headings."""
     html = re.sub(r'<div\b[^>]*class="[^"]*\bcrumbs\b[^"]*"[^>]*>.*?</div>', '', html, flags=re.S)
-    html = re.sub(r'<(span|p)\b[^>]*class="[^"]*\b(?:eyebrow|kicker|overline)\b[^"]*"[^>]*>.*?</\1>', '', html, flags=re.S)
+    html = re.sub(r'<(span|p)\b[^>]*class="[^"]*\b(?:eyebrow|kicker|overline|category|service-index|service-more|audience-symbol)\b[^"]*"[^>]*>.*?</\1>', '', html, flags=re.S)
     arrows = r'[→↗↖↘↙←➡➜➝➞➔↪⟶]'
     def cta(match):
         block = re.sub(r'<span\b[^>]*>\s*'+arrows+r'\s*</span>', '', match[0], flags=re.S)

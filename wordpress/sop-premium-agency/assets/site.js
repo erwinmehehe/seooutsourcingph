@@ -30,9 +30,14 @@
   const filters = [...document.querySelectorAll('[data-filter]')];
   if (filters.length) {
     const cards = [...document.querySelectorAll('[data-topic]')];
+    const topicSelect = document.querySelector('#guide-topic');
+    topicSelect?.addEventListener('change', () => {
+      filters.find(button => button.dataset.filter === topicSelect.value)?.click();
+    });
     filters.forEach((button) => button.addEventListener('click', () => {
       filters.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
       const term = button.dataset.filter;
+      if (topicSelect) topicSelect.value = term;
       cards.forEach((card) => card.classList.toggle('hide', term !== 'All' && card.dataset.topic !== term));
     }));
   }
