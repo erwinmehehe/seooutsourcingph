@@ -2,6 +2,17 @@
 import re
 from html import unescape
 
+def strip_cta_decoration(html):
+    """Remove CTA arrows and the small labels above page headings."""
+    html = re.sub(r'<div\b[^>]*class="[^"]*\bcrumbs\b[^"]*"[^>]*>.*?</div>', '', html, flags=re.S)
+    html = re.sub(r'<(span|p)\b[^>]*class="[^"]*\b(?:eyebrow|kicker|overline)\b[^"]*"[^>]*>.*?</\1>', '', html, flags=re.S)
+    arrows = r'[→↗↖↘↙←➡➜➝➞➔↪⟶]'
+    def cta(match):
+        block = re.sub(r'<span\b[^>]*>\s*'+arrows+r'\s*</span>', '', match[0], flags=re.S)
+        block = re.sub(arrows+r'|&(?:rarr|nearr);|&#(?:8594|8599);', '', block)
+        return re.sub(r'\s+(</(?:a|button)>)', r'\1', block)
+    return re.sub(r'<(a|button)\b[^>]*>.*?</\1>', cta, html, flags=re.S)
+
 BOILERPLATE = (
  r'^A concise .+ record covering the decision, supporting evidence, owner and next action\.$',
  r'^The .+ work is specific, evidence-backed and ready for the next owner or implementation step\.$',
@@ -41,4 +52,4 @@ def clean(html):
     html=re.sub(r'<h3\b[^>]*>[^<]*</h3>\s*(?=<h[23]\b|</(?:section|article|div)>)','',html)
     html=re.sub(r'<h2\b[^>]*id="ninety-day-plan"[^>]*>.*?</h2>\s*(?=<h2\b|</(?:section|article|div)>)','',html,flags=re.S)
     html=re.sub(r'<h2\b[^>]*>[^<]*</h2>\s*(?=<h2\b)','',html)
-    return html
+    return strip_cta_decoration(html)

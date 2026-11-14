@@ -17,8 +17,6 @@ import brand4 from "./assets/katehill.png";
 import brand5 from "./assets/lifestyle.png";
 import { useEffect, useRef, useState, type FormEvent, type CSSProperties } from "react";
 import {
-  ArrowRight,
-  ArrowUpRight,
   CalendarCheck,
   Check,
   ChevronDown,
@@ -211,12 +209,12 @@ function BrandAsset({asset,name,decorative=false}:{asset:string;name:string;deco
 }
 function BrandMarquee() {
  const [paused,setPaused]=useState(false);
- return <section className="brand-section" aria-label="Brands in the portfolio"><div className="wrap trust-heading"><div><h2>Selected work</h2></div><button className="motion-toggle" onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?"Play logos →":"Pause logos Ⅱ"}</button></div><div className={`brand-marquee${paused?" paused":""}`}><div className="brand-track">{[0,1].map(copy=><div className="brand-set" key={copy} aria-hidden={copy===1}>{BRANDS.map(b=><div className="brand-item" key={b.name}><BrandAsset asset={b.asset} name={b.name} decorative={copy===1}/>{LOGOS[b.asset]&&<span className="brand-caption" aria-hidden="true">{b.name}</span>}</div>)}</div>)}</div></div></section>;
+ return <section className="brand-section" aria-label="Brands in the portfolio"><div className="wrap trust-heading"><div><h2>Selected work</h2></div><button className="motion-toggle" onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?"Play logos":"Pause logos Ⅱ"}</button></div><div className={`brand-marquee${paused?" paused":""}`}><div className="brand-track">{[0,1].map(copy=><div className="brand-set" key={copy} aria-hidden={copy===1}>{BRANDS.map(b=><div className="brand-item" key={b.name}><BrandAsset asset={b.asset} name={b.name} decorative={copy===1}/>{LOGOS[b.asset]&&<span className="brand-caption" aria-hidden="true">{b.name}</span>}</div>)}</div>)}</div></div></section>;
 }
 function SelectedWork(){
  const [active,setActive]=useState(0),[sector,setSector]=useState<Sector>("All");const project=WORK[active];
  const visible=sector==="All"?WORK:WORK.filter(w=>w.sector===sector);
- return <section className="section selected-work" id="portfolio"><div className="wrap"><div className="work-spotlight"><div className="project-art"><BrandAsset asset={project.asset} name={project.name}/><div className="project-place"><MapPin size={14}/>{project.place}</div><span className="project-orbit" aria-hidden="true"/></div><div className="project-story" key={project.name}><h3>{project.name}</h3><p>{project.tag} · {project.place}</p><div className="ranking-feature"><strong>#{project.position}</strong><div><span>Organic search position</span><b>{project.query}</b><small>{project.volume} estimated searches / month</small></div></div><table className="project-keywords"><caption>Selected organic searches</caption><thead><tr><th scope="col">Search term</th><th scope="col">Position</th></tr></thead><tbody>{project.keywords.map(([q,n])=><tr key={q}><td>{q}</td><td>#{n}</td></tr>)}</tbody></table></div></div><div className="project-picker" role="group" aria-label="Featured project">{WORK.slice(0,3).map((w,i)=><button key={w.name} aria-pressed={active===i} onClick={()=>setActive(i)}><span>0{i+1}</span>{w.name}<ArrowUpRight size={16}/></button>)}</div><div className="work-subhead"><div className="filters" role="group" aria-label="Filter portfolio">{SECTORS.map(x=><button className={`chip${sector===x?" active":""}`} key={x} aria-pressed={sector===x} onClick={()=>setSector(x)}>{x}</button>)}</div></div><div className="portfolio-grid">{visible.map(w=><button className="portfolio-tile" key={w.name} onClick={()=>{setActive(WORK.indexOf(w));document.querySelector('.work-spotlight')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'})}}><span className="tile-logo"><BrandAsset asset={w.asset} name={w.name} decorative/></span><span className="tile-info"><b>{w.name}</b><small>{w.tag} · {w.place.split(',')[0]}</small></span><ArrowUpRight size={19}/></button>)}</div><p className="evidence-note">Rankings recorded {CHECKED}. Google Australia or US, as applicable. Search volumes are estimates; positions may change.</p></div></section>;
+ return <section className="section selected-work" id="portfolio"><div className="wrap"><div className="work-spotlight"><div className="project-art"><BrandAsset asset={project.asset} name={project.name}/><div className="project-place"><MapPin size={14}/>{project.place}</div><span className="project-orbit" aria-hidden="true"/></div><div className="project-story" key={project.name}><h3>{project.name}</h3><p>{project.tag} · {project.place}</p><div className="ranking-feature"><strong>#{project.position}</strong><div><span>Organic search position</span><b>{project.query}</b><small>{project.volume} estimated searches / month</small></div></div><table className="project-keywords"><caption>Selected organic searches</caption><thead><tr><th scope="col">Search term</th><th scope="col">Position</th></tr></thead><tbody>{project.keywords.map(([q,n])=><tr key={q}><td>{q}</td><td>#{n}</td></tr>)}</tbody></table></div></div><div className="project-picker" role="group" aria-label="Featured project">{WORK.slice(0,3).map((w,i)=><button key={w.name} aria-pressed={active===i} onClick={()=>setActive(i)}><span>0{i+1}</span>{w.name}</button>)}</div><div className="work-subhead"><div className="filters" role="group" aria-label="Filter portfolio">{SECTORS.map(x=><button className={`chip${sector===x?" active":""}`} key={x} aria-pressed={sector===x} onClick={()=>setSector(x)}>{x}</button>)}</div></div><div className="portfolio-grid">{visible.map(w=><button className="portfolio-tile" key={w.name} onClick={()=>{setActive(WORK.indexOf(w));document.querySelector('.work-spotlight')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'})}}><span className="tile-logo"><BrandAsset asset={w.asset} name={w.name} decorative/></span><span className="tile-info"><b>{w.name}</b><small>{w.tag} · {w.place.split(',')[0]}</small></span></button>)}</div><p className="evidence-note">Rankings recorded {CHECKED}. Google Australia or US, as applicable. Search volumes are estimates; positions may change.</p></div></section>;
 }
 
 function PlusIcon(){return <span className="service-plus" aria-hidden="true">+</span>}
@@ -291,7 +289,7 @@ function ContactModal({ plan, onClose }: { plan: string; onClose: () => void }) 
           <label>What do you need help with?<textarea name="message" rows={3} minLength={20} maxLength={4500} required placeholder="Services you need, pages or websites involved, and any planned launch or migration." /></label>
           <div className="form-trap" aria-hidden="true"><label>Leave empty<input name="phone_confirm" tabIndex={-1} autoComplete="off"/></label></div>
           <label className="consent"><input name="consent" type="checkbox" required/><span>I agree to be contacted about this request under the <a href="privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span></label>
-          <button className="btn-glow" type="submit" disabled={sending}>{sending?'Sending request…':'Send quote request'} <ArrowRight size={18} aria-hidden="true" /></button>
+          <button className="btn-glow" type="submit" disabled={sending}>{sending?'Sending request…':'Send quote request'} </button>
           {error&&<p className="form-error" role="alert">{error}</p>}
           <p className="modal-note">Prefer email? <a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
         </form>}
@@ -337,16 +335,16 @@ export default function App() {
         <div className="wrap header-in">
           <Logo />
           <nav className="nav" aria-label="Main">{NAV.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}</nav>
-          <div className="header-actions"><button className="header-quote" type="button" onClick={()=>openQuote()}>Get a Quote <ArrowUpRight size={14}/></button>
-            <a className="pill-cta" href={CALENDLY} target="_blank" rel="noopener noreferrer">Book a call <ArrowUpRight size={15} aria-hidden="true" /></a>
+          <div className="header-actions"><button className="header-quote" type="button" onClick={()=>openQuote()}>Get a Quote </button>
+            <a className="pill-cta" href={CALENDLY} target="_blank" rel="noopener noreferrer">Book a call </a>
           </div>
           <button type="button" className="menu-btn" onClick={() => setMenu((m) => !m)} aria-expanded={menu} aria-controls="mnav" aria-label={menu ? "Close menu" : "Open menu"}>{menu ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}</button>
         </div>
       </header>
       <nav id="mnav" className={`mnav${menu ? " open" : ""}`} aria-label="Mobile" aria-hidden={!menu}>
         {NAV.map((n) => <a key={n.href} href={n.href} tabIndex={menu ? 0 : -1} onClick={() => setMenu(false)}>{n.label}</a>)}
-        <button className="btn-glow" type="button" tabIndex={menu?0:-1} onClick={()=>{setMenu(false);openQuote()}}>Get a Quote <ArrowRight size={16}/></button>
-        <a className="pill-cta" href={CALENDLY} target="_blank" rel="noopener noreferrer" tabIndex={menu ? 0 : -1}>Book a discovery call <ArrowUpRight size={15} aria-hidden="true" /></a>
+        <button className="btn-glow" type="button" tabIndex={menu?0:-1} onClick={()=>{setMenu(false);openQuote()}}>Get a Quote </button>
+        <a className="pill-cta" href={CALENDLY} target="_blank" rel="noopener noreferrer" tabIndex={menu ? 0 : -1}>Book a discovery call </a>
       </nav>
 
       <main id="main">
@@ -358,7 +356,7 @@ export default function App() {
               <h1 className="rise d1">SEO outsourcing<br/>for <span className="grad">agencies<br/>and businesses.</span></h1>
               <p className="sub rise d2">Get technical SEO, keyword research, content and reporting support without hiring for every role. Work with us on a defined project, a monthly plan or your agency’s client accounts.</p>
               <div className="hero-actions rise d3">
-                <button type="button" className="btn-glow" onClick={() => openQuote()}>Get a Quote <ArrowRight size={19} aria-hidden="true" /></button>
+                <button type="button" className="btn-glow" onClick={() => openQuote()}>Get a Quote </button>
                 <a className="ghost-link" href="#portfolio">Explore our work</a>
               </div>
 
@@ -391,7 +389,7 @@ export default function App() {
           <div className="wrap">
             <div className="heading reveal"><h2>SEO services</h2><p>Choose the services you need help with.</p></div>
             <div className="service-editorial">
-              {SERVICES.map(({icon:Icon,title,text,points},i)=><details className="service-row" key={title} open={i===0}><summary><span className="service-n">0{i+1}</span><Icon size={25} aria-hidden="true"/><h3>{title}</h3><PlusIcon/></summary><div className="service-content"><p>{text}</p><ul className="ticks">{points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul><button type="button" className="link-arrow" onClick={()=>openQuote()}>Get a Quote <ArrowUpRight size={16}/></button></div></details>)}
+              {SERVICES.map(({icon:Icon,title,text,points},i)=><details className="service-row" key={title} open={i===0}><summary><span className="service-n">0{i+1}</span><Icon size={25} aria-hidden="true"/><h3>{title}</h3><PlusIcon/></summary><div className="service-content"><p>{text}</p><ul className="ticks">{points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul><button type="button" className="link-arrow" onClick={()=>openQuote()}>Get a Quote </button></div></details>)}
             </div>
             <div className="models">
               <div className="heading tight reveal"><h2>Ways to work with us</h2></div>
@@ -412,7 +410,7 @@ export default function App() {
         </section>
 
 
-        <section className="section work-sample"><div className="wrap sample-in"><div><h2>See a sample deliverable</h2><p>Review an example technical issue log, content brief or reporting format before discussing your project.</p><p className="sample-context">Examples show document structure. They do not contain confidential client work.</p></div><a className="btn-outline" href="samples/">View sample deliverables <ArrowUpRight size={17}/></a></div></section>
+        <section className="section work-sample"><div className="wrap sample-in"><div><h2>See a sample deliverable</h2><p>Review an example technical issue log, content brief or reporting format before discussing your project.</p><p className="sample-context">Examples show document structure. They do not contain confidential client work.</p></div><a className="btn-outline" href="samples/">View sample deliverables </a></div></section>
 
         {/* APPROACH */}
         <section className="section" id="approach">
@@ -440,7 +438,7 @@ export default function App() {
                   <p className="plan-desc">{p.desc}</p>
                   <div className="price"><span>from</span><strong>${p.price}</strong><span>USD / month</span></div>
                   <ul className="ticks">{p.features.map((f) => <li key={f}><Check size={15} aria-hidden="true" />{f}</li>)}</ul>
-                  <button type="button" className={p.popular ? "btn-glow full" : "btn-outline full"} onClick={() => openQuote(p.name)}>Get a Quote <ArrowRight size={17} aria-hidden="true" /></button>
+                  <button type="button" className={p.popular ? "btn-glow full" : "btn-outline full"} onClick={() => openQuote(p.name)}>Get a Quote </button>
                 </article>
               ))}
             </div>
@@ -467,7 +465,7 @@ export default function App() {
 
             </div>
             <div className="cta-actions">
-              <button type="button" className="btn-glow full" onClick={() => openQuote()}>Get a Quote <ArrowRight size={17} aria-hidden="true" /></button>
+              <button type="button" className="btn-glow full" onClick={() => openQuote()}>Get a Quote </button>
               <a className="btn-outline full" href={CALENDLY} target="_blank" rel="noopener noreferrer"><CalendarCheck size={18} aria-hidden="true" /> Book a discovery call</a>
               <a className="mail-link" href={`mailto:${EMAIL}`}><Mail size={16} aria-hidden="true" /> {EMAIL}</a>
             </div>
@@ -485,7 +483,7 @@ export default function App() {
         <div className="wrap footer-bottom"><span>© {new Date().getFullYear()} SEO Outsourcing Philippines.</span><span>Technical SEO · Content · Local search · Reporting</span></div>
       </footer>
 
-      <div className="fixed-actions"><a className="fixed-discovery" href={CALENDLY} target="_blank" rel="noopener noreferrer"><CalendarCheck size={18} aria-hidden="true"/><span>Book a Discovery Call</span><ArrowUpRight size={16} aria-hidden="true"/><span className="sr"> (opens in a new tab)</span></a>
+      <div className="fixed-actions"><a className="fixed-discovery" href={CALENDLY} target="_blank" rel="noopener noreferrer"><CalendarCheck size={18} aria-hidden="true"/><span>Book a Discovery Call</span><span className="sr"> (opens in a new tab)</span></a>
       </div>
       {modal && <ContactModal plan={quotePlan} onClose={closeQuote} />}
     </div>

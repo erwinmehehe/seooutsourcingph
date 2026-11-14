@@ -68,6 +68,21 @@ class SourceTests(unittest.TestCase):
    target=redirects.get(row['path'],row['path'])
    self.assertNotIn(target,redirects)
    self.assertTrue((ROOT/'standalone/site'/target.lstrip('/')/'index.html').is_file(),target)
+ def test_public_ctas_have_no_arrows_or_eyebrow_labels(self):
+  from html.parser import HTMLParser
+  class Labels(HTMLParser):
+   def __init__(self):super().__init__();self.actions=0;self.errors=[]
+   def handle_starttag(self,tag,attrs):
+    classes=set(dict(attrs).get('class','').split())
+    if classes & {'eyebrow','kicker','overline','crumbs'}:self.errors.append('eyebrow label')
+    if tag in ('a','button'):self.actions+=1
+   def handle_endtag(self,tag):
+    if tag in ('a','button'):self.actions=max(0,self.actions-1)
+   def handle_data(self,data):
+    if self.actions and any(c in data for c in '→↗↖↘↙←➡➜➝➞➔↪⟶'):self.errors.append('CTA arrow')
+  for page in (ROOT/'standalone/site').rglob('index.html'):
+   parser=Labels();parser.feed(page.read_text(encoding='utf-8'))
+   self.assertFalse(parser.errors,(str(page),parser.errors))
  def test_original_hero_is_unchanged(self):
   text=(ROOT/'landing-page/src/App.tsx').read_text(encoding='utf-8');a=text.index('        {/* HERO */}');b=text.index('        </section>',a)+len('        </section>')
   self.assertEqual(hashlib.sha256(text[a:b].encode()).hexdigest(),(ROOT/'tests/original-hero.sha256').read_text().strip())

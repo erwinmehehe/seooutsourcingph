@@ -73,7 +73,9 @@ ${blocks}
   };
   rep(/<script type="application\/ld\+json">[\s\S]*?<\/script>/,`<script type="application/ld+json">${JSON.stringify(schema)}</script>`,"schema");
   if(!out.includes('noindex,follow'))throw Error("Staging noindex missing");
-  return out.replaceAll("First acceptance question", "Before you get started").replaceAll("Read the scope and QA criteria", "Explore this service").replace(/<span class="eyebrow(?: light)?">[\s\S]*?<\/span>/g, "").replace(/<span class="num">[\s\S]*?<\/span>/g, "");
+  const cleaned = out.replaceAll("First acceptance question", "Before you get started").replaceAll("Read the scope and QA criteria", "Explore this service").replace(/<span class="eyebrow(?: light)?">[\s\S]*?<\/span>/g, "").replace(/<span class="num">[\s\S]*?<\/span>/g, "");
+  return cleaned.replace(/<div\b[^>]*class="[^"]*\bcrumbs\b[^"]*"[^>]*>[\s\S]*?<\/div>/g, "").replace(/<(a|button)\b[^>]*>[\s\S]*?<\/\1>/g, cta => cta.replace(/[→↗↖↘↙←➡➜➝➞➔↪⟶]|&(?:rarr|nearr);|&#(?:8594|8599);/g, "").replace(/\s+(<\/(?:a|button)>)/g, "$1"));
+
 }
 function csvContent(rows){return rows.map(row=>row.map(cell=>{let v=String(cell);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",")).join("\n")+"\n";}
 const items=[{path:'standalone/site/australia/index.html',content:renderPage(template,{},true,data.pages)}];
