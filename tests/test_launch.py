@@ -30,7 +30,7 @@ class SourceTests(unittest.TestCase):
    self.assertEqual(contact.count('data-sop-ga4'),1)
    self.assertIn('G-Y6B0JEJRZ4',home)
    self.assertIn('G-Y6B0JEJRZ4',contact)
-   self.assertEqual((out/'sitemap.xml').read_text().count('<url>'),115)
+   self.assertEqual((out/'sitemap.xml').read_text().count('<url>'),116)
    self.assertIn('Allow: /',(out/'robots.txt').read_text())
    self.assertIn('url=/results/',(out/'result/index.html').read_text())
  def test_pages_quotes_and_legacy_paths(self):

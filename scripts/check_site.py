@@ -24,7 +24,7 @@ class AuditParser(HTMLParser):
 errors=[]
 pages=sorted(SITE.rglob('index.html')) if SITE.is_dir() else []
 # All standalone pages also have a WordPress draft; the theme renders the homepage.
-if len(pages)!=115: errors.append(f'Expected 115 HTML index pages, found {len(pages)}')
+if len(pages)!=116: errors.append(f'Expected 116 HTML index pages, found {len(pages)}')
 if not (SITE/'book-discovery-call'/'index.html').exists():
  errors.append('Missing standalone discovery call page')
 canons=[]
