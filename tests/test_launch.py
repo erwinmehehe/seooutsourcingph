@@ -85,7 +85,9 @@ class SourceTests(unittest.TestCase):
    self.assertFalse(parser.errors,(str(page),parser.errors))
  def test_original_hero_is_unchanged(self):
   text=(ROOT/'landing-page/src/App.tsx').read_text(encoding='utf-8');a=text.index('        {/* HERO */}');b=text.index('        </section>',a)+len('        </section>')
-  self.assertEqual(hashlib.sha256(text[a:b].encode()).hexdigest(),(ROOT/'tests/original-hero.sha256').read_text().strip())
+  # Allow the explicitly requested brand label while protecting the original hero.
+  hero=text[a:b].replace('<p className="hero-brand-label">SEO Outsourcing Philippines</p>','')
+  self.assertEqual(hashlib.sha256(hero.encode()).hexdigest(),(ROOT/'tests/original-hero.sha256').read_text().strip())
  def test_public_copy_has_no_internal_notes(self):
   from html.parser import HTMLParser
   import re
