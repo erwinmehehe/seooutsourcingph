@@ -532,3 +532,17 @@ html{scroll-behavior:auto!important}
 
 .work-spotlight{background:none!important;border-radius:0!important;border-color:#34413b!important}
 .service-row,.service-row[open]{background:none!important;border-radius:0!important}
+
+/* Restored brand palette and accessible FAQ spacing. */
+body,.app{background:#080e21!important;color:#f2f4ff!important}.header{background:#0b1126!important}.hero{background:linear-gradient(115deg,#0b1632,#14132e 65%,#201333)!important}
+.hero .grad{background:linear-gradient(100deg,#54e4f1,#a57afa)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+.hero-brand-label{display:block;margin:0 0 18px;color:#71dfef;font:600 12px/1.5 var(--display);letter-spacing:.06em}
+.btn-glow,.header-quote,.pill-cta{background:linear-gradient(110deg,#415dd6,#8844cc)!important;color:#fff!important;border-color:#9684e1!important}
+.fixed-actions .fixed-discovery{background:#242047!important;border-color:#8c7bc5!important;color:#fff!important}
+.hero .line,.hero .mini-path{stroke:#59dbea!important}.hero .area{fill:#62d8ed!important}.hero .end-dot{fill:#82edfa!important}.hero .bars span{background:#9880ed!important}.hero .dash-card{background:linear-gradient(140deg,#15294a,#231b40)!important;border-color:#6573a0!important}
+#faq{background:#0d1429!important}#faq .faq{display:grid;gap:12px;min-width:0}
+#faq details.glass{background:#141e38!important;border:1px solid #475576!important;border-radius:8px!important;padding:0!important;overflow:hidden}
+#faq summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 24px!important;min-height:68px;line-height:1.5;color:#f2f4ff!important;font-size:15px;cursor:pointer;list-style:none}
+#faq summary::-webkit-details-marker{display:none}#faq summary svg{flex-shrink:0;color:#8edfea}#faq details[open]{border-color:#9c83e0!important}#faq details[open] summary{border-bottom:1px solid #354364}
+#faq details p{margin:0!important;padding:20px 24px 24px!important;color:#c3cde2!important;font-size:15px;line-height:1.8}#faq summary:focus-visible{outline:2px solid #78e1ef;outline-offset:-4px}
+@media(max-width:640px){#faq summary{padding:18px!important;font-size:14px}#faq details p{padding:18px!important}.hero-brand-label{font-size:11px}}

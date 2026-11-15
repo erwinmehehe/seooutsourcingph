@@ -328,7 +328,7 @@ export default function App() {
           <div className="wrap hero-in">
             <div className="hero-copy">
 
-              <h1 className="rise d1">SEO outsourcing<br/>for <span className="grad">agencies<br/>and businesses.</span></h1>
+              <p className="hero-brand-label">SEO Outsourcing Philippines</p><h1 className="rise d1">SEO outsourcing<br/>for <span className="grad">agencies<br/>and businesses.</span></h1>
               <p className="sub rise d2">Get technical SEO, keyword research, content and reporting support without hiring for every role. Work with us on a defined project, a monthly plan or your agency’s client accounts.</p>
               <div className="hero-actions rise d3">
                 <button type="button" className="btn-glow" onClick={() => openQuote()}>Get a Quote </button>
