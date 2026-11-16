@@ -40,6 +40,9 @@ class SourceTests(unittest.TestCase):
    homepage=(out/'index.html').read_text(encoding='utf-8')
    self.assertNotIn('Temporary site preview',homepage)
    self.assertIn('Organic search performance',homepage)
+   self.assertIn('contact/#request-quote',homepage)
+   self.assertIn('https://calendly.com/discovery-call-with-erwin/15min',homepage)
+   self.assertIn("url.hash='request-quote'",(ROOT/'landing-page/src/App.tsx').read_text(encoding='utf-8'))
    contact=(out/'contact/index.html').read_text(encoding='utf-8')
    import re,csv
    form=re.search(r'<form\b[^>]*id="contact-form".*?</form>',contact,re.S).group()

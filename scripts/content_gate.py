@@ -37,7 +37,7 @@ if not (SITE/"robots.txt").read_text(encoding="utf-8").find("Disallow: /")>=0:
 pages=list(SITE.rglob("index.html"))
 if len(pages)!=116: errors.append("Expected 116 standalone pages (including the unapproved booking draft); got "+str(len(pages)))
 booking=(SITE/"book-discovery-call/index.html").read_text(encoding="utf-8")
-if 'https://calendly.com/discovery-call-with-erwin' not in booking or 'Online calendar booking is not connected yet.' in booking:
+if 'https://calendly.com/discovery-call-with-erwin/15min' not in booking or 'Online calendar booking is not connected yet.' in booking:
     errors.append("Discovery call page must use the configured calendar route")
 for file in pages:
     if not re.search(r'<meta\b[^>]*content=[\"\'][^\"\']*\bnoindex\b[^\"\']*[\"\'][^>]*name=[\"\']robots[\"\']', file.read_text(encoding="utf-8"), re.I):

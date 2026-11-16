@@ -24,7 +24,7 @@ import {
 
 /* ---------- brand constants (all from seooutsourcingphilippines.com) ---------- */
 const EMAIL = "info@seooutsourcingphilippines.com";
-const CALENDLY = "https://calendly.com/discovery-call-with-erwin";
+const CALENDLY = "https://calendly.com/discovery-call-with-erwin/15min";
 const CHECKED = "9 November 2026";
 
 /* ---------- navigation ---------- */
@@ -287,7 +287,7 @@ export default function App() {
   const quoteTrigger=useRef<HTMLElement|null>(null);
   function openQuote(plan=""){
     const destination=document.querySelector<HTMLMetaElement>('meta[name="sop-quote-url"]')?.content;
-    if(destination){const url=new URL(destination,window.location.href);if(plan)url.searchParams.set('plan',plan);window.location.assign(url.href);return;}
+    if(destination){const url=new URL(destination,window.location.href);if(plan)url.searchParams.set('plan',plan);url.hash='request-quote';window.location.assign(url.href);return;}
     quoteTrigger.current=document.activeElement as HTMLElement;setQuotePlan(plan);setModal("quote");
   }
   function closeQuote(){setModal(null);requestAnimationFrame(()=>{const trigger=quoteTrigger.current; (trigger && trigger.tagName!=="BODY" ? trigger : document.querySelector<HTMLElement>(".hero-actions button"))?.focus()})}
