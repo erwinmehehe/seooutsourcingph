@@ -12,7 +12,9 @@ def build(out):
     # Verify the locked hero before packaging.
     text=(ROOT/'landing-page/src/App.tsx').read_text(encoding='utf-8')
     start=text.index('        {/* HERO */}');end=text.index('        </section>',start)+len('        </section>')
-    assert hashlib.sha256(text[start:end].encode()).hexdigest()==(ROOT/'tests/original-hero.sha256').read_text().strip()
+    # Permit only the owner-requested brand label; retain the original hero lock.
+    hero=text[start:end].replace('<p className="hero-brand-label">SEO Outsourcing Philippines</p>','')
+    assert hashlib.sha256(hero.encode()).hexdigest()==(ROOT/'tests/original-hero.sha256').read_text().strip()
     redirects=json.loads((ROOT/'quality/redirects.json').read_text())
     site=ROOT/'standalone/site'
     with (ROOT/'quality/LIVE_URL_MIGRATION_INVENTORY.csv').open(encoding='utf-8',newline='') as f: rows=list(csv.DictReader(f))
@@ -59,7 +61,7 @@ def build(out):
     shutil.copy2(src/'UPLOAD-STEPS.md',out/'UPLOAD-STEPS.md')
     pages=sorted('/' if p.parent==public else '/'+p.parent.relative_to(public).as_posix()+'/' for p in public.rglob('index.html'))
     (private/'pages.json').write_text(json.dumps(pages,indent=2))
-    report={'original_hero_sha256':hashlib.sha256(text[start:end].encode()).hexdigest(),'pages':len(pages),'inventoried_urls':len(rows),'redirects':len(redirects),'indexing':'Held until publish.php --publish is run by the owner','mail':'Requires actual SMTP settings and inbox test'}
+    report={'original_hero_sha256':hashlib.sha256(hero.encode()).hexdigest(),'pages':len(pages),'inventoried_urls':len(rows),'redirects':len(redirects),'indexing':'Held until publish.php --publish is run by the owner','mail':'Requires actual SMTP settings and inbox test'}
     (out/'PACKAGE-CHECKS.json').write_text(json.dumps(report,indent=2))
     archive=out.with_suffix('.zip')
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
